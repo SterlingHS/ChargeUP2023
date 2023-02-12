@@ -33,7 +33,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    drivesystem.setDefaultCommand(new Drive( drivesystem, driverController::getLeftY, driverController::getLeftX) ); 
+    drivesystem.setDefaultCommand(new Drive( drivesystem, driverController::getRightX, driverController::getLeftY) ); 
     
 
     m_chooser.setDefaultOption("string",new MoveTime(drivesystem, 0.5,1000));

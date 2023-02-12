@@ -47,15 +47,18 @@ package frc.robot;
     public static int JOYDRIVER_USB_PORT = 0;
 
     // CAN IDs
-    public static int DRIVETRAIN_LEFT_FRONT = 13;
-    public static int DRIVETRAIN_LEFT_BACK = 11;
+    public static int DRIVETRAIN_LEFT_FRONT = 11;
+    public static int DRIVETRAIN_LEFT_BACK = 13;
     public static int DRIVETRAIN_RIGHT_FRONT = 12;
     public static int DRIVETRAIN_RIGHT_BACK = 14;
 
+    public static int SHOULDER_MOTOR = 21;
+    public static int ARM_MOTOR = 22;
+    
     // Driver configuration
     public static double DRIVER_SLOWDOWN = 1; 
-    public static int X_AXIS = 0;
-    public static int Y_AXIS = 1;
+    public static int X_AXIS = 1;
+    public static int Y_AXIS = 0;
     public static int Z_AXIS = 4;
     public static double climbingSpeed = .45;
     public static double climbingSpeedBack = -.55;

@@ -36,10 +36,10 @@ public class DriveSystem extends SubsystemBase {
 
     public DriveSystem() 
     {
-        leftRear.setInverted(true);
+        leftRear.setInverted(false);
         leftFront.setInverted(false);
-        rightRear.setInverted(true);
-        rightFront.setInverted(true);
+        rightRear.setInverted(false);
+        rightFront.setInverted(false);
 
         rightEncoder.setDistancePerPulse(10./2208.);
         leftEncoder.setDistancePerPulse(10./2208.);
@@ -68,7 +68,7 @@ public class DriveSystem extends SubsystemBase {
             zRotation*=slowdown_factor;
         }
 
-        mDrive.arcadeDrive(-xSpeed, zRotation);
+        mDrive.arcadeDrive(-xSpeed, -zRotation);
     }
 
     public void stop() {
