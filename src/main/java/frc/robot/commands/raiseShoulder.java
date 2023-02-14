@@ -29,7 +29,7 @@ public class raiseShoulder extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 
     @Override
