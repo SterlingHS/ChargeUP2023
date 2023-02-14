@@ -56,11 +56,11 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //Button To Raise Arm -- Uses Y Button
     final JoystickButton raiseShoulderbt = new JoystickButton(driverController, XboxController.Button.kY.value);
-    raiseShoulderbt.whileHeld(new raiseShoulder(m_shouldersystem)); //whileHeld method is deprecated; change later
+    raiseShoulderbt.whileTrue(new raiseShoulder(m_shouldersystem)); //whileHeld method is deprecated; change later
     
     //Button To Lower Arm -- Uses A Button
     final JoystickButton lowerShoulderbt = new JoystickButton(driverController, XboxController.Button.kA.value);
-    lowerShoulderbt.whileHeld(new lowerShoulder(m_shouldersystem)); //whileHeld method is deprecated; change later
+    lowerShoulderbt.whileTrue(new lowerShoulder(m_shouldersystem)); //whileHeld method is deprecated; change later
     
 
   }
