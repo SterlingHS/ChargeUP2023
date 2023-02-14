@@ -27,11 +27,8 @@ public class DriveSystem extends SubsystemBase {
     private MotorControllerGroup mRight = new MotorControllerGroup(rightFront, rightRear);
     private DifferentialDrive mDrive = new DifferentialDrive(mLeft, mRight);
 
-    //public static final DifferentailDriveKinematics KDriveKinematics = new DifferentailDriveKinematics(kTrackWidthMeters);
+    //public static final DifferentailDriveKinematics KDriveKinematics = new DifferentailDriveKinematics(kTrackWidthMeters)
 
-
-    private Encoder rightEncoder = new Encoder(Constants.ENCODER_RIGHT_A, Constants.ENCODER_RIGHT_B);
-    private Encoder leftEncoder = new Encoder(Constants.ENCODER_LEFT_A, Constants.ENCODER_LEFT_B);
     private AHRS navx_device = new AHRS(SerialPort.Port.kMXP);
 
     public DriveSystem() 
@@ -40,9 +37,9 @@ public class DriveSystem extends SubsystemBase {
         leftFront.setInverted(false);
         rightRear.setInverted(false);
         rightFront.setInverted(false);
+        leftFront.setSensorPhase(true);
+        //inverted talon sensor
 
-        rightEncoder.setDistancePerPulse(10./2208.);
-        leftEncoder.setDistancePerPulse(10./2208.);
         //2208 pulses per 10ft
          navx_device.enableLogging(true);
     }
@@ -100,26 +97,29 @@ public class DriveSystem extends SubsystemBase {
 
     public double read_distance_right_encoder()
     {
-        return rightEncoder.getDistance();
+        return rightFront.getSelectedSensorPosition();
+        //changed to work with talon encoders
     }
 
     public double read_distance_left_encoder()
     {
-        return leftEncoder.getDistance();
+        return leftFront.getSelectedSensorPosition();
+        //changed to work with talon encoders
     }
 
     public double read_pulse_right_encoder()
     {
-        return rightEncoder.get();
+        return 0;//this does nothing
     }
 
     public double read_pulse_left_encoder()
     {
-        return leftEncoder.get();
+        return 0;//this does nothing
     }
 
     public double read_velocity_encoder() { 
-        return (rightEncoder.getRate()+leftEncoder.getRate())/2;
+        return (rightFront.getSelectedSensorVelocity()+leftFront.getSelectedSensorVelocity())/2;
+        //changed to work with talon encoders
     }
 
     public void calibrateGyro()

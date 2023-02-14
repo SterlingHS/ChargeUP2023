@@ -66,8 +66,8 @@ package frc.robot;
     //Encoder ports
     public static int ENCODER_LEFT_A = 2;
     public static int ENCODER_LEFT_B = 3;
-    public static int ENCODER_RIGHT_A = 0;
-    public static int ENCODER_RIGHT_B = 1;
+    public static int ENCODER_SHOULDER_A = 0;
+    public static int ENCODER_SHOULDER_B = 1;
 
 
 };
