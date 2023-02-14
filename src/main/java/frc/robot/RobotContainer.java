@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
 
 /**
@@ -17,10 +18,12 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSystem drivesystem = new DriveSystem();
+  private final ShoulderSystem m_shouldersystem = new ShoulderSystem();
+  private final DriveSystem m_drivesystem = new DriveSystem();
 
   // Joysticks
   private final XboxController driverController = new XboxController(Constants.JOYDRIVER_USB_PORT);
+
   
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -29,14 +32,15 @@ public class RobotContainer {
   * The container for the robot.  Contains subsystems, OI devices, and commands.
   */
   public RobotContainer() {
+
     // Configure the button bindings
     configureButtonBindings();
 
     // Configure default commands
-    drivesystem.setDefaultCommand(new Drive( drivesystem, driverController::getRightX, driverController::getLeftY) ); 
+    m_drivesystem.setDefaultCommand(new Drive( m_drivesystem, driverController::getRightX, driverController::getLeftY) ); 
     
 
-    m_chooser.setDefaultOption("string",new MoveTime(drivesystem, 0.5,1000));
+    m_chooser.setDefaultOption("string",new MoveTime(m_drivesystem, 0.5,1000));
   }
 
   /*public static RobotContainer getInstance() {
@@ -49,7 +53,17 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    //Button To Raise Arm -- Uses Y Button
+    final JoystickButton raiseShoulderbt = new JoystickButton(driverController, XboxController.Button.kY.value);
+    raiseShoulderbt.whileHeld(new raiseShoulder(m_shouldersystem)); //whileHeld method is deprecated; change later
+    
+    //Button To Lower Arm -- Uses A Button
+    final JoystickButton lowerShoulderbt = new JoystickButton(driverController, XboxController.Button.kA.value);
+    lowerShoulderbt.whileHeld(new lowerShoulder(m_shouldersystem)); //whileHeld method is deprecated; change later
+    
+
+  }
   
 
   public XboxController getDriverController() {
@@ -70,19 +84,20 @@ public class RobotContainer {
 
  public void update_smartboard(){
         // SmartDashboard.putBoolean("DIO 9", drivesystem.state_DIO9());
-        SmartDashboard.putNumber("Right Pulse", drivesystem.read_pulse_right_encoder());
-        SmartDashboard.putNumber("Left Pulse", drivesystem.read_pulse_left_encoder());
-        SmartDashboard.putNumber("Right Distance", drivesystem.read_distance_right_encoder());
-        SmartDashboard.putNumber("Left Distance", drivesystem.read_distance_left_encoder());
-        SmartDashboard.putNumber("Velocity", drivesystem.read_velocity_encoder());
-        SmartDashboard.putNumber("Angle", drivesystem.getAngle360());
-        SmartDashboard.putNumber("Pitch", drivesystem.getPitch());
-        SmartDashboard.putNumber("Roll", drivesystem.getRoll());
-        SmartDashboard.putNumber("Compass Heading", drivesystem.getCompassHeading());
-        SmartDashboard.putNumber("Fused Heading", drivesystem.getFusedHeading());
-        SmartDashboard.putNumber("Linear World Accel X", drivesystem.getLinearWorldAccelX());
-        SmartDashboard.putNumber("Linear World Accel Y", drivesystem.getLinearWorldAccelY());
-        SmartDashboard.putNumber("Linear World Accel Z", drivesystem.getLinearWorldAccelZ());
+        SmartDashboard.putNumber("Right Pulse", m_drivesystem.read_pulse_right_encoder());
+        SmartDashboard.putNumber("Left Pulse", m_drivesystem.read_pulse_left_encoder());
+        SmartDashboard.putNumber("Right Distance", m_drivesystem.read_distance_right_encoder());
+        SmartDashboard.putNumber("Left Distance", m_drivesystem.read_distance_left_encoder());
+        SmartDashboard.putNumber("Velocity", m_drivesystem.read_velocity_encoder());
+        SmartDashboard.putNumber("Angle", m_drivesystem.getAngle360());
+        SmartDashboard.putNumber("Pitch", m_drivesystem.getPitch());
+        SmartDashboard.putNumber("Roll", m_drivesystem.getRoll());
+        SmartDashboard.putNumber("Compass Heading", m_drivesystem.getCompassHeading());
+        SmartDashboard.putNumber("Fused Heading", m_drivesystem.getFusedHeading());
+        SmartDashboard.putNumber("Linear World Accel X", m_drivesystem.getLinearWorldAccelX());
+        SmartDashboard.putNumber("Linear World Accel Y", m_drivesystem.getLinearWorldAccelY());
+        SmartDashboard.putNumber("Linear World Accel Z", m_drivesystem.getLinearWorldAccelZ());
+        SmartDashboard.putNumber("Shoulder Position", m_shouldersystem.getPosition());
 
 }
 }
