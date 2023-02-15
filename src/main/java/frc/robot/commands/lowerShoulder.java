@@ -13,13 +13,11 @@ public class lowerShoulder extends CommandBase {
     
     @Override
     public void initialize() {
-        m_shoulder.stopShoulderMotor();
     }
 
     @Override
     public void execute() {
         m_shoulder.lowerShoulder();
-        System.out.println("lower shoulder");
     }
 
     @Override

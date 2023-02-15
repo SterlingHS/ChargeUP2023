@@ -1,14 +1,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShoulderSystem;
+import frc.robot.subsystems.ArmSystem;
 
-public class raiseShoulder extends CommandBase {
-    private final ShoulderSystem m_shoulder;
+public class retractArm extends CommandBase {
+    private final ArmSystem m_armsysyetem;
 
-    public raiseShoulder(ShoulderSystem sub1) {
-        m_shoulder = sub1;
-        addRequirements(m_shoulder);
+    public retractArm(ArmSystem sub1) {
+        m_armsysyetem = sub1;
+        addRequirements(m_armsysyetem);
     }
     
     @Override
@@ -17,12 +17,12 @@ public class raiseShoulder extends CommandBase {
 
     @Override
     public void execute() {
-        m_shoulder.raiseShoulder();
+        m_armsysyetem.retractArm();
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_shoulder.stopShoulderMotor();
+        m_armsysyetem.stopArmMotor();
     }
 
     @Override
@@ -36,3 +36,4 @@ public class raiseShoulder extends CommandBase {
     }
 
 }
+

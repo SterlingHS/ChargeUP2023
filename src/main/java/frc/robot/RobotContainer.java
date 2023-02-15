@@ -20,7 +20,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final ShoulderSystem m_shouldersystem = new ShoulderSystem();
   private final DriveSystem m_drivesystem = new DriveSystem();
-
+  private final ArmSystem m_armsystem = new ArmSystem();
   // Joysticks
   private final XboxController driverController = new XboxController(Constants.JOYDRIVER_USB_PORT);
 
@@ -62,6 +62,12 @@ public class RobotContainer {
     final JoystickButton lowerShoulderbt = new JoystickButton(driverController, XboxController.Button.kA.value);
     lowerShoulderbt.whileTrue(new lowerShoulder(m_shouldersystem)); //whileHeld method is deprecated; change later
     
+    //Button To extend Arm -- Uses X Button
+    final JoystickButton extendArmbt = new JoystickButton(driverController, XboxController.Button.kX.value);
+    extendArmbt.whileTrue(new extendArm(m_armsystem)); //whileHeld method is deprecated; change later
+    //Button To extend Arm -- Uses B Button
+    final JoystickButton retractArmbt = new JoystickButton(driverController, XboxController.Button.kB.value);
+    retractArmbt.whileTrue(new retractArm(m_armsystem)); //whileHeld method is deprecated; change later
 
   }
   
@@ -98,6 +104,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("Linear World Accel Y", m_drivesystem.getLinearWorldAccelY());
         SmartDashboard.putNumber("Linear World Accel Z", m_drivesystem.getLinearWorldAccelZ());
         SmartDashboard.putNumber("Shoulder Position", m_shouldersystem.getPosition());
+        SmartDashboard.putNumber("Arm Position", m_armsystem.getPosition());
 
 }
 }

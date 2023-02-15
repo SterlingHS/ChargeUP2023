@@ -52,8 +52,8 @@ package frc.robot;
     public static int DRIVETRAIN_RIGHT_FRONT = 12;
     public static int DRIVETRAIN_RIGHT_BACK = 14;
 
-    public static int SHOULDER_MOTOR = 21;
-    public static int ARM_MOTOR = 22;
+    public static int SHOULDER_MOTOR = 22;
+    public static int ARM_MOTOR = 21;
     
     // Driver configuration
     public static double DRIVER_SLOWDOWN = 1; 
@@ -64,8 +64,8 @@ package frc.robot;
     public static double climbingSpeedBack = -.55;
 
     //Encoder ports
-    public static int ENCODER_LEFT_A = 2;
-    public static int ENCODER_LEFT_B = 3;
+    public static int ENCODER_ARM_A = 2;
+    public static int ENCODER_ARM_B = 3;
     public static int ENCODER_SHOULDER_A = 0;
     public static int ENCODER_SHOULDER_B = 1;
 
