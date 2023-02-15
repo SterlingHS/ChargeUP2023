@@ -24,12 +24,16 @@ public void simulationPeriodic() {
 
 //Following methods are for controlling the system
 
-public void retractArm() {
-    armMotor.set(0.2); // test arm speed
-}
-
-public void extendArm() {
-    armMotor.set(-0.2); 
+public void extendArm(double speed) {
+    if (speed > 0.4)
+    { 
+      speed = 0.4;
+    }
+    if (speed < -0.4)
+    { 
+      speed = -0.4;
+    }
+      armMotor.set(speed); 
 }
 
 public double getPosition() {

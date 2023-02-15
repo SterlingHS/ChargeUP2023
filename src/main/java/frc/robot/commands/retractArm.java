@@ -17,7 +17,7 @@ public class retractArm extends CommandBase {
 
     @Override
     public void execute() {
-        m_armsysyetem.retractArm();
+        m_armsysyetem.extendArm(-.1);
     }
 
     @Override

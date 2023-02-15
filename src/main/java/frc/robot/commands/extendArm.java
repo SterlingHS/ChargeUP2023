@@ -17,7 +17,7 @@ public class extendArm extends CommandBase {
 
     @Override
     public void execute() {
-        m_armsysyetem.extendArm();
+        m_armsysyetem.extendArm(.1);
     }
 
     @Override

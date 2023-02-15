@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
 
 /**
@@ -21,6 +23,7 @@ public class RobotContainer {
   private final ShoulderSystem m_shouldersystem = new ShoulderSystem();
   private final DriveSystem m_drivesystem = new DriveSystem();
   private final ArmSystem m_armsystem = new ArmSystem();
+  
   // Joysticks
   private final XboxController driverController = new XboxController(Constants.JOYDRIVER_USB_PORT);
 
@@ -68,6 +71,9 @@ public class RobotContainer {
     //Button To extend Arm -- Uses B Button
     final JoystickButton retractArmbt = new JoystickButton(driverController, XboxController.Button.kB.value);
     retractArmbt.whileTrue(new retractArm(m_armsystem)); //whileHeld method is deprecated; change later
+
+        // Stabilize robot to drive straight with gyro when left bumper is held
+    //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).whileTrue(new PIDarmExtendToValue(600, m_armsystem));
 
   }
   

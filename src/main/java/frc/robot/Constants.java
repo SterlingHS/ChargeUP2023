@@ -22,28 +22,12 @@ package frc.robot;
 
 
  public class Constants {
-    public static final double kTrackWidthMeters = 0.69;
 
-   /**
-    * public static final class DriveConstants {
-    *   public static final int kLeftMotor1Port = 0;
-    *   public static final int kLeftMotor2Port = 1;
-    *   public static final int kRightMotor1Port = 2;
-    *   public static final int kRightMotor2Port = 3; 
-    * }
-    */ 
-    public static final double ksVolts = 0.2;
-    public static final double ksVoltSecondsPerMeter = 1.98;
-    public static final double kaVoltSeondSqauredPerMeter = 0.2;
+    // k values for the arm PID
+    public static final double kTurnToleranceDeg = 0;
+    public static final double kTurnRateToleranceDegPerS = 0;
 
-    public static final double kPDriveVel = 8.5;
-
-    public static final double kMaxSpeedMetersPerSecond = 3;
-    public static final double KMaxAccelerationMetersperSecondSqaured = 3;
-    public static final double kRamseteB = 2;
-    public static double kRamseteZeta = 0.7;
-
-
+    // USB Ports
     public static int JOYDRIVER_USB_PORT = 0;
 
     // CAN IDs
@@ -51,17 +35,8 @@ package frc.robot;
     public static int DRIVETRAIN_LEFT_BACK = 13;
     public static int DRIVETRAIN_RIGHT_FRONT = 12;
     public static int DRIVETRAIN_RIGHT_BACK = 14;
-
     public static int SHOULDER_MOTOR = 22;
     public static int ARM_MOTOR = 21;
-    
-    // Driver configuration
-    public static double DRIVER_SLOWDOWN = 1; 
-    public static int X_AXIS = 1;
-    public static int Y_AXIS = 0;
-    public static int Z_AXIS = 4;
-    public static double climbingSpeed = .45;
-    public static double climbingSpeedBack = -.55;
 
     //Encoder ports
     public static int ENCODER_ARM_A = 2;
@@ -69,9 +44,8 @@ package frc.robot;
     public static int ENCODER_SHOULDER_A = 0;
     public static int ENCODER_SHOULDER_B = 1;
 
-    public static double kSVolts = 0;
-    public static double kVVoltSecondsPerRotation = 0;
-
+    // Driving constants
+    public static final double DRIVER_SLOWDOWN = .5;
 
 };
 
