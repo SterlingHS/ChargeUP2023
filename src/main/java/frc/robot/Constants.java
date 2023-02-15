@@ -69,6 +69,9 @@ package frc.robot;
     public static int ENCODER_SHOULDER_A = 0;
     public static int ENCODER_SHOULDER_B = 1;
 
+    public static double kSVolts = 0;
+    public static double kVVoltSecondsPerRotation = 0;
+
 
 };
 
