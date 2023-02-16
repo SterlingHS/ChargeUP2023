@@ -26,11 +26,16 @@ package frc.robot;
     // k values for the arm PID
     public static final double kTurnToleranceDeg = 400;
     public static final double kTurnRateToleranceDegPerS = 3000;
+    public static final double MIN_ARM_POSITION = 0;
+    public static final double MAX_ARM_POSITION = 12000;
+    public static final double PID_ARM_P = 0.5;
+    public static final double PID_ARM_I = 0.04;
+    public static final double PID_ARM_D = 0.04;
 
     // USB Ports
     public static int JOYDRIVER_USB_PORT = 0;
 
-    // CAN IDs
+    // CAN ID
     public static int DRIVETRAIN_LEFT_FRONT = 11;
     public static int DRIVETRAIN_LEFT_BACK = 13;
     public static int DRIVETRAIN_RIGHT_FRONT = 12;
@@ -54,6 +59,7 @@ package frc.robot;
 
     // Driving constants
     public static final double DRIVER_SLOWDOWN = .5;
+    
 
 };
 

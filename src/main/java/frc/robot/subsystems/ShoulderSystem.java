@@ -25,19 +25,16 @@ public class ShoulderSystem extends SubsystemBase {
         //Called once per scheduler run when in simulation
     }
 
-    //Following methods are for controlling the system
-
+    
     public void raiseShoulder(double speed) {
-        if (speed > Constants.MAX_SHOULDER_VELOCITY)
-        {
-        { 
-      speed = Constants.MAX_SHOULDER_VELOCITY;
+        if (speed > Constants.MAX_SHOULDER_VELOCITY) {
+            speed = Constants.MAX_SHOULDER_VELOCITY;
         }
-        if (speed < -Constants.MAX_SHOULDER_VELOCITY){
-        { 
-      speed = -Constants.MAX_SHOULDER_VELOCITY;
+        if (speed < -Constants.MAX_SHOULDER_VELOCITY) { 
+            speed = -Constants.MAX_SHOULDER_VELOCITY;
         }
-        shoulderMotor.set(speed); }}}
+        shoulderMotor.set(speed);
+    }
 
     public void stopShoulderMotor() {
         shoulderMotor.stopMotor();

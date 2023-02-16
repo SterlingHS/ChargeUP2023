@@ -17,7 +17,7 @@ public class PIDarmExtendToValue extends PIDCommand {
   public PIDarmExtendToValue(double destination, ArmSystem m_ArmSystem) {
     super(
         // The controller that the command will use
-        new PIDController(.5, .04, .04),
+        new PIDController(Constants.PID_ARM_D, Constants.PID_ARM_I, Constants.PID_ARM_P),
         // This should return the measurement
         m_ArmSystem::getPosition,
         // This should return the setpoint (can also be a constant)
@@ -30,7 +30,7 @@ public class PIDarmExtendToValue extends PIDCommand {
     // Configure additional PID options by calling `getController` here.
 
      // Set the controller to be continuous (because it is an angle controller)
-     getController().enableContinuousInput(0, 10000);
+     getController().enableContinuousInput(Constants.MIN_ARM_POSITION, Constants.MAX_ARM_POSITION);
 
      // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
     // setpoint before it is considered as having reached the reference

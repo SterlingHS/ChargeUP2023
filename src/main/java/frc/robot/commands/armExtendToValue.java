@@ -17,10 +17,10 @@ public class armExtendToValue extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     m_armsysyetem = sub1;
     addRequirements(m_armsysyetem);
-    m_pidController = new PIDController(.5, .04, .04);
+    m_pidController = new PIDController(Constants.PID_ARM_D, Constants.PID_ARM_I, Constants.PID_ARM_P);
     m_pidController.setSetpoint(destination);
     m_pidController.setTolerance(Constants.kTurnToleranceDeg, Constants.kTurnRateToleranceDegPerS);
-    m_pidController.enableContinuousInput(0, 12000);
+    m_pidController.enableContinuousInput(Constants.MIN_ARM_POSITION, Constants.MAX_ARM_POSITION);
   }
 
   // Called when the command is initially scheduled.
@@ -45,4 +45,14 @@ public class armExtendToValue extends CommandBase {
   public boolean isFinished() {
     return m_pidController.atSetpoint();
   }
+
+  // Commands to check error and output
+  public double getError() {
+    return m_pidController.getPositionError();
+  }
+  
+  public double getOutput() {
+    return m_pidController.calculate(m_armsysyetem.getPosition());
+  }
+
 }
