@@ -28,6 +28,7 @@ public class ArmSystem extends SubsystemBase{
     //Following methods are for controlling the system
 
     public void extendArm(double speed) {
+        System.out.println(speed);
 
         if (speed > Constants.MAX_ARM_VELOCITY) { 
             speed = Constants.MAX_ARM_VELOCITY;

@@ -30,7 +30,7 @@ public class PIDshoulderRaiseToValue extends PIDCommand {
     // Configure additional PID options by calling `getController` here.
 
      // Set the controller to be continuous (because it is an angle controller)
-     getController().enableContinuousInput(200, 1000);
+     getController().enableContinuousInput(200, 2000);
 
      // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
     // setpoint before it is considered as having reached the reference
