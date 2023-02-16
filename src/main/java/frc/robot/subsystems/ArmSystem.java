@@ -28,6 +28,7 @@ public class ArmSystem extends SubsystemBase{
     //Following methods are for controlling the system
 
     public void extendArm(double speed) {
+
         if (speed > Constants.MAX_ARM_VELOCITY) { 
             speed = Constants.MAX_ARM_VELOCITY;
         }
@@ -40,10 +41,17 @@ public class ArmSystem extends SubsystemBase{
         armMotor.set(speed); 
     }
 
+    // Reads position of arm encoder
     public double getPosition() {
         return arm_encoder.get();
     }
 
+    // Resets position of arm encoder
+    public void resetPosition() {
+        arm_encoder.reset();
+    }
+
+    // Retuens true if arm is in, false if it is out
     public boolean isArmIn() {
         return !switchArmIn.get();
     }
