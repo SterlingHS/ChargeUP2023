@@ -27,13 +27,17 @@ public class ShoulderSystem extends SubsystemBase {
 
     //Following methods are for controlling the system
 
-    public void lowerShoulder() {
-        shoulderMotor.set(0.1); // Notice the sllow speed on the shoulder
-    }
-
-    public void raiseShoulder() {
-        shoulderMotor.set(-0.1); 
-    }
+    public void raiseShoulder(double speed) {
+        if (speed > Constants.MAX_SHOULDER_VELOCITY)
+        {
+        { 
+      speed = Constants.MAX_SHOULDER_VELOCITY;
+        }
+        if (speed < -Constants.MAX_SHOULDER_VELOCITY){
+        { 
+      speed = -Constants.MAX_SHOULDER_VELOCITY;
+        }
+        shoulderMotor.set(speed); }}}
 
     public void stopShoulderMotor() {
         shoulderMotor.stopMotor();
@@ -42,7 +46,4 @@ public class ShoulderSystem extends SubsystemBase {
     public int getPosition() {
         return shoulder_encoder.get();
     }
-
-
-
 }

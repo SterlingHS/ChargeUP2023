@@ -57,14 +57,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //Button To Raise Arm -- Uses Y Button
-    final JoystickButton raiseShoulderbt = new JoystickButton(driverController, XboxController.Button.kY.value);
-    raiseShoulderbt.whileTrue(new raiseShoulder(m_shouldersystem)); //whileHeld method is deprecated; change later
-    
-    //Button To Lower Arm -- Uses A Button
-    final JoystickButton lowerShoulderbt = new JoystickButton(driverController, XboxController.Button.kA.value);
-    lowerShoulderbt.whileTrue(new lowerShoulder(m_shouldersystem)); //whileHeld method is deprecated; change later
-    
+    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDshoulderRaiseToValue(50, m_shouldersystem));
+    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new PIDshoulderRaiseToValue(500, m_shouldersystem));
     //Button To extend Arm -- Uses X Button
     final JoystickButton extendArmbt = new JoystickButton(driverController, XboxController.Button.kX.value);
     extendArmbt.whileTrue(new extendArm(m_armsystem)); //whileHeld method is deprecated; change later
@@ -73,7 +67,7 @@ public class RobotContainer {
     retractArmbt.whileTrue(new retractArm(m_armsystem)); //whileHeld method is deprecated; change later
 
         // Stabilize robot to drive straight with gyro when left bumper is held
-    //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).whileTrue(new PIDarmExtendToValue(600, m_armsystem));
+    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).whileTrue(new PIDarmExtendToValue(600, m_armsystem));
 
   }
   

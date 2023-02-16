@@ -44,6 +44,12 @@ package frc.robot;
     public static int ENCODER_SHOULDER_A = 0;
     public static int ENCODER_SHOULDER_B = 1;
 
+    //Shoulder Constants
+    public static double MAX_SHOULDER_VELOCITY = 0.4;
+
+    //Arm Constants
+    public static double MAX_ARM_VELOCITY = 0.4;
+
     // Driving constants
     public static final double DRIVER_SLOWDOWN = .5;
 

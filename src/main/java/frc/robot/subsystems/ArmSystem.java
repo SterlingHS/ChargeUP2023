@@ -25,13 +25,13 @@ public void simulationPeriodic() {
 //Following methods are for controlling the system
 
 public void extendArm(double speed) {
-    if (speed > 0.4)
+    if (speed > Constants.MAX_ARM_VELOCITY)
     { 
-      speed = 0.4;
+      speed = Constants.MAX_ARM_VELOCITY;
     }
-    if (speed < -0.4)
+    if (speed < -Constants.MAX_ARM_VELOCITY)
     { 
-      speed = -0.4;
+      speed = -Constants.MAX_ARM_VELOCITY;
     }
       armMotor.set(speed); 
 }
