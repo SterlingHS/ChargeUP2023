@@ -24,8 +24,8 @@ package frc.robot;
  public class Constants {
 
     // k values for the arm PID
-    public static final double kTurnToleranceDeg = 0;
-    public static final double kTurnRateToleranceDegPerS = 0;
+    public static final double kTurnToleranceDeg = 400;
+    public static final double kTurnRateToleranceDegPerS = 3000;
 
     // USB Ports
     public static int JOYDRIVER_USB_PORT = 0;
@@ -49,6 +49,8 @@ package frc.robot;
 
     //Arm Constants
     public static double MAX_ARM_VELOCITY = 0.4;
+    public static double ARM_SPEED = 0.3;
+    public static int DIO_SWITCH_ARM_IN = 4;
 
     // Driving constants
     public static final double DRIVER_SLOWDOWN = .5;

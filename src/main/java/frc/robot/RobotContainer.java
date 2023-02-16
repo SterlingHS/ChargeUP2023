@@ -57,17 +57,18 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDshoulderRaiseToValue(50, m_shouldersystem));
-    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new PIDshoulderRaiseToValue(500, m_shouldersystem));
-    //Button To extend Arm -- Uses X Button
-    final JoystickButton extendArmbt = new JoystickButton(driverController, XboxController.Button.kX.value);
+        //Button To extend Arm -- Uses X Button
+    final JoystickButton extendArmbt = new JoystickButton(driverController, XboxController.Button.kB.value);
     extendArmbt.whileTrue(new extendArm(m_armsystem)); //whileHeld method is deprecated; change later
     //Button To extend Arm -- Uses B Button
-    final JoystickButton retractArmbt = new JoystickButton(driverController, XboxController.Button.kB.value);
+    final JoystickButton retractArmbt = new JoystickButton(driverController, XboxController.Button.kX.value);
     retractArmbt.whileTrue(new retractArm(m_armsystem)); //whileHeld method is deprecated; change later
 
         // Stabilize robot to drive straight with gyro when left bumper is held
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).whileTrue(new PIDarmExtendToValue(600, m_armsystem));
+    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new PIDarmExtendToValue(10000, m_armsystem));
+    //new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDshoulderRaiseToValue(50, m_shouldersystem));
+    //new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new PIDshoulderRaiseToValue(500, m_shouldersystem));
+
 
   }
   
@@ -105,6 +106,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("Linear World Accel Z", m_drivesystem.getLinearWorldAccelZ());
         SmartDashboard.putNumber("Shoulder Position", m_shouldersystem.getPosition());
         SmartDashboard.putNumber("Arm Position", m_armsystem.getPosition());
+        SmartDashboard.putBoolean("Arm In", m_armsystem.isArmIn());
 
 }
 }

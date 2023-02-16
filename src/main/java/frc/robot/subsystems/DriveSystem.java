@@ -56,7 +56,6 @@ public class DriveSystem extends SubsystemBase {
 
     }
 
-
     public void arcDrive(double xSpeed, double zRotation, double slowdown_factor) 
     {
         if(slowdown_factor < 1 && slowdown_factor >= 0)
@@ -156,6 +155,7 @@ public class DriveSystem extends SubsystemBase {
     public double getPitch() {
         return navx_device.getPitch();
     }
+
 
     public double getRoll() {
         return navx_device.getRoll();

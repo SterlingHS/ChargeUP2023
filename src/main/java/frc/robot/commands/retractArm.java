@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSystem;
 
 public class retractArm extends CommandBase {
@@ -17,7 +18,7 @@ public class retractArm extends CommandBase {
 
     @Override
     public void execute() {
-        m_armsysyetem.extendArm(-.1);
+        m_armsysyetem.extendArm(-Constants.ARM_SPEED);
     }
 
     @Override
