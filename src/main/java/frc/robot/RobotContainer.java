@@ -65,7 +65,7 @@ public class RobotContainer {
     retractArmbt.whileTrue(new retractArm(m_armsystem)); //whileHeld method is deprecated; change later
 
         // Stabilize robot to drive straight with gyro when left bumper is held
-    //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).whileTrue(new PIDarmExtendToValue(600, m_armsystem));
+    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).whileTrue(new PIDarmExtendToValue(6000, m_armsystem));
     //new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDshoulderRaiseToValue(50, m_shouldersystem));
     //new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new PIDshoulderRaiseToValue(500, m_shouldersystem));
 

@@ -37,6 +37,7 @@ public class ArmSystem extends SubsystemBase{
         }
         if (isArmIn() == true && speed < 0) {
             speed = 0;
+            resetPosition();
         }
         armMotor.set(speed); 
     }
