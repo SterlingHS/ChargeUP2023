@@ -34,6 +34,9 @@ public class ArmSystem extends SubsystemBase{
         if (speed < -Constants.MAX_ARM_VELOCITY) { 
             speed = -Constants.MAX_ARM_VELOCITY;
         }
+        if (isArmIn() == true && speed < 0) {
+            speed = 0;
+        }
         armMotor.set(speed); 
     }
 
