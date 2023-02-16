@@ -49,6 +49,7 @@ package frc.robot;
 
     //Arm Constants
     public static double MAX_ARM_VELOCITY = 0.4;
+    public static int DIO_SWITCH_ARM_IN = 4;
 
     // Driving constants
     public static final double DRIVER_SLOWDOWN = .5;

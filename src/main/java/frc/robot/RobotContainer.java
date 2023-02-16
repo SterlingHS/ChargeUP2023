@@ -105,6 +105,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("Linear World Accel Z", m_drivesystem.getLinearWorldAccelZ());
         SmartDashboard.putNumber("Shoulder Position", m_shouldersystem.getPosition());
         SmartDashboard.putNumber("Arm Position", m_armsystem.getPosition());
+        SmartDashboard.putBoolean("Arm In", m_armsystem.isArmIn());
 
 }
 }
