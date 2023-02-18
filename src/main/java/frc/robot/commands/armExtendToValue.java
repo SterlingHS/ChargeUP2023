@@ -8,17 +8,17 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSystem;
-//import destiny2;
 
 public class armExtendToValue extends CommandBase {
   private static ArmSystem m_armsysyetem;
   private static PIDController m_pidController;
   public static double destination;
   /** Creates a new armExtendToValue. */
-  public armExtendToValue(ArmSystem sub1, double dest) { //dest, more like destiny 2
+  public armExtendToValue(ArmSystem sub1, double dest) {
     // Use addRequirements() here to declare subsystem dependencies.
     destination = dest;
     m_armsysyetem = sub1;
+    m_armsysyetem.updateDestination(dest);
     addRequirements(m_armsysyetem);
     m_pidController = new PIDController(Constants.PID_ARM_P, Constants.PID_ARM_I, Constants.PID_ARM_D);
     m_pidController.setSetpoint(destination);
@@ -33,7 +33,7 @@ public class armExtendToValue extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_pidController.setSetpoint(destination);
+    m_pidController.setSetpoint(m_armsysyetem.destination);
     System.out.println(destination);
     double output = m_pidController.calculate(m_armsysyetem.getPosition(), destination);
     m_armsysyetem.extendArm(output);
@@ -60,8 +60,8 @@ public class armExtendToValue extends CommandBase {
     return m_pidController.calculate(m_armsysyetem.getPosition());
   }
 
-  public static void updateDestination(double newDestination) {
-    armExtendToValue.destination = newDestination;
+  public static void updateDestination(double dest) {
+    armExtendToValue.destination = dest;
   }
 
   /*public static void printOutput() {

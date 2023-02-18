@@ -28,10 +28,6 @@ public class PIDarmExtendToValue extends PIDCommand {
         );
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-
-     // Set the controller to be continuous (because it is an angle controller)
-     getController().enableContinuousInput(Constants.MIN_ARM_POSITION, Constants.MAX_ARM_POSITION);
-
      // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
     // setpoint before it is considered as having reached the reference
     getController().setTolerance(Constants.kTurnToleranceDeg, Constants.kTurnRateToleranceDegPerS);

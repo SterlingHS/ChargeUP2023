@@ -12,7 +12,7 @@ public class ArmSystem extends SubsystemBase{
     private WPI_TalonSRX armMotor = new WPI_TalonSRX(Constants.ARM_MOTOR);
     private Encoder arm_encoder = new Encoder(Constants.ENCODER_ARM_A, Constants.ENCODER_ARM_B, false, Encoder.EncodingType.k4X);
     private DigitalInput switchArmIn = new DigitalInput(Constants.DIO_SWITCH_ARM_IN);
-
+    public static double destination;
     public void stopArmMotor() {
         armMotor.stopMotor();
     }
@@ -28,7 +28,9 @@ public class ArmSystem extends SubsystemBase{
     }
 
     //Following methods are for controlling the system
-
+    public void updateDestination(double dest){
+        destination = dest;
+    }
     public void extendArm(double speed) {
         //System.out.println(speed);
 
