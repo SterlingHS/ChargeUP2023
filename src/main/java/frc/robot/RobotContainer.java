@@ -66,10 +66,12 @@ public class RobotContainer {
     //new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new lowerShoulder(m_shouldersystem));
     
     // Button to extend arm to a certain value -- Uses Right Bumper
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new PIDarmExtendToValue(10000, m_armsystem));
-    new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new PIDarmExtendToValue(0, m_armsystem));
-    //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new armExtendToValue(m_armsystem, 10000));
-    //new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new armExtendToValue(m_armsystem, 0));
+    //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new PIDarmExtendToValue(10000, m_armsystem));
+    //new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new PIDarmExtendToValue(0, m_armsystem));
+    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new armExtendToValue(m_armsystem, 0));
+    new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new armExtendToValue(m_armsystem, 5000));
+
+
 
     // Button to raise shoulder to a certain value -- Uses Right Trigger
     //new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDshoulderRaiseToValue(50, m_shouldersystem));
@@ -114,6 +116,10 @@ public class RobotContainer {
         SmartDashboard.getNumber("P", Constants.PID_ARM_P);
         SmartDashboard.getNumber("I", Constants.PID_ARM_I);
         SmartDashboard.getNumber("D", Constants.PID_ARM_D);
+        SmartDashboard.putNumber("Error", armExtendToValue.getError());
+        SmartDashboard.putNumber("Output", armExtendToValue.getOutput());
+        SmartDashboard.putNumber("Destination", armExtendToValue.destination);
+
         
   }
 }

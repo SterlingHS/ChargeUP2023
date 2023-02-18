@@ -17,7 +17,7 @@ public class PIDarmExtendToValue extends PIDCommand {
   public PIDarmExtendToValue(double destination, ArmSystem m_ArmSystem) {
     super(
         // The controller that the command will use
-        new PIDController(Constants.PID_ARM_D, Constants.PID_ARM_I, Constants.PID_ARM_P),
+        new PIDController(Constants.PID_ARM_P, Constants.PID_ARM_I, Constants.PID_ARM_D),
         // This should return the measurement
         m_ArmSystem::getPosition,
         // This should return the setpoint (can also be a constant)

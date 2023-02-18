@@ -27,7 +27,7 @@ package frc.robot;
     public static final double kTurnToleranceDeg = 400;
     public static final double kTurnRateToleranceDegPerS = 3000;
     public static final double MIN_ARM_POSITION = 0;
-    public static final double MAX_ARM_POSITION = 12000;
+    public static final double MAX_ARM_POSITION = 20000;
     public static final double PID_ARM_P = 0.5;
     public static final double PID_ARM_I = 0.04;
     public static final double PID_ARM_D = 0.04;
