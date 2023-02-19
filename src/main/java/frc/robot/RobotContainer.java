@@ -38,7 +38,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    //m_drivesystem.setDefaultCommand(new Drive( m_drivesystem, driverController::getRightX, driverController::getLeftY) ); 
+    m_drivesystem.setDefaultCommand(new Drive( m_drivesystem, driverController::getRightX, driverController::getLeftY) ); 
     
 
     m_chooser.setDefaultOption("string",new MoveTime(m_drivesystem, 0.5,1000));
@@ -68,8 +68,8 @@ public class RobotContainer {
     // Button to extend arm to a certain value -- Uses Right Bumper
     //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new PIDarmExtendToValue(10000, m_armsystem));
     //new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new PIDarmExtendToValue(0, m_armsystem))
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new armExtendToValue(m_armsystem, 0));
-    new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new armExtendToValue(m_armsystem, 5000));
+    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new armExtendTo0(m_armsystem));
+    new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new armExtendTo10000(m_armsystem));
 
     // Button to raise shoulder to a certain value -- Uses Right Trigger
     //new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDshoulderRaiseToValue(50, m_shouldersystem));
@@ -114,9 +114,6 @@ public class RobotContainer {
         SmartDashboard.getNumber("P", Constants.PID_ARM_P);
         SmartDashboard.getNumber("I", Constants.PID_ARM_I);
         SmartDashboard.getNumber("D", Constants.PID_ARM_D);
-        SmartDashboard.putNumber("Error", armExtendToValue.getError());
-        SmartDashboard.putNumber("Output", armExtendToValue.getOutput());
-        SmartDashboard.putNumber("Destination", armExtendToValue.destination);
 
         
   }

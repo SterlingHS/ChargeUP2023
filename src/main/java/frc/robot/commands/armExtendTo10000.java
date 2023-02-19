@@ -9,40 +9,38 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSystem;
 
-public class armExtendToValue extends CommandBase {
-  private static ArmSystem m_armsysyetem;
+public class armExtendTo10000 extends CommandBase {
+  private static ArmSystem m_armsystem;
   private static PIDController m_pidController;
-  public static double destination;
+
   /** Creates a new armExtendToValue. */
-  public armExtendToValue(ArmSystem sub1, double dest) {
+  public armExtendTo10000(ArmSystem sub1) {
     // Use addRequirements() here to declare subsystem dependencies.
-    destination = dest;
-    m_armsysyetem = sub1;
-    m_armsysyetem.updateDestination(dest);
-    addRequirements(m_armsysyetem);
+    m_armsystem = sub1;
+    System.out.println("Initialization of destination"+10000);
+    addRequirements(m_armsystem);
     m_pidController = new PIDController(Constants.PID_ARM_P, Constants.PID_ARM_I, Constants.PID_ARM_D);
-    m_pidController.setSetpoint(destination);
+    m_pidController.setSetpoint(10000);
     m_pidController.setTolerance(Constants.kTurnToleranceDeg, Constants.kTurnRateToleranceDegPerS);
-    //m_pidController.enableContinuousInput(Constants.MIN_ARM_POSITION, Constants.MAX_ARM_POSITION);
+    
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_pidController.setSetpoint(m_armsysyetem.destination);
-    System.out.println(destination);
-    double output = m_pidController.calculate(m_armsysyetem.getPosition(), destination);
-    m_armsysyetem.extendArm(output);
+    double output = m_pidController.calculate(m_armsystem.getPosition(), 10000);
+    m_armsystem.extendArm(output);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_armsysyetem.stopArmMotor();
+    m_armsystem.stopArmMotor();
   }
 
   // Returns true when the command should end.
@@ -57,11 +55,7 @@ public class armExtendToValue extends CommandBase {
   }
   
   public static double getOutput() {
-    return m_pidController.calculate(m_armsysyetem.getPosition());
-  }
-
-  public static void updateDestination(double dest) {
-    armExtendToValue.destination = dest;
+    return m_pidController.calculate(m_armsystem.getPosition());
   }
 
   /*public static void printOutput() {
@@ -74,5 +68,6 @@ public class armExtendToValue extends CommandBase {
   public static void printDestination(double destination) {
     System.out.print(destination);*/
   }
+
 
 

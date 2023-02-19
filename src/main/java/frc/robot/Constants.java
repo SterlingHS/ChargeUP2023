@@ -59,6 +59,11 @@ package frc.robot;
 
     // Driving constants
     public static final double DRIVER_SLOWDOWN = .5;
+
+    //Solenoid variables
+    public static int CLAMP_SOLENOID_PORTA = 2;
+    public static int CLAMP_SOLENOID_PORTB = 3;
+
     
 
 };
