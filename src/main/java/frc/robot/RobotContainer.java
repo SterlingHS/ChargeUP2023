@@ -21,6 +21,7 @@ public class RobotContainer {
   private final ShoulderSystem m_shouldersystem = new ShoulderSystem();
   private final DriveSystem m_drivesystem = new DriveSystem();
   private final ArmSystem m_armsystem = new ArmSystem();
+  private final ClampSystem m_clampsystem = new ClampSystem();
   
   // Joysticks
   private final XboxController driverController = new XboxController(Constants.JOYDRIVER_USB_PORT);
@@ -61,19 +62,24 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kX.value).whileTrue(new retractArm(m_armsystem)); 
     
     //Button To raise shoulder -- Uses A Button
-    //new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new raiseShoulder(m_shouldersystem)); // CREATE COMMANDS raiseShoulder and lowerShoulder
+    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new raiseShoulder(m_shouldersystem)); // CREATE COMMANDS raiseShoulder and lowerShoulder
     //Button To lower shoulder -- Uses Y Button
-    //new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new lowerShoulder(m_shouldersystem));
+    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new lowerShoulder(m_shouldersystem));
     
     // Button to extend arm to a certain value -- Uses Right Bumper
     //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new PIDarmExtendToValue(10000, m_armsystem));
     //new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new PIDarmExtendToValue(0, m_armsystem))
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new armExtendTo0(m_armsystem));
-    new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new armExtendTo10000(m_armsystem));
+    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new armExtendToValue(m_armsystem, 0));
+    new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new armExtendToValue(m_armsystem, 5000));
 
     // Button to raise shoulder to a certain value -- Uses Right Trigger
     //new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDshoulderRaiseToValue(50, m_shouldersystem));
     //new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new PIDshoulderRaiseToValue(500, m_shouldersystem));
+
+    // Button to clamp -- Uses Right Stick Button
+    new JoystickButton(driverController, XboxController.Button.kStart.value).whileTrue(new clamp(m_clampsystem));
+    // Button to unclamp -- Uses Left Stick Button
+    new JoystickButton(driverController, XboxController.Button.kBack.value).whileTrue(new unclamp(m_clampsystem));
   }
   
 

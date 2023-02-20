@@ -1,29 +1,30 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.ShoulderSystem;
 import frc.robot.Constants;
-import frc.robot.subsystems.ArmSystem;
 
-public class extendArm extends CommandBase {
-    private final ArmSystem m_armsysyetem;
+public class raiseShoulder extends CommandBase {
+    private final ShoulderSystem m_shoulder;
 
-    public extendArm(ArmSystem sub1) {
-        m_armsysyetem = sub1;
-        addRequirements(m_armsysyetem);
+    public raiseShoulder(ShoulderSystem sub1) {
+        m_shoulder = sub1;
+        addRequirements(m_shoulder);
     }
     
     @Override
     public void initialize() {
+        m_shoulder.stopShoulderMotor();
     }
 
     @Override
     public void execute() {
-        m_armsysyetem.extendArm(Constants.ARM_SPEED);
+        m_shoulder.raiseShoulder(-Constants.SHOULDER_SPEED);
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_armsysyetem.stopArmMotor();
+        m_shoulder.stopShoulderMotor();
     }
 
     @Override

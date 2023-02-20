@@ -12,10 +12,9 @@ public class ArmSystem extends SubsystemBase{
     private WPI_TalonSRX armMotor = new WPI_TalonSRX(Constants.ARM_MOTOR);
     private Encoder arm_encoder = new Encoder(Constants.ENCODER_ARM_A, Constants.ENCODER_ARM_B, false, Encoder.EncodingType.k4X);
     private DigitalInput switchArmIn = new DigitalInput(Constants.DIO_SWITCH_ARM_IN);
-    public double destination;
-
-    public ArmSystem() {
-        destination = 0;
+    public static double destination;
+    public void stopArmMotor() {
+        armMotor.stopMotor();
     }
 
     @Override
@@ -28,6 +27,10 @@ public class ArmSystem extends SubsystemBase{
         //Called once per scheduler run when in simulation
     }
 
+    //Following methods are for controlling the system
+    public void updateDestination(double dest){
+        destination = dest;
+    }
     public void extendArm(double speed) {
         //System.out.println(speed);
 
@@ -44,10 +47,6 @@ public class ArmSystem extends SubsystemBase{
         armMotor.set(speed); 
     }
 
-    public void stopArmMotor() {
-        armMotor.stopMotor();
-    }
-
     // Reads position of arm encoder
     public double getPosition() {
         return arm_encoder.get();
@@ -57,6 +56,7 @@ public class ArmSystem extends SubsystemBase{
     public void resetPosition() {
         arm_encoder.reset();
     }
+
 
     // Retuens true if arm is in, false if it is out
     public boolean isArmIn() {

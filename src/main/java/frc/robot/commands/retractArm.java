@@ -5,11 +5,11 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ArmSystem;
 
 public class retractArm extends CommandBase {
-    private final ArmSystem m_armsysyetem;
+    private final ArmSystem m_armsystem;
 
     public retractArm(ArmSystem sub1) {
-        m_armsysyetem = sub1;
-        addRequirements(m_armsysyetem);
+        m_armsystem = sub1;
+        addRequirements(m_armsystem);
     }
     
     @Override
@@ -18,12 +18,12 @@ public class retractArm extends CommandBase {
 
     @Override
     public void execute() {
-        m_armsysyetem.extendArm(-Constants.ARM_SPEED);
+        m_armsystem.extendArm(-Constants.ARM_SPEED);
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_armsysyetem.stopArmMotor();
+        m_armsystem.stopArmMotor();
     }
 
     @Override
