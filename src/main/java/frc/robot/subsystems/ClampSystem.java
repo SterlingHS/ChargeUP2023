@@ -4,15 +4,17 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 public class ClampSystem extends SubsystemBase{
 
+    public PneumaticsControlModule pcm = new PneumaticsControlModule(Constants.PCM_CAN_ID);
     public Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
     public DoubleSolenoid clamp = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.CLAMP_SOLENOID_PORTA, Constants.CLAMP_SOLENOID_PORTB);
 
     public ClampSystem() {
-
+        clamp.set(Value.kForward);
     }
 
     @Override
