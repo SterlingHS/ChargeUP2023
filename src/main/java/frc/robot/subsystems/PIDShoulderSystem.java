@@ -19,14 +19,17 @@ public class PIDShoulderSystem extends PIDSubsystem {
   private DigitalInput switchShoulderIn;
   private double max_down_rate;
 
+
   public PIDShoulderSystem() {
     super(
         // The PIDController used by the subsystem
         new PIDController(Constants.PID_SHOULDER_P, Constants.PID_SHOULDER_I, Constants.PID_SHOULDER_D));
-    shoulder_encoder = new Encoder(Constants.ENCODER_SHOULDER_A, Constants.ENCODER_SHOULDER_B);
+    shoulder_encoder = new Encoder(Constants.ENCODER_SHOULDER_A, Constants.ENCODER_SHOULDER_B, false, Encoder.EncodingType.k4X);
     shoulderMotor = new WPI_TalonSRX(Constants.SHOULDER_MOTOR);
     switchShoulderIn = new DigitalInput( Constants.DIO_SWITCH_SHOULDER_IN);
 
+    shoulderMotor.configClosedloopRamp(.1, 0);
+  
     //shoulderMotor.setInverted(true);
     setSetpoint(0);
 
