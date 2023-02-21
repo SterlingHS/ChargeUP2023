@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final ShoulderSystem m_shouldersystem = new ShoulderSystem();
+  private final PIDShoulderSystem m_shouldersystem = new PIDShoulderSystem();
   private final DriveSystem m_drivesystem = new DriveSystem();
   private final ArmSystem m_armsystem = new ArmSystem();
   private final ClampSystem m_clampsystem = new ClampSystem();
@@ -34,6 +34,8 @@ public class RobotContainer {
   * The container for the robot.  Contains subsystems, OI devices, and commands.
   */
   public RobotContainer() {
+
+    m_shouldersystem.enable();
 
     // Configure the button bindings
     configureButtonBindings();
@@ -62,19 +64,19 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kX.value).whileTrue(new retractArm(m_armsystem)); 
     
     //Button To raise shoulder -- Uses A Button
-    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new raiseShoulder(m_shouldersystem)); // CREATE COMMANDS raiseShoulder and lowerShoulder
+    //new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new raiseShoulder(m_shouldersystem)); // CREATE COMMANDS raiseShoulder and lowerShoulder
     //Button To lower shoulder -- Uses Y Button
-    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new lowerShoulder(m_shouldersystem));
+    //new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new lowerShoulder(m_shouldersystem));
     
     // Button to extend arm to a certain value -- Uses Right Bumper
     //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new PIDarmExtendToValue(10000, m_armsystem));
     //new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new PIDarmExtendToValue(0, m_armsystem))
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new armExtendToValue(m_armsystem, 0));
-    new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new armExtendToValue(m_armsystem, 5000));
+    //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new armExtendToValue(m_armsystem, 0));
+    //new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new armExtendToValue(m_armsystem, 5000));
 
     // Button to raise shoulder to a certain value -- Uses Right Trigger
-    //new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDshoulderRaiseToValue(50, m_shouldersystem));
-    //new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new PIDshoulderRaiseToValue(500, m_shouldersystem));
+    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new RotateShouldToValue(m_shouldersystem, 5));
+    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new RotateShouldToValue( m_shouldersystem, 50));
 
     // Button to clamp -- Uses Right Stick Button
     new JoystickButton(driverController, XboxController.Button.kStart.value).whileTrue(new clamp(m_clampsystem));
@@ -114,13 +116,17 @@ public class RobotContainer {
         // SmartDashboard.putNumber("Linear World Accel X", m_drivesystem.getLinearWorldAccelX());
         // SmartDashboard.putNumber("Linear World Accel Y", m_drivesystem.getLinearWorldAccelY());
         // SmartDashboard.putNumber("Linear World Accel Z", m_drivesystem.getLinearWorldAccelZ());
+        // SmartDashboard.getNumber("P", Constants.PID_ARM_P);
+        // SmartDashboard.getNumber("I", Constants.PID_ARM_I);
+        // SmartDashboard.getNumber("D", Constants.PID_ARM_D);
         SmartDashboard.putNumber("Shoulder Position", m_shouldersystem.getPosition());
         SmartDashboard.putNumber("Arm Position", m_armsystem.getPosition());
         SmartDashboard.putBoolean("Arm In", m_armsystem.isArmIn());
-        SmartDashboard.getNumber("P", Constants.PID_ARM_P);
-        SmartDashboard.getNumber("I", Constants.PID_ARM_I);
-        SmartDashboard.getNumber("D", Constants.PID_ARM_D);
-
-        
+        SmartDashboard.putBoolean("Shoulder In", m_shouldersystem.isShoulderIn());
+        SmartDashboard.putNumber("Shoulder Error", m_shouldersystem.getError());
+        SmartDashboard.putNumber("Shoulder Setpoint", m_shouldersystem.getSetpoint());
+        SmartDashboard.putNumber("Shoulder Output", m_shouldersystem.getOutput());
+        SmartDashboard.putNumber("Shoulder Rate", m_shouldersystem.getRate());
+        SmartDashboard.putNumber("Shoulder Max Down Rate", m_shouldersystem.getMaxDownRate());
   }
 }

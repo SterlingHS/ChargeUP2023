@@ -10,11 +10,13 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 public class ClampSystem extends SubsystemBase{
 
     public PneumaticsControlModule pcm = new PneumaticsControlModule(Constants.PCM_CAN_ID);
-    public Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-    public DoubleSolenoid clamp = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.CLAMP_SOLENOID_PORTA, Constants.CLAMP_SOLENOID_PORTB);
+    public Compressor compressor = new Compressor(5, PneumaticsModuleType.CTREPCM);
+    //Look specifically at double solenoid type and methods
+    public DoubleSolenoid clamp = new DoubleSolenoid(5, PneumaticsModuleType.CTREPCM, Constants.CLAMP_SOLENOID_PORTA, Constants.CLAMP_SOLENOID_PORTB);
 
     public ClampSystem() {
         clamp.set(Value.kForward);
+
     }
 
     @Override

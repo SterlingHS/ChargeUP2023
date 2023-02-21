@@ -12,10 +12,10 @@ public class RotateShouldToValue extends CommandBase {
   private static PIDShoulderSystem m_pid_shoulder_system;
   double destination;
   
-  public RotateShouldToValue(PIDShoulderSystem sub1, double dest) {
+  public RotateShouldToValue(PIDShoulderSystem m_shouldersystem, int i) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_pid_shoulder_system = sub1;
-    destination = dest;
+    m_pid_shoulder_system = m_shouldersystem;
+    destination = i;
     addRequirements(m_pid_shoulder_system);
   }
 

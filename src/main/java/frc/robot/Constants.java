@@ -52,14 +52,14 @@ package frc.robot;
     //Shoulder Constants
     public static double MAX_SHOULDER_VELOCITY = 0.4;
     public static double SHOULDER_SPEED = .3;
-    public static final double PID_SHOULDER_P = 0.5;
-    public static final double PID_SHOULDER_I = 0;
+    public static final double PID_SHOULDER_P = 0.04;
+    public static final double PID_SHOULDER_I = 0.005;
     public static final double PID_SHOULDER_D = 0;
+    public static final int DIO_SWITCH_SHOULDER_IN = 5;
 
     //Arm Constants
     public static double MAX_ARM_VELOCITY = 0.4;
     public static double ARM_SPEED = 0.3;
-   
     public static int DIO_SWITCH_ARM_IN = 4;
 
     // Driving constants
