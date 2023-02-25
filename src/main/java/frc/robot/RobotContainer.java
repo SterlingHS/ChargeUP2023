@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.XboxController;
 
 /**
@@ -43,7 +44,8 @@ public class RobotContainer {
     // Configure default commands
     m_drivesystem.setDefaultCommand(new Drive( m_drivesystem, driverController::getRightX, driverController::getLeftY) ); 
     
-
+    //configure the limit switches
+    configureLimitSwitches();
     m_chooser.setDefaultOption("string",new MoveTime(m_drivesystem, 0.5,1000));
   }
 
@@ -64,9 +66,9 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kX.value).whileTrue(new retractArm(m_armsystem)); 
     
     //Button To raise shoulder -- Uses A Button
-    //new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new raiseShoulder(m_shouldersystem)); // CREATE COMMANDS raiseShoulder and lowerShoulder
+    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulder(m_shouldersystem)); // CREATE COMMANDS raiseShoulder and lowerShoulder
     //Button To lower shoulder -- Uses Y Button
-    //new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new lowerShoulder(m_shouldersystem));
+    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulder(m_shouldersystem));
     
     // Button to extend arm to a certain value -- Uses Right Bumper
     //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new PIDarmExtendToValue(10000, m_armsystem));
@@ -75,15 +77,19 @@ public class RobotContainer {
     //new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new armExtendToValue(m_armsystem, 5000));
 
     // Button to raise shoulder to a certain value -- Uses Right Trigger
-    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new RotateShouldToValue(m_shouldersystem, 5));
-    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new RotateShouldToValue( m_shouldersystem, 50));
+    //new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new RotateShouldToValue(m_shouldersystem, 5));
+    //new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new RotateShouldToValue( m_shouldersystem, 50));
 
     // Button to clamp -- Uses Right Stick Button
     new JoystickButton(driverController, XboxController.Button.kStart.value).whileTrue(new clamp(m_clampsystem));
     // Button to unclamp -- Uses Left Stick Button
     new JoystickButton(driverController, XboxController.Button.kBack.value).whileTrue(new unclamp(m_clampsystem));
+    
   }
-  
+  private void configureLimitSwitches(){
+      new Trigger(m_armsystem.switchArmIn::get).onTrue(new armResetEncoder(m_armsystem)); // command to reset encoder, called when limit switch is pressed
+      new Trigger(m_shouldersystem.switchShoulderIn::get).onTrue(new shoulderResetEncoder(m_shouldersystem));
+  }
 
   public XboxController getDriverController() {
     return driverController;
@@ -127,6 +133,5 @@ public class RobotContainer {
         SmartDashboard.putNumber("Shoulder Setpoint", m_shouldersystem.getSetpoint());
         SmartDashboard.putNumber("Shoulder Output", m_shouldersystem.getOutput());
         SmartDashboard.putNumber("Shoulder Rate", m_shouldersystem.getRate());
-        SmartDashboard.putNumber("Shoulder Max Down Rate", m_shouldersystem.getMaxDownRate());
   }
 }

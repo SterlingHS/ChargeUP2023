@@ -12,14 +12,14 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants;
 
-public class PIDShoulderSystem extends PIDSubsystem {
+public class ProfiledShoulderSystem extends PIDSubsystem {
   /** Creates a new PIDShoulderSystem. */
   private static Encoder shoulder_encoder;
   private WPI_TalonSRX shoulderMotor;
-  public DigitalInput switchShoulderIn;
+  private DigitalInput switchShoulderIn;
 
 
-  public PIDShoulderSystem() {
+  public ProfiledShoulderSystem() {
     super(
         // The PIDController used by the subsystem
         new PIDController(Constants.PID_SHOULDER_P, Constants.PID_SHOULDER_I, Constants.PID_SHOULDER_D));
@@ -37,6 +37,9 @@ public class PIDShoulderSystem extends PIDSubsystem {
     rotateShoulder(getController().calculate(getMeasurement(), setpoint));
     //System.out.println("Output: " + output + "    Setpoint: " + setpoint);
     //System.out.println("Calculate: " + getController().calculate(getMeasurement(), setpoint));
+    if (isShoulderIn()){
+      resetEncoder();
+    }
   }
 
   @Override

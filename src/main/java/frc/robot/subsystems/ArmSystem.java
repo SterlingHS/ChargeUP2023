@@ -11,7 +11,8 @@ public class ArmSystem extends SubsystemBase{
     
     private WPI_TalonSRX armMotor = new WPI_TalonSRX(Constants.ARM_MOTOR);
     private Encoder arm_encoder = new Encoder(Constants.ENCODER_ARM_A, Constants.ENCODER_ARM_B, false, Encoder.EncodingType.k4X);
-    private DigitalInput switchArmIn = new DigitalInput(Constants.DIO_SWITCH_ARM_IN);
+    public DigitalInput switchArmIn = new DigitalInput(Constants.DIO_SWITCH_ARM_IN);
+
     public static double destination;
     public void stopArmMotor() {
         armMotor.stopMotor();
@@ -42,8 +43,11 @@ public class ArmSystem extends SubsystemBase{
         }
         if (isArmIn() == true && speed < 0) {
             speed = 0;
-            resetPosition();
         }
+        /*if (arm_encoder.getDistance() > Constants.MAX_ARM_DISTANCE && speed > 0) {
+            speed = 0;
+        }*/
+
         armMotor.set(speed); 
     }
 
@@ -58,7 +62,7 @@ public class ArmSystem extends SubsystemBase{
     }
 
 
-    // Retuens true if arm is in, false if it is out
+    // Returns true if arm is in, false if it is out
     public boolean isArmIn() {
         return !switchArmIn.get();
     }
