@@ -2,14 +2,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PIDShoulderSystem;
+import frc.robot.subsystems.switchesSystem;
 import frc.robot.Constants;
 
 public class lowerShoulder extends CommandBase {
     private final PIDShoulderSystem m_shoulder;
+    private switchesSystem m_switchessystem;
    
 
-    public lowerShoulder(PIDShoulderSystem sub1) {
+    public lowerShoulder(PIDShoulderSystem sub1, switchesSystem sub2) {
         m_shoulder = sub1;
+        m_switchessystem = sub2;
         addRequirements(m_shoulder);
     }
     
@@ -19,7 +22,8 @@ public class lowerShoulder extends CommandBase {
 
     @Override
     public void execute() {
-        m_shoulder.rotateShoulder(-Constants.SHOULDER_SPEED);
+        if (m_switchessystem.isArmIn()) {
+        m_shoulder.rotateShoulder(-Constants.SHOULDER_SPEED);}
     }
 
     @Override

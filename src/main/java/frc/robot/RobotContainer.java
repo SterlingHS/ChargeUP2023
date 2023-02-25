@@ -19,9 +19,10 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final PIDShoulderSystem m_shouldersystem = new PIDShoulderSystem();
+  private final switchesSystem m_switchsystem = new switchesSystem();
+  private final PIDShoulderSystem m_shouldersystem = new PIDShoulderSystem(m_switchsystem);
   private final DriveSystem m_drivesystem = new DriveSystem();
-  private final ArmSystem m_armsystem = new ArmSystem();
+  private final ArmSystem m_armsystem = new ArmSystem(m_switchsystem);
   private final ClampSystem m_clampsystem = new ClampSystem();
   
   // Joysticks
@@ -66,9 +67,9 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kX.value).whileTrue(new retractArm(m_armsystem)); 
     
     //Button To raise shoulder -- Uses A Button
-    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulder(m_shouldersystem)); // CREATE COMMANDS raiseShoulder and lowerShoulder
+    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulder(m_shouldersystem, m_switchsystem)); // CREATE COMMANDS raiseShoulder and lowerShoulder
     //Button To lower shoulder -- Uses Y Button
-    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulder(m_shouldersystem));
+    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulder(m_shouldersystem, m_switchsystem));
     
     // Button to extend arm to a certain value -- Uses Right Bumper
     //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new PIDarmExtendToValue(10000, m_armsystem));
@@ -87,10 +88,9 @@ public class RobotContainer {
     
   }
   private void configureLimitSwitches(){
-      new Trigger(m_armsystem.switchArmIn::get).onTrue(new armResetEncoder(m_armsystem)); // command to reset encoder, called when limit switch is pressed
-      new Trigger(m_shouldersystem.switchShoulderIn::get).onTrue(new shoulderResetEncoder(m_shouldersystem));
+      new Trigger(m_switchsystem.switchArmIn::get).onFalse(new armResetEncoder(m_armsystem)); // command to reset encoder, called when limit switch is pressed
+      new Trigger(m_switchsystem.switchShoulderIn::get).onTrue(new shoulderResetEncoder(m_shouldersystem));
   }
-
   public XboxController getDriverController() {
     return driverController;
   }
@@ -127,8 +127,8 @@ public class RobotContainer {
         // SmartDashboard.getNumber("D", Constants.PID_ARM_D);
         SmartDashboard.putNumber("Shoulder Position", m_shouldersystem.getPosition());
         SmartDashboard.putNumber("Arm Position", m_armsystem.getPosition());
-        SmartDashboard.putBoolean("Arm In", m_armsystem.isArmIn());
-        SmartDashboard.putBoolean("Shoulder In", m_shouldersystem.isShoulderIn());
+        SmartDashboard.putBoolean("Arm In", m_switchsystem.isArmIn());
+        SmartDashboard.putBoolean("Shoulder In", m_switchsystem.isShoulderIn());
         SmartDashboard.putNumber("Shoulder Error", m_shouldersystem.getError());
         SmartDashboard.putNumber("Shoulder Setpoint", m_shouldersystem.getSetpoint());
         SmartDashboard.putNumber("Shoulder Output", m_shouldersystem.getOutput());

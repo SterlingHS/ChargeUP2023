@@ -18,7 +18,11 @@ public class extendArm extends CommandBase {
 
     @Override
     public void execute() {
+        if (m_armsysyetem.getPosition()<Constants.MAX_ARM_POSITION){
         m_armsysyetem.extendArm(Constants.ARM_SPEED);
+        System.out.println(m_armsysyetem.getPosition());
+    }
+
     }
 
     @Override

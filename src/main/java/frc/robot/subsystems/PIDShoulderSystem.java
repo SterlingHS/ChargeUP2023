@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants;
@@ -16,16 +15,17 @@ public class PIDShoulderSystem extends PIDSubsystem {
   /** Creates a new PIDShoulderSystem. */
   private static Encoder shoulder_encoder;
   private WPI_TalonSRX shoulderMotor;
-  public DigitalInput switchShoulderIn;
+  private switchesSystem m_switchsystem;
 
 
-  public PIDShoulderSystem() {
+
+  public PIDShoulderSystem(switchesSystem sub1) {
     super(
         // The PIDController used by the subsystem
         new PIDController(Constants.PID_SHOULDER_P, Constants.PID_SHOULDER_I, Constants.PID_SHOULDER_D));
     shoulder_encoder = new Encoder(Constants.ENCODER_SHOULDER_A, Constants.ENCODER_SHOULDER_B, false, Encoder.EncodingType.k4X);
     shoulderMotor = new WPI_TalonSRX(Constants.SHOULDER_MOTOR);
-    switchShoulderIn = new DigitalInput( Constants.DIO_SWITCH_SHOULDER_IN);
+    m_switchsystem = sub1;
   
     //shoulderMotor.setInverted(true);
     setSetpoint(0);
@@ -64,20 +64,19 @@ public class PIDShoulderSystem extends PIDSubsystem {
     if (speed < -Constants.MAX_SHOULDER_VELOCITY) {
       speed = -Constants.MAX_SHOULDER_VELOCITY;
     }
-    if (isShoulderIn() == true && speed < 0) {
+    if (m_switchsystem.isShoulderIn() == true && speed < 0) {
       speed = 0;
       resetEncoder();
     }
+  
     shoulderMotor.set(-speed);
   }
 
   public void stop() {
     shoulderMotor.set(0);
-  }
+  } 
 
-  public boolean isShoulderIn() {
-    return switchShoulderIn.get();
-  }
+  
 
   public double getError() {
     return getController().getPositionError();
