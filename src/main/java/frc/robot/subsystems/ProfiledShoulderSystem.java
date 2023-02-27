@@ -9,13 +9,16 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants;
 
 public class ProfiledShoulderSystem extends PIDSubsystem {
   /** Creates a new PIDShoulderSystem. */
   private static Encoder shoulder_encoder;
-  private WPI_TalonSRX shoulderMotor;
+  private WPI_TalonSRX shoulderMotor1;
+  private WPI_TalonSRX shoulderMotor2;
+  private MotorControllerGroup shoulderMotorGroup;
   private DigitalInput switchShoulderIn;
 
 
@@ -24,7 +27,9 @@ public class ProfiledShoulderSystem extends PIDSubsystem {
         // The PIDController used by the subsystem
         new PIDController(Constants.PID_SHOULDER_P, Constants.PID_SHOULDER_I, Constants.PID_SHOULDER_D));
     shoulder_encoder = new Encoder(Constants.ENCODER_SHOULDER_A, Constants.ENCODER_SHOULDER_B, false, Encoder.EncodingType.k4X);
-    shoulderMotor = new WPI_TalonSRX(Constants.SHOULDER_MOTOR);
+    shoulderMotor1 = new WPI_TalonSRX(Constants.SHOULDER_MOTOR_ONE);
+    shoulderMotor2 = new WPI_TalonSRX(Constants.SHOULDER_MOTOR_TWO);
+    shoulderMotorGroup = new MotorControllerGroup(shoulderMotor1,shoulderMotor2);
     switchShoulderIn = new DigitalInput( Constants.DIO_SWITCH_SHOULDER_IN);
   
     //shoulderMotor.setInverted(true);
@@ -71,11 +76,11 @@ public class ProfiledShoulderSystem extends PIDSubsystem {
       speed = 0;
       resetEncoder();
     }
-    shoulderMotor.set(-speed);
+    shoulderMotorGroup.set(-speed);
   }
 
   public void stop() {
-    shoulderMotor.set(0);
+    shoulderMotorGroup.set(0);
   }
 
   public boolean isShoulderIn() {

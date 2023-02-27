@@ -38,7 +38,7 @@ public class OI {
     public OI() {
 
         //joyCo = new Joystick(RobotMap.JOYCO_USB_PORT);
-        joyDriver = new Joystick(Constants.JOYDRIVER_USB_PORT); 
+        joyDriver = new Joystick(Constants.MAIN_JOYDRIVER_USB_PORT); 
     }
         
     public Joystick getJoyDriver() {

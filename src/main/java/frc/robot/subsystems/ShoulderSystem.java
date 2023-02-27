@@ -2,17 +2,24 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class ShoulderSystem extends SubsystemBase { 
 
     private static Encoder shoulder_encoder;
-    private WPI_TalonSRX shoulderMotor;
+    private WPI_TalonSRX shoulderMotor1;
+    private WPI_TalonSRX shoulderMotor2;
+    private MotorControllerGroup shoulderMotorGroup;
+    private switchesSystem m_switchsystem;
 
 
-    public ShoulderSystem() {
+    public ShoulderSystem(switchesSystem sub1) {
         shoulder_encoder = new Encoder(Constants.ENCODER_SHOULDER_A, Constants.ENCODER_SHOULDER_B);
-        shoulderMotor = new WPI_TalonSRX(Constants.SHOULDER_MOTOR);
+        shoulderMotor1 = new WPI_TalonSRX(Constants.SHOULDER_MOTOR_ONE);
+        shoulderMotor2 = new WPI_TalonSRX(Constants.SHOULDER_MOTOR_TWO);
+        shoulderMotorGroup = new MotorControllerGroup(shoulderMotor1, shoulderMotor2);
+        m_switchsystem = sub1;
     }
 
     @Override
@@ -33,11 +40,15 @@ public class ShoulderSystem extends SubsystemBase {
         if (speed < -Constants.MAX_SHOULDER_VELOCITY) { 
             speed = -Constants.MAX_SHOULDER_VELOCITY;
         }
-        shoulderMotor.set(speed);
+        if (m_switchsystem.isShoulderIn() == true && speed < 0) {
+            speed = 0;
+          }
+        shoulderMotorGroup.set(speed);
+
     }
 
     public void stopShoulderMotor() {
-        shoulderMotor.stopMotor();
+        shoulderMotorGroup.stopMotor();
     }
 
     public int getPosition() {

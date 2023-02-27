@@ -27,19 +27,21 @@ package frc.robot;
     public static final double kTurnToleranceDeg = 400;
     public static final double kTurnRateToleranceDegPerS = 3000;
     public static final double MIN_ARM_POSITION = 0;
-    public static final double PID_ARM_P = 0.5;
-    public static final double PID_ARM_I = 0.04;
-    public static final double PID_ARM_D = 0.04;
+    public static double PID_ARM_P = 0.5;
+    public static double PID_ARM_I = 0.04;
+    public static double PID_ARM_D = 0.04;
 
     // USB Ports
-    public static int JOYDRIVER_USB_PORT = 0;
+    public static int MAIN_JOYDRIVER_USB_PORT = 0;
+    public static int CO_JOYDRIVER_USB_PORT = 1;
 
     // CAN ID
     public static int DRIVETRAIN_LEFT_FRONT = 11;
     public static int DRIVETRAIN_LEFT_BACK = 13;
     public static int DRIVETRAIN_RIGHT_FRONT = 12;
     public static int DRIVETRAIN_RIGHT_BACK = 14;
-    public static int SHOULDER_MOTOR = 22;
+    public static int SHOULDER_MOTOR_ONE = 22;
+    public static int SHOULDER_MOTOR_TWO = 23;
     public static int ARM_MOTOR = 21;
 
     //Encoder ports
@@ -49,14 +51,14 @@ package frc.robot;
     public static int ENCODER_SHOULDER_B = 1;
 
     //Shoulder Constants
-    public static double MAX_SHOULDER_VELOCITY = 0.4;
+    public static double MAX_SHOULDER_VELOCITY = 0.25;
     public static double MAX_SHOULDER_VELOCITY_UP = 0.5;
     public static double MAX_SHOULDER_POSITION = 70;
 
     public static double SHOULDER_SPEED = .3;
-    public static final double PID_SHOULDER_P = 0.04;
-    public static final double PID_SHOULDER_I = 0.005;
-    public static final double PID_SHOULDER_D = 0;
+    public static double PID_SHOULDER_P = 0.04;
+    public static double PID_SHOULDER_I = 0.005;
+    public static double PID_SHOULDER_D = 0;
     public static final int DIO_SWITCH_SHOULDER_IN = 5;
 
     //Arm Constants
@@ -67,7 +69,7 @@ package frc.robot;
     public static double ARM_IN_MAX_DISTANCE = 20; //Temp Test Value
 
     // Driving constants
-    public static final double DRIVER_SLOWDOWN = .5;
+    public static final double DRIVER_SLOWDOWN = .8;
 
     //Solenoid variables
     public static int CLAMP_SOLENOID_PORTA = 2;

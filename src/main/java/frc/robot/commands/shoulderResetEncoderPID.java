@@ -1,14 +1,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PIDShoulderSystem;
+import frc.robot.subsystems.ShoulderSystem;
 
 /**
  *
  */
-public class shoulderResetEncoder extends CommandBase {
-    private static PIDShoulderSystem shoulderSystem;
-    public shoulderResetEncoder( PIDShoulderSystem shoulderSys)
+public class shoulderResetEncoderPID extends CommandBase {
+    private static ShoulderSystem shoulderSystem;
+    public shoulderResetEncoderPID(ShoulderSystem shoulderSys)
     {
         shoulderSystem = shoulderSys;
         addRequirements(shoulderSystem);
@@ -21,7 +21,7 @@ public class shoulderResetEncoder extends CommandBase {
         // Called once the command ends or is interrupted.
         @Override
         public void end(boolean interrupted) {
-            shoulderSystem.resetEncoder();
+            //shoulderSystem.resetEncoder();
         }
 
         // Returns true when the command should end.

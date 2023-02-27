@@ -8,14 +8,18 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants;
 
 public class PIDShoulderSystem extends PIDSubsystem {
   /** Creates a new PIDShoulderSystem. */
   private static Encoder shoulder_encoder;
-  private WPI_TalonSRX shoulderMotor;
+  private WPI_TalonSRX shoulderMotor1;
+  private WPI_TalonSRX shoulderMotor2;
   private switchesSystem m_switchsystem;
+  private MotorControllerGroup shoulderMotorGroup;
+
 
 
 
@@ -24,7 +28,10 @@ public class PIDShoulderSystem extends PIDSubsystem {
         // The PIDController used by the subsystem
         new PIDController(Constants.PID_SHOULDER_P, Constants.PID_SHOULDER_I, Constants.PID_SHOULDER_D));
     shoulder_encoder = new Encoder(Constants.ENCODER_SHOULDER_A, Constants.ENCODER_SHOULDER_B, false, Encoder.EncodingType.k4X);
-    shoulderMotor = new WPI_TalonSRX(Constants.SHOULDER_MOTOR);
+    shoulderMotor1 = new WPI_TalonSRX(Constants.SHOULDER_MOTOR_ONE);
+    shoulderMotor2 = new WPI_TalonSRX(Constants.SHOULDER_MOTOR_TWO);
+    shoulderMotorGroup = new MotorControllerGroup(shoulderMotor1, shoulderMotor2);
+
     m_switchsystem = sub1;
   
     //shoulderMotor.setInverted(true);
@@ -33,6 +40,7 @@ public class PIDShoulderSystem extends PIDSubsystem {
 
   @Override
   public void useOutput(double output, double setpoint) {
+    updateShoulderSystem();
     // Use the output here
     rotateShoulder(getController().calculate(getMeasurement(), setpoint));
     //System.out.println("Output: " + output + "    Setpoint: " + setpoint);
@@ -58,8 +66,8 @@ public class PIDShoulderSystem extends PIDSubsystem {
   }
 
   public void rotateShoulder(double speed) {
-    if (speed > Constants.MAX_SHOULDER_VELOCITY_UP) {
-      speed = Constants.MAX_SHOULDER_VELOCITY_UP;
+    if (speed > Constants.MAX_SHOULDER_VELOCITY) {
+      speed = Constants.MAX_SHOULDER_VELOCITY;
     }
     if (speed < -Constants.MAX_SHOULDER_VELOCITY) {
       speed = -Constants.MAX_SHOULDER_VELOCITY;
@@ -69,11 +77,17 @@ public class PIDShoulderSystem extends PIDSubsystem {
       resetEncoder();
     }
   
-    shoulderMotor.set(-speed);
+    shoulderMotorGroup.set(-speed);
+  }
+
+  public void updateShoulderSystem() {
+    getController().setP(Constants.PID_SHOULDER_P);
+    getController().setI(Constants.PID_SHOULDER_I);
+    getController().setD(Constants.PID_ARM_D);
   }
 
   public void stop() {
-    shoulderMotor.set(0);
+    shoulderMotorGroup.set(0);
   } 
 
   
