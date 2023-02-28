@@ -4,18 +4,22 @@
 
 package frc.robot.subsystems;
 
+import org.json.simple.*;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.LimelightHelpers;
 
 public class LimelightSystem extends SubsystemBase {
   /** Creates a new LimelightSystem. */
   private double tv, x, y, area;
+  private LimelightHelpers.LimelightResults llresults;
 
   public LimelightSystem() {
-    readLimeLight();
+    readLimeight();
   }
 
   @Override
@@ -31,6 +35,9 @@ public class LimelightSystem extends SubsystemBase {
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
     NetworkTableEntry ta = table.getEntry("ta");
+
+    // Get Json Dump from Limelight
+    llresults = LimelightHelpers.getLatestResults("");
 
     //read values periodically
     tv = ttv.getDouble(0.0);

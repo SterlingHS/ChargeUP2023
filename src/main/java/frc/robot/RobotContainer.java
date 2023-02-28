@@ -26,6 +26,7 @@ public class RobotContainer {
   private final DriveSystem m_drivesystem = new DriveSystem();
   private final ArmSystem m_armsystem = new ArmSystem(m_switchsystem);
   private final ClampSystem m_clampsystem = new ClampSystem();
+  private final LimelightSystem m_limelightsystem = new LimelightSystem();
   
   // Joysticks
   private final XboxController driverController = new XboxController(Constants.MAIN_JOYDRIVER_USB_PORT);
