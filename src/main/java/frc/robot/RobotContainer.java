@@ -26,7 +26,7 @@ public class RobotContainer {
   private final DriveSystem m_drivesystem = new DriveSystem();
   private final ArmSystem m_armsystem = new ArmSystem(m_switchsystem);
   private final ClampSystem m_clampsystem = new ClampSystem();
-  private final LimelightSystem m_limelightsystem = new LimelightSystem();
+  //private final LimelightSystem m_limelightsystem = new LimelightSystem();
   
   // Joysticks
   private final XboxController driverController = new XboxController(Constants.MAIN_JOYDRIVER_USB_PORT);
@@ -76,14 +76,14 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kX.value).whileTrue(new retractArm(m_armsystem)); 
     
     //Button To raise shoulder -- Uses A Button
-    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulder(m_shouldersystem, m_switchsystem)); // CREATE COMMANDS raiseShoulder and lowerShoulder
+    // new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulder(m_shouldersystem, m_switchsystem)); // CREATE COMMANDS raiseShoulder and lowerShoulder
     //Button To lower shoulder -- Uses Y Button
-    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulder(m_shouldersystem, m_switchsystem));
+    //new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulder(m_shouldersystem, m_switchsystem));
 
     //Button To raise shoulder -- Uses A Button; Used in Times without Encoder
-    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulderPID(m_shouldersystem, m_switchsystem));
+    //new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulderPID(m_shouldersystem, m_switchsystem));
     //Button To lower shoulder -- Uses Y Button; Used in Time without Encoder
-    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulderPID(m_shouldersystem, m_switchsystem));
+    //new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulderPID(m_shouldersystem, m_switchsystem));
     
     // Button to extend arm to a certain value -- Uses Right Bumper
     //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new PIDarmExtendToValue(10000, m_armsystem));
@@ -91,9 +91,9 @@ public class RobotContainer {
     //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new armExtendToValue(m_armsystem, 0));
     //new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new armExtendToValue(m_armsystem, 5000));
 
-    // Button to raise shoulder to a certain value -- Uses Right Trigger
-    //new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new RotateShouldToValue(m_shouldersystem, 5));
-    //new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new RotateShouldToValue( m_shouldersystem, 50));
+    // Button to raise shoulder to a certain value
+    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new RotateShoulderToValue(m_shouldersystem, 0));
+    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new RotateShoulderToValue( m_shouldersystem, 80));
 
     // Button to clamp -- Uses Right Stick Button
     new JoystickButton(driverController, XboxController.Button.kStart.value).whileTrue(new clamp(m_clampsystem));
@@ -158,7 +158,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("Shoulder Output", m_shouldersystem.getOutput());
         SmartDashboard.putNumber("Shoulder Rate", m_shouldersystem.getRate());
         Constants.PID_SHOULDER_P = SmartDashboard.getNumber("Shoulder P", 0.04);
-        Constants.PID_SHOULDER_I = SmartDashboard.getNumber("Shoulder I", 0.05);
+        Constants.PID_SHOULDER_I = SmartDashboard.getNumber("Shoulder I", 0);
         Constants.PID_SHOULDER_D = SmartDashboard.getNumber("Shoulder D", 0);
   }
 }

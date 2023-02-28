@@ -9,6 +9,7 @@
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/ClampSystem": "Subsystem",
       "/LiveWindow/PIDShoulderSystem/PID Controller": "PIDController",
+      "/LiveWindow/ShoulderSystem/PID Controller": "PIDController",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/DigitalInput[4]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[5]": "Digital Input",
@@ -21,5 +22,35 @@
   "NetworkTables Settings": {
     "mode": "Client (NT4)",
     "serverTeam": "6651"
+  },
+  "Plots": {
+    "Plot <0>": {
+      "plots": [
+        {
+          "axis": [
+            {
+              "lockMax": true,
+              "lockMin": true
+            }
+          ],
+          "height": 873,
+          "name": "Shoulder Position",
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Shoulder Position"
+            }
+          ]
+        }
+      ],
+      "window": {
+        "name": "Shoulder Position"
+      }
+    }
   }
 }

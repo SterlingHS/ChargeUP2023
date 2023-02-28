@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import org.json.simple.*;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
@@ -19,7 +17,7 @@ public class LimelightSystem extends SubsystemBase {
   private LimelightHelpers.LimelightResults llresults;
 
   public LimelightSystem() {
-    readLimeight();
+    readLimeLight();
   }
 
   @Override

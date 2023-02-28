@@ -36,6 +36,7 @@ public class ShoulderSystem extends PIDSubsystem {
     shoulderMotor2 = new WPI_TalonSRX(Constants.SHOULDER_MOTOR_TWO);
     shoulderMotorGroup = new MotorControllerGroup(shoulderMotor1, shoulderMotor2);
 
+    shoulderMotorGroup.setInverted(true);
     m_switchsystem = sub1;
   
     //shoulderMotor.setInverted(true);
@@ -81,10 +82,18 @@ public class ShoulderSystem extends PIDSubsystem {
     }
     if (m_switchsystem.isShoulderIn() == true && speed < 0) {
       speed = 0;
-      resetEncoder();
     }
-  
-    shoulderMotorGroup.set(-speed);
+    double setP = getSetPoint();
+    if (setP == 0.0 && getPosition() < 15 && m_switchsystem.isShoulderIn() == false) {
+      speed = -.02;
+      System.out.println(speed);
+    }
+    if (setP == 0.0 && getPosition() < 3 && m_switchsystem.isShoulderIn() == false) {
+      speed = -.01;
+      System.out.println(speed);
+    }
+    //System.out.println(speed);
+    shoulderMotorGroup.set(speed);
   }
 
   public void updateShoulderSystem() {
@@ -96,8 +105,6 @@ public class ShoulderSystem extends PIDSubsystem {
   public void stop() {
     shoulderMotorGroup.stopMotor();;
   } 
-
-  
 
   public double getError() {
     return getController().getPositionError();

@@ -56,9 +56,9 @@ package frc.robot;
     public static double MAX_SHOULDER_POSITION = 120;
 
     public static double SHOULDER_SPEED = .3;
-    public static double PID_SHOULDER_P = 0.04;
-    public static double PID_SHOULDER_I = 0.005;
-    public static double PID_SHOULDER_D = 0;
+    public static double PID_SHOULDER_P = 0.005;
+    public static double PID_SHOULDER_I = 0.0005;
+    public static double PID_SHOULDER_D = 0.0025;
     public static final int DIO_SWITCH_SHOULDER_IN = 5;
 
     //Arm Constants
