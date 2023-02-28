@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.XboxController;
 public class RobotContainer {
   // The robot's subsystems
   private final switchesSystem m_switchsystem = new switchesSystem();
-  private final PIDShoulderSystem m_shouldersystem = new PIDShoulderSystem(m_switchsystem);
+  private final ShoulderSystem m_shouldersystem = new ShoulderSystem(m_switchsystem);
   private final DriveSystem m_drivesystem = new DriveSystem();
   private final ArmSystem m_armsystem = new ArmSystem(m_switchsystem);
   private final ClampSystem m_clampsystem = new ClampSystem();
@@ -78,6 +78,11 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulder(m_shouldersystem, m_switchsystem)); // CREATE COMMANDS raiseShoulder and lowerShoulder
     //Button To lower shoulder -- Uses Y Button
     new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulder(m_shouldersystem, m_switchsystem));
+
+    //Button To raise shoulder -- Uses A Button; Used in Times without Encoder
+    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulderPID(m_shouldersystem, m_switchsystem));
+    //Button To lower shoulder -- Uses Y Button; Used in Time without Encoder
+    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulderPID(m_shouldersystem, m_switchsystem));
     
     // Button to extend arm to a certain value -- Uses Right Bumper
     //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new PIDarmExtendToValue(10000, m_armsystem));

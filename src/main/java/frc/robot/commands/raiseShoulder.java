@@ -1,15 +1,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PIDShoulderSystem;
+import frc.robot.subsystems.ShoulderSystem;
 import frc.robot.subsystems.switchesSystem;
 import frc.robot.Constants;
 
 public class raiseShoulder extends CommandBase {
-    private final PIDShoulderSystem m_shoulder;
+    private final ShoulderSystem m_shoulder;
     private switchesSystem m_switchessystem;
 
-    public raiseShoulder(PIDShoulderSystem sub1, switchesSystem sub2) {
+    public raiseShoulder(ShoulderSystem sub1, switchesSystem sub2) {
         m_shoulder = sub1;
         m_switchessystem = sub2;
         addRequirements(m_shoulder);

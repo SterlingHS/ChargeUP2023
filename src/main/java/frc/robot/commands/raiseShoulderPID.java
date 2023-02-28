@@ -23,13 +23,13 @@ public class raiseShoulderPID extends CommandBase {
     @Override
     public void execute() {
         if (m_switchessystem.isArmIn() && m_shoulder.getPosition()<Constants.MAX_SHOULDER_POSITION) {
-        m_shoulder.raiseShoulder(-Constants.MAX_SHOULDER_VELOCITY_UP);}
+        m_shoulder.rotateShoulder(-Constants.MAX_SHOULDER_VELOCITY_UP);}
         
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_shoulder.stopShoulderMotor();
+        m_shoulder.stop();
         //m_shoulder.setSetpoint(m_shoulder.getPosition());
     }
 

@@ -5,14 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PIDShoulderSystem;
+import frc.robot.subsystems.ShoulderSystem;
 
 public class RotateShouldToValue extends CommandBase {
   /** Creates a new RotateShouldToValue. */
-  private static PIDShoulderSystem m_pid_shoulder_system;
+  private static ShoulderSystem m_pid_shoulder_system;
   double destination;
   
-  public RotateShouldToValue(PIDShoulderSystem m_shouldersystem, int i) {
+  public RotateShouldToValue(ShoulderSystem m_shouldersystem, int i) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_pid_shoulder_system = m_shouldersystem;
     destination = i;

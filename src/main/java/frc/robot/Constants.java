@@ -51,9 +51,9 @@ package frc.robot;
     public static int ENCODER_SHOULDER_B = 1;
 
     //Shoulder Constants
-    public static double MAX_SHOULDER_VELOCITY = 0.25;
-    public static double MAX_SHOULDER_VELOCITY_UP = 0.5;
-    public static double MAX_SHOULDER_POSITION = 70;
+    public static double MAX_SHOULDER_VELOCITY = 0.20;
+    public static double MAX_SHOULDER_VELOCITY_UP = 0.4;
+    public static double MAX_SHOULDER_POSITION = 120;
 
     public static double SHOULDER_SPEED = .3;
     public static double PID_SHOULDER_P = 0.04;
@@ -70,6 +70,9 @@ package frc.robot;
 
     // Driving constants
     public static final double DRIVER_SLOWDOWN = .8;
+    public static double PID_DRIVE_P = 0.05; //Temp Value
+    public static double PID_DRIVE_I = 0.0; //Temp Value
+    public static double PID_DRIVE_D = 0.0; //Temp Value
 
     //Solenoid variables
     public static int CLAMP_SOLENOID_PORTA = 2;

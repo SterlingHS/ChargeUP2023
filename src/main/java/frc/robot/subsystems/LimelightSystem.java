@@ -27,13 +27,13 @@ public class LimelightSystem extends SubsystemBase {
   // Reads the values from the Limelight
   public void readLimeLight() {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTableEntry tv = table.getEntry("tv");
+    NetworkTableEntry ttv = table.getEntry("tv");
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
     NetworkTableEntry ta = table.getEntry("ta");
 
     //read values periodically
-    tv = tv.getDouble(0.0);
+    tv = ttv.getDouble(0.0);
     x = tx.getDouble(0.0);
     y = ty.getDouble(0.0);
     area = ta.getDouble(0.0);

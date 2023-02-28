@@ -1,12 +1,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PIDShoulderSystem;
+import frc.robot.subsystems.ShoulderSystem;
 
 public class updateShoulderPID extends CommandBase {
-    private PIDShoulderSystem m_shouldersystem;
+    private ShoulderSystem m_shouldersystem;
 
-    public updateShoulderPID(PIDShoulderSystem sub1) {
+    public updateShoulderPID(ShoulderSystem sub1) {
         m_shouldersystem = sub1;
     }
 
