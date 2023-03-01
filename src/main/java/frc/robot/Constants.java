@@ -77,9 +77,6 @@ package frc.robot;
     public static int CLAMP_SOLENOID_PORTA = 2;
     public static int CLAMP_SOLENOID_PORTB = 3;
     public static int PCM_CAN_ID = 5;
-
-    
-
-};
+}
 
 

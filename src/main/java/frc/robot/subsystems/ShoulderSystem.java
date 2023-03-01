@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants;
 
-
-
 //Formerly called "PIDShoulderSystem"
 
 public class ShoulderSystem extends PIDSubsystem {
@@ -24,9 +22,7 @@ public class ShoulderSystem extends PIDSubsystem {
   private switchesSystem m_switchsystem;
   private MotorControllerGroup shoulderMotorGroup;
 
-
-
-
+  // Constructor
   public ShoulderSystem(switchesSystem sub1) {
     super(
         // The PIDController used by the subsystem
@@ -39,30 +35,31 @@ public class ShoulderSystem extends PIDSubsystem {
     shoulderMotorGroup.setInverted(true);
     m_switchsystem = sub1;
   
-    //shoulderMotor.setInverted(true);
     setSetpoint(0);
     getController().setTolerance(5);
   }
 
+  // Calculates the output of the PIDController
   @Override
   public void useOutput(double output, double setpoint) {
     updateShoulderSystem();
     // Use the output here
     rotateShoulder(getController().calculate(getMeasurement(), setpoint));
-    //System.out.println("Output: " + output + "    Setpoint: " + setpoint);
-    //System.out.println("Calculate: " + getController().calculate(getMeasurement(), setpoint));
   }
 
+  // Returns the measurement for the PIDController
   @Override
   public double getMeasurement() {
     // Return the process variable measurement here
     return shoulder_encoder.get();
   }
 
+  // Sets the position of the shoulder
   public void setPosition(double position) {
     setSetpoint(position);
   }
 
+  // Returns the position of the shoulder
   public int getPosition() {
     if (m_switchsystem.isShoulderIn() == true) {
       resetEncoder();
@@ -70,20 +67,22 @@ public class ShoulderSystem extends PIDSubsystem {
     return shoulder_encoder.get();
   }
 
+  // Resets the encoder
   public void resetEncoder() {
     shoulder_encoder.reset();
   }
 
+  // Rotates the shoulder
   public void rotateShoulder(double speed) {
+    // Limit the speed of the shoulder going up
     if (speed > Constants.MAX_SHOULDER_VELOCITY) {
       speed = Constants.MAX_SHOULDER_VELOCITY;
     }
+    // Limit the speed of the shoulder going down
     if (speed < -Constants.MAX_SHOULDER_VELOCITY) {
       speed = -Constants.MAX_SHOULDER_VELOCITY;
-    }
-    if (m_switchsystem.isShoulderIn() == true && speed < 0) {
-      speed = 0;
-    }
+    }    
+
     /*double setP = getSetPoint();
     if (setP == 0.0 && getPosition() < 15 && m_switchsystem.isShoulderIn() == false) {
       speed = -.02;
@@ -93,37 +92,49 @@ public class ShoulderSystem extends PIDSubsystem {
       //System.out.println(speed);
     }*/
     //System.out.println(speed);
+    
+    // Stop the shoulder from going down if it is at the bottom
+    if (m_switchsystem.isShoulderIn() == true && speed < 0) {
+      speed = 0;
+    }
+
     shoulderMotorGroup.set(speed);
   }
 
+  // Updates the PID values
   public void updateShoulderSystem() {
     getController().setP(Constants.PID_SHOULDER_P);
     getController().setI(Constants.PID_SHOULDER_I);
     getController().setD(Constants.PID_ARM_D);
   }
 
+  // Stops the shoulder
   public void stop() {
-    shoulderMotorGroup.stopMotor();;
+    shoulderMotorGroup.stopMotor();
   } 
 
+  // Returns the error of the PIDController
   public double getError() {
     return getController().getPositionError();
   }
 
+  // Returns the setpoint of the PIDController
   public double getSetPoint() {
     return getController().getSetpoint();
   }
 
+  // Returns the output of the PIDController
   public double getOutput() {
     return getController().calculate(getMeasurement(),getSetPoint());
   }
 
+  // Returns the rate of the encoder
   public double getRate() {
     return shoulder_encoder.getRate();
   }
 
+  // Returns if the PIDController is at the setpoint
   public boolean atSetpoint() {
     return getController().atSetpoint();
   }
-
 }

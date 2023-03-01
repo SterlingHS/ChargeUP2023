@@ -70,15 +70,16 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    //******************Driver Controller****************
+
+    // **************************************************
+    // ARM SYSTEM
+
     //Button To extend Arm -- Uses X Button
     new JoystickButton(driverController, XboxController.Button.kB.value).whileTrue(new extendArm(m_armsystem)); 
     //Button To extend Arm -- Uses B Button
     new JoystickButton(driverController, XboxController.Button.kX.value).whileTrue(new retractArm(m_armsystem)); 
-    
-    //Button To raise shoulder -- Uses A Button
-    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulder(m_shouldersystem, m_switchsystem)); // CREATE COMMANDS raiseShoulder and lowerShoulder
-    //Button To lower shoulder -- Uses Y Button
-    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulder(m_shouldersystem, m_switchsystem));
 
     // Button to extend arm to a certain value -- Uses Right Bumper
     new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new PickUp(m_armsystem, m_clampsystem));
@@ -86,9 +87,21 @@ public class RobotContainer {
     //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new armExtendToValue(m_armsystem, 0));
     //new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new armExtendToValue(m_armsystem, 5000));
 
+
+    // **************************************************
+    // SHOULDER SYSTEM
+
+    //Button To raise shoulder -- Uses A Button
+    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulder(m_shouldersystem, m_switchsystem)); // CREATE COMMANDS raiseShoulder and lowerShoulder
+    //Button To lower shoulder -- Uses Y Button
+    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulder(m_shouldersystem, m_switchsystem));
+
     // Button to raise shoulder to a certain value
     //new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new RotateShoulderToValue(m_shouldersystem, 0));
     //new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new RotateShoulderToValue( m_shouldersystem, 80));
+
+    // **************************************************
+    // CLAMP SYSTEM
 
     // Button to clamp -- Uses Right Stick Button
     new JoystickButton(driverController, XboxController.Button.kStart.value).onTrue(new clamp(m_clampsystem));

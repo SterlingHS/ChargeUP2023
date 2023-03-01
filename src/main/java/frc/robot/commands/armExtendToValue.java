@@ -34,7 +34,7 @@ public class armExtendToValue extends CommandBase {
   @Override
   public void execute() {
     m_pidController.setSetpoint(destination);
-    System.out.println(destination + " " + m_armsystem.getPosition());
+    // System.out.println(destination + " " + m_armsystem.getPosition());
     double output = m_pidController.calculate(m_armsystem.getPosition(), destination);
     m_armsystem.extendArm(output);
   }
@@ -42,7 +42,7 @@ public class armExtendToValue extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("IsFinished! ");
+    // System.out.println("IsFinished! ");
     m_armsystem.stopArmMotor();
   }
 
