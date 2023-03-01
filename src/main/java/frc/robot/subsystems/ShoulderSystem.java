@@ -41,6 +41,7 @@ public class ShoulderSystem extends PIDSubsystem {
   
     //shoulderMotor.setInverted(true);
     setSetpoint(0);
+    getController().setTolerance(5);
   }
 
   @Override
@@ -83,15 +84,14 @@ public class ShoulderSystem extends PIDSubsystem {
     if (m_switchsystem.isShoulderIn() == true && speed < 0) {
       speed = 0;
     }
-    double setP = getSetPoint();
+    /*double setP = getSetPoint();
     if (setP == 0.0 && getPosition() < 15 && m_switchsystem.isShoulderIn() == false) {
       speed = -.02;
-      System.out.println(speed);
     }
     if (setP == 0.0 && getPosition() < 3 && m_switchsystem.isShoulderIn() == false) {
       speed = -.01;
-      System.out.println(speed);
-    }
+      //System.out.println(speed);
+    }*/
     //System.out.println(speed);
     shoulderMotorGroup.set(speed);
   }
@@ -120,6 +120,10 @@ public class ShoulderSystem extends PIDSubsystem {
 
   public double getRate() {
     return shoulder_encoder.getRate();
+  }
+
+  public boolean atSetpoint() {
+    return getController().atSetpoint();
   }
 
 }

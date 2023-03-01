@@ -9,7 +9,7 @@ public class ArmSystem extends SubsystemBase{
     
     private WPI_TalonSRX armMotor = new WPI_TalonSRX(Constants.ARM_MOTOR);
     private Encoder arm_encoder = new Encoder(Constants.ENCODER_ARM_A, Constants.ENCODER_ARM_B, false, Encoder.EncodingType.k4X);
-    public static double destination;
+    public double destination;
     private switchesSystem m_switchessystem;
 
 
@@ -25,6 +25,9 @@ public class ArmSystem extends SubsystemBase{
     @Override
     public void periodic() {
         //Called once per scheduler run
+        if(m_switchessystem.isArmIn()){
+            resetPosition();
+        }
     }
 
     @Override
@@ -36,6 +39,7 @@ public class ArmSystem extends SubsystemBase{
     public void updateDestination(double dest){
         destination = dest;
     }
+
     public void extendArm(double speed) {
         //System.out.println(speed);
 
@@ -64,7 +68,4 @@ public class ArmSystem extends SubsystemBase{
     public void resetPosition() {
         arm_encoder.reset();
     }
-
-
-
 }

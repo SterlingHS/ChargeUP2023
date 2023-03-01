@@ -24,6 +24,7 @@ public class unclamp extends CommandBase {
   @Override
   public void execute() {
     m_clampsystem.openClamp();
+    System.out.println("Clamp opened");
   }
 
   // Called once the command ends or is interrupted.
@@ -33,6 +34,6 @@ public class unclamp extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

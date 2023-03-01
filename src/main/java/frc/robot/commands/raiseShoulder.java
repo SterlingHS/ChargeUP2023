@@ -21,6 +21,7 @@ public class raiseShoulder extends CommandBase {
 
     @Override
     public void execute() {
+        System.out.println("UP SHOULDER");
         if (m_switchessystem.isArmIn() && m_shoulder.getPosition()<Constants.MAX_SHOULDER_POSITION) {
         m_shoulder.rotateShoulder(Constants.MAX_SHOULDER_VELOCITY_UP);}
     }

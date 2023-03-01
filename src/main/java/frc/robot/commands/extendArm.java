@@ -5,11 +5,11 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ArmSystem;
 
 public class extendArm extends CommandBase {
-    private final ArmSystem m_armsysyetem;
+    private final ArmSystem m_armsystem;
 
     public extendArm(ArmSystem sub1) {
-        m_armsysyetem = sub1;
-        addRequirements(m_armsysyetem);
+        m_armsystem = sub1;
+        addRequirements(m_armsystem);
     }
     
     @Override
@@ -18,16 +18,15 @@ public class extendArm extends CommandBase {
 
     @Override
     public void execute() {
-        if (m_armsysyetem.getPosition()<Constants.MAX_ARM_POSITION){
-        m_armsysyetem.extendArm(Constants.ARM_SPEED);
-        System.out.println(m_armsysyetem.getPosition());
-    }
-
+        if (m_armsystem.getPosition()<Constants.MAX_ARM_POSITION){
+            m_armsystem.extendArm(Constants.ARM_SPEED);
+            System.out.println(m_armsystem.getPosition());
+        }
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_armsysyetem.stopArmMotor();
+        m_armsystem.stopArmMotor();
     }
 
     @Override
