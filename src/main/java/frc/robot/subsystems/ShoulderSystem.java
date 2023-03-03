@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants;
 
-//Formerly called "PIDShoulderSystem"
-
 public class ShoulderSystem extends PIDSubsystem {
   /** Creates a new ShoulderSystem. */
   private static Encoder shoulder_encoder;

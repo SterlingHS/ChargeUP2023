@@ -51,7 +51,7 @@ package frc.robot;
     public static int ENCODER_SHOULDER_B = 1;
 
     //Shoulder Constants
-    public static double MAX_SHOULDER_VELOCITY = 0.20;
+    public static double MAX_SHOULDER_VELOCITY = 0.15;
     public static double MAX_SHOULDER_VELOCITY_UP = 0.4;
     public static double MAX_SHOULDER_POSITION = 180;
 
@@ -63,7 +63,7 @@ package frc.robot;
 
     //Arm Constants
     public static double MAX_ARM_VELOCITY = 0.4;
-    public static double ARM_SPEED = 0.3;
+    public static double ARM_SPEED = 0.7;
     public static int DIO_SWITCH_ARM_IN = 4;
     public static double MAX_ARM_POSITION = 12500; //Temp Test Value
     
@@ -74,8 +74,8 @@ package frc.robot;
     public static double PID_DRIVE_D = 0.0; //Temp Value
 
     //Solenoid variables
-    public static int CLAMP_SOLENOID_PORTA = 2;
-    public static int CLAMP_SOLENOID_PORTB = 3;
+    public static int CLAMP_SOLENOID_PORTA = 0;
+    public static int CLAMP_SOLENOID_PORTB = 1;
     public static int PCM_CAN_ID = 5;
 }
 
