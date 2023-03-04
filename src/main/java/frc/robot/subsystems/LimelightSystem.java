@@ -9,13 +9,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.LimelightHelpers;
 
 public class LimelightSystem extends SubsystemBase {
   /** Creates a new LimelightSystem. */
   private double tv, x, y, area;
-  private LimelightHelpers.LimelightResults llresults;
-
+  
   public LimelightSystem() {
     readLimeLight();
   }
@@ -33,10 +31,7 @@ public class LimelightSystem extends SubsystemBase {
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
     NetworkTableEntry ta = table.getEntry("ta");
-
-    // Get Json Dump from Limelight
-    llresults = LimelightHelpers.getLatestResults("");
-
+    
     //read values periodically
     tv = ttv.getDouble(0.0);
     x = tx.getDouble(0.0);
@@ -49,6 +44,7 @@ public class LimelightSystem extends SubsystemBase {
     SmartDashboard.putNumber("LimelightY", y);
     SmartDashboard.putNumber("LimelightArea", area);
   }
+
 
   // Gets the values X, Y, Area, and TV
   public double getX() {
@@ -82,6 +78,13 @@ public class LimelightSystem extends SubsystemBase {
   // Turns on the LEDS
   public void setLEDON() {
     setLEDMode(3);
+  }
+
+  // Sets the pipeline
+  public void setPipeline(int pipeline) {
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTableEntry ledMode = table.getEntry("pipeline");
+    ledMode.setNumber(pipeline);
   }
 
 }

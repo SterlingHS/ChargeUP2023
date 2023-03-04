@@ -5,18 +5,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShoulderSystem;
+import frc.robot.subsystems.LimelightSystem;
+import frc.robot.subsystems.DriveSystem;
 
-public class RotateShoulderToValue extends CommandBase {
-  /** Creates a new RotateShouldToValue. */
-  private static ShoulderSystem m_pid_shoulder_system;
-  double destination;
-  
-  public RotateShoulderToValue(ShoulderSystem m_shouldersystem, int i) {
+public class CenterRobot extends CommandBase {
+  private static DriveSystem m_drivesystem;
+  private static LimelightSystem m_limelight;
+  /** Creates a new CenterRobot. */
+  public CenterRobot( DriveSystem sub1, LimelightSystem sub2) {
+    m_drivesystem = sub1;
+    m_limelight = sub2;
     // Use addRequirements() here to declare subsystem dependencies.
-    m_pid_shoulder_system = m_shouldersystem;
-    destination = i;
-    addRequirements(m_pid_shoulder_system);
+    addRequirements(m_drivesystem, m_limelight);
   }
 
   // Called when the command is initially scheduled.
@@ -26,8 +26,13 @@ public class RotateShoulderToValue extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_pid_shoulder_system.setPosition(destination);
-    
+    if(m_limelight.getX() > 0){
+      m_drivesystem.arcDrive(0, .2, 1);
+    }else if(m_limelight.getX() < 0){
+      m_drivesystem.arcDrive(0, -.2, 1);
+    }else{
+      m_drivesystem.stop();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -37,6 +42,6 @@ public class RotateShoulderToValue extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_pid_shoulder_system.atSetpoint();
+    return m_limelight.getX() < 1 && m_limelight.getX() > -1;
   }
 }

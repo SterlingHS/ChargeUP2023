@@ -24,7 +24,7 @@ package frc.robot;
  public class Constants {
 
     // k values for the arm PID
-    public static final double kTurnToleranceDeg = 400;
+    public static final double kTurnToleranceDeg = 300;
     public static final double kTurnRateToleranceDegPerS = 3000;
     public static final double MIN_ARM_POSITION = 0;
     public static double PID_ARM_P = 0.5;
@@ -56,9 +56,9 @@ package frc.robot;
     public static double MAX_SHOULDER_POSITION = 180;
 
     public static double SHOULDER_SPEED = .3;
-    public static double PID_SHOULDER_P = 0.005;
-    public static double PID_SHOULDER_I = 0.0005;
-    public static double PID_SHOULDER_D = 0.0025;
+    public static double PID_SHOULDER_P = 0.14175;
+    public static double PID_SHOULDER_I = 0;    //0.0;
+    public static double PID_SHOULDER_D = 0;    //0.028974;
     public static final int DIO_SWITCH_SHOULDER_IN = 5;
 
     //Arm Constants
@@ -72,11 +72,27 @@ package frc.robot;
     public static double PID_DRIVE_P = 0.05; //Temp Value
     public static double PID_DRIVE_I = 0.0; //Temp Value
     public static double PID_DRIVE_D = 0.0; //Temp Value
+    public static double MAX_ACCELERATION = 0.5; //Temp Value
+    
 
     //Solenoid variables
     public static int CLAMP_SOLENOID_PORTA = 0;
     public static int CLAMP_SOLENOID_PORTB = 1;
     public static int PCM_CAN_ID = 5;
+
+    //POV Buttons
+    public static int POV_LEFT = 90;
+    public static int POV_RIGHT = 270;
+    public static int POV_UP = 0;
+    public static int POV_DOWN = 180;
+    public static int POV_TOPRIGHT_DIAGONAL = 45;
+    public static int POV_BOTTOMRIGHT_DIAGONAL = 315;
+    public static int POV_TOPLEFT_DIAGONAL = 135;
+    public static int POV_BOTTOMLEFT_DIAGONAL = 225;
+
+    //Limelight Constants
+    public static int TOP_PIPELINE = 0;
+    public static int BOTTOM_PIPELINE = 1;
 }
 
 

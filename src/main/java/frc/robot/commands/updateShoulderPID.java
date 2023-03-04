@@ -15,7 +15,7 @@ public class updateShoulderPID extends CommandBase {
 
     @Override
     public void execute() {
-        m_shouldersystem.updateShoulderSystem();
+        //m_shouldersystem.updateShoulderSystem();
     }
 
     @Override

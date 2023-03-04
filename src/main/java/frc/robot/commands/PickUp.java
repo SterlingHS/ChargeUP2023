@@ -7,19 +7,21 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.ClampSystem;
+import frc.robot.subsystems.switchesSystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PickUp extends SequentialCommandGroup {
   /** Creates a new PickUp. */
-  public PickUp(ArmSystem m_armsystem, ClampSystem m_clampsystem) {
+  public PickUp(ArmSystem m_armsystem, ClampSystem m_clampsystem, switchesSystem m_switchessystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new armExtendToValue(m_armsystem, 1000.0), 
+        new armExtendToValue(m_armsystem, m_switchessystem, 1000.0), 
         new clamp(m_clampsystem),
-        new armExtendToValue(m_armsystem, 0)
+        new armExtendToValue(m_armsystem, m_switchessystem, 0),
+        new armExtendToZero(m_armsystem, m_switchessystem)
         );
   }
 }

@@ -49,12 +49,17 @@ public class ArmSystem extends SubsystemBase{
         if (speed < -Constants.MAX_ARM_VELOCITY) { 
             speed = -Constants.MAX_ARM_VELOCITY;
         }
-        if (m_switchessystem.isArmIn() == true && speed < 0) {
-            speed = 0;
-        }
         if (getPosition() > Constants.MAX_ARM_POSITION && speed > 0) {
             speed = 0;
         }
+        /*if (getPosition()==0 &&  == 0) {
+            speed = -.04;
+        }*/
+
+        if (m_switchessystem.isArmIn() == true && speed < 0) {
+            speed = 0;
+        }
+        
 
         armMotor.set(speed); 
     }

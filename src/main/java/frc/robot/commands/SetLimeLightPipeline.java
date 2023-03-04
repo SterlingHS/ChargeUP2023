@@ -5,29 +5,28 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShoulderSystem;
+import frc.robot.subsystems.LimelightSystem;
 
-public class RotateShoulderToValue extends CommandBase {
-  /** Creates a new RotateShouldToValue. */
-  private static ShoulderSystem m_pid_shoulder_system;
-  double destination;
-  
-  public RotateShoulderToValue(ShoulderSystem m_shouldersystem, int i) {
+public class SetLimeLightPipeline extends CommandBase {
+  private static LimelightSystem m_limelight;
+  private int m_pipeline;
+  /** Creates a new SetLimeLightPipeline. */
+  public SetLimeLightPipeline(LimelightSystem sub1, int sub2) {
+    m_limelight = sub1;
+    m_pipeline = sub2;
     // Use addRequirements() here to declare subsystem dependencies.
-    m_pid_shoulder_system = m_shouldersystem;
-    destination = i;
-    addRequirements(m_pid_shoulder_system);
+    addRequirements(m_limelight);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_pid_shoulder_system.setPosition(destination);
-    
+    m_limelight.setPipeline(m_pipeline);
   }
 
   // Called once the command ends or is interrupted.
@@ -37,6 +36,6 @@ public class RotateShoulderToValue extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_pid_shoulder_system.atSetpoint();
+    return true;
   }
 }

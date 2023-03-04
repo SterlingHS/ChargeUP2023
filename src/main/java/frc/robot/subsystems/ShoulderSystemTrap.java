@@ -14,8 +14,9 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ShoulderSystemTest extends SubsystemBase {
+public class ShoulderSystemTrap extends SubsystemBase {
   
   private static Encoder shoulder_encoder;
   private WPI_TalonSRX shoulderMotor1;
@@ -25,16 +26,17 @@ public class ShoulderSystemTest extends SubsystemBase {
   private final ArmFeedforward m_feedforward;
   private final ProfiledPIDController m_pidController;
 
-  private double kS = 0;
-  private double kV = 0;
-  private double kA = 0;
+  private double kS = .88916;
+  private double kG = .63697;
+  private double kV = 0.001915;
+  private double kA = 0.003268;
 
   private double MaxVelocity = 0.1;
   private double MaxAcceleration = 0.1;
   private TrapezoidProfile.State setpoint;
 
-  /** Creates a new ShoulderSystemTest. */
-  public ShoulderSystemTest(switchesSystem sub1) {
+  /** Creates a new ShoulderSystemTrapTest. */
+  public ShoulderSystemTrap(switchesSystem sub1) {
     shoulder_encoder = new Encoder(Constants.ENCODER_SHOULDER_A, Constants.ENCODER_SHOULDER_B, false, Encoder.EncodingType.k4X);
     shoulderMotor1 = new WPI_TalonSRX(Constants.SHOULDER_MOTOR_ONE);
     shoulderMotor2 = new WPI_TalonSRX(Constants.SHOULDER_MOTOR_TWO);
@@ -45,10 +47,9 @@ public class ShoulderSystemTest extends SubsystemBase {
 
     m_pidController = new ProfiledPIDController(Constants.PID_SHOULDER_P, Constants.PID_SHOULDER_I, Constants.PID_SHOULDER_D, new TrapezoidProfile.Constraints(MaxVelocity, MaxAcceleration));
     m_pidController.setTolerance(3*Math.PI/180); // 3 degrees tolerance
-    setpoint = new TrapezoidProfile.State(-Math.PI/2, 0);
+    setpoint = new TrapezoidProfile.State(calculateAngle(0), 0);
     m_pidController.setGoal(setpoint);
-    
-    m_feedforward = new ArmFeedforward(kS, kV, kA);
+    m_feedforward = new ArmFeedforward(kS, kG, kV, kA);
   }
 
   @Override
@@ -65,8 +66,8 @@ public class ShoulderSystemTest extends SubsystemBase {
   // Rotates the shoulder
   public void rotateShoulder(double speed) {
     // Limit the speed of the shoulder going up
-    if (speed > Constants.MAX_SHOULDER_VELOCITY) {
-      speed = Constants.MAX_SHOULDER_VELOCITY;
+    if (speed > Constants.MAX_SHOULDER_VELOCITY_UP) {
+      speed = Constants.MAX_SHOULDER_VELOCITY_UP;
     }
     // Limit the speed of the shoulder going down
     if (speed < -Constants.MAX_SHOULDER_VELOCITY) {
@@ -78,6 +79,8 @@ public class ShoulderSystemTest extends SubsystemBase {
       speed = 0;
     }
 
+    
+    SmartDashboard.putNumber("Shoulder Speed", speed);
     shoulderMotorGroup.set(speed);
   }
 
@@ -87,28 +90,32 @@ public class ShoulderSystemTest extends SubsystemBase {
 } 
 
   // Rotates the shoulder to a specific angle
-  public void rotateToAngle(double angle) {
-    double feedforward = m_feedforward.calculate(angle, getAngularRate());
-    double output = m_pidController.calculate(getAngle(), angle);
-    rotateShoulder(output+feedforward);
+  public void rotateToAngle(double position) {
+    double angleDestination = calculateAngle(position);
+    double feedforward = m_feedforward.calculate(angleDestination, getAngularRate());
+    double output = m_pidController.calculate(getAngle(), angleDestination);
+    SmartDashboard.putNumber("Output", output);
+    SmartDashboard.putNumber("Feedforward", feedforward);
+    rotateShoulder(output); //+feedforward);
   }
   
   // ********** PID Methods ********** //
 
   // Set the setpoint position only
   public void setSetpoint(double position) {
-    setpoint = new TrapezoidProfile.State(position, 0);
+    setpoint = new TrapezoidProfile.State(calculateAngle(position), 0);
     m_pidController.setGoal(setpoint);
-  }
-
-  // Sets the setpoint of the PID controller
-  public void setSetpointState(TrapezoidProfile.State setpoint) {
-    m_pidController.setGoal(setpoint);
+    System.out.println("Setpoint: " + position);
   }
 
   // Gets the setpoint of the PID controller
-  public TrapezoidProfile.State getSetpoint() {
+  public TrapezoidProfile.State getSetpointTrap() {
     return m_pidController.getGoal(); // Return class TrapezoidProfile.State
+  }
+
+  // Gets the setpoint of the PID controller
+  public double getSetpoint() {
+    return m_pidController.getGoal().position; // Return class TrapezoidProfile.State
   }
 
   // Returns the error of the PID controller
@@ -128,7 +135,15 @@ public class ShoulderSystemTest extends SubsystemBase {
     kA = a;
   }
 
+  // Get Output of PID controller
+  public double getOutput() {
+    return m_pidController.calculate(getAngle(), getSetpoint());
+  }
 
+
+  public boolean atSetpoint() {
+    return m_pidController.atSetpoint(); // Should we use atGoal?
+  }
 
   // ********** Encoder Methods ********** //
 
@@ -149,19 +164,26 @@ public class ShoulderSystemTest extends SubsystemBase {
 
   // Calculates the angle in radians of the shoulder with respect of the horizontal
   public double getAngle() {
-    double pos = getPosition();
-    double posHorizontal = 100; // Ticks of the encoder when the shoulder is horizontal
-    double posVertical = 0;     // Ticks of the encoder when the shoulder is vertical
-    double angle = (pos-100) * Math.PI / (2*(posHorizontal-posVertical));
+    return calculateAngle(getPosition());
+  }
+
+  public double calculateAngle(double position) {
+    double posMax = 170; // Ticks of the encoder when the shoulder is horizontal
+    double posMin = 0;     // Ticks of the encoder when the shoulder is vertical
+    double angleMax = 41;
+    double angleMin = -79;
+    double angle = ((angleMax-angleMin)/posMax)*position + angleMin;
+    //double angle = (pos-posHorizontal) * Math.PI / (2*(posHorizontal-posVertical));
     return angle;
   }
 
   // Calculates the angular rate of the shoulder
   public double getAngularRate() {
     double rate = getRate();
-    double posHorizontal = 100; // Ticks of the encoder when the shoulder is horizontal
-    double posVertical = 0;     // Ticks of the encoder when the shoulder is vertical
-    double angularRate = rate * Math.PI / (2*(posHorizontal-posVertical));
+    double posMax = 170; // Ticks of the encoder when the shoulder is horizontal
+    double posMin = 0;     // Ticks of the encoder when the shoulder is vertical
+    double angularRate = calculateAngle(rate)+79;
+
     return angularRate;
   }
 }

@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants;
 
@@ -59,9 +60,6 @@ public class ShoulderSystem extends PIDSubsystem {
 
   // Returns the position of the shoulder
   public int getPosition() {
-    if (m_switchsystem.isShoulderIn() == true) {
-      resetEncoder();
-    }
     return shoulder_encoder.get();
   }
 
@@ -81,21 +79,19 @@ public class ShoulderSystem extends PIDSubsystem {
       speed = -Constants.MAX_SHOULDER_VELOCITY;
     }    
 
-    /*double setP = getSetPoint();
-    if (setP == 0.0 && getPosition() < 15 && m_switchsystem.isShoulderIn() == false) {
-      speed = -.02;
+    double setP = getSetPoint();
+    if (setP == 0.0 && getPosition() < 20 && m_switchsystem.isShoulderIn() == false) {
+      speed = -.08;
     }
-    if (setP == 0.0 && getPosition() < 3 && m_switchsystem.isShoulderIn() == false) {
-      speed = -.01;
-      //System.out.println(speed);
-    }*/
-    //System.out.println(speed);
     
     // Stop the shoulder from going down if it is at the bottom
     if (m_switchsystem.isShoulderIn() == true && speed < 0) {
       speed = 0;
     }
-
+    if (getPosition()==0 && getSetPoint()==0) {
+      speed = 0;
+    }
+    SmartDashboard.putNumber("Shoulder Speed", speed);
     shoulderMotorGroup.set(speed);
   }
 
