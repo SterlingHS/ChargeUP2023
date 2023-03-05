@@ -27,9 +27,9 @@ public class CenterRobot extends CommandBase {
   @Override
   public void execute() {
     if(m_limelight.getX() > 0){
-      m_drivesystem.arcDrive(0, .2, 1);
+      m_drivesystem.turnLeft();
     }else if(m_limelight.getX() < 0){
-      m_drivesystem.arcDrive(0, -.2, 1);
+      m_drivesystem.turnRight();
     }else{
       m_drivesystem.stop();
     }
@@ -42,6 +42,6 @@ public class CenterRobot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_limelight.getX() < 1 && m_limelight.getX() > -1;
+    return m_limelight.getX() < 5 && m_limelight.getX() > -5;
   }
 }

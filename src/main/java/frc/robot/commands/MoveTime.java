@@ -33,7 +33,7 @@ import frc.robot.subsystems.DriveSystem;
     @Override
     public void execute() {
         System.out.println("Speed: " + speed);
-        if(get_timer()<time) drivesystem.forward();
+        if(get_timer()<time) drivesystem.forward(speed);
         else drivesystem.stop();
     }
 

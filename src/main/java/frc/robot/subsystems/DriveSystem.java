@@ -121,16 +121,20 @@ public class DriveSystem extends SubsystemBase {
         rightRear.stopMotor();
     }
 
+    public void turn(double speed) {
+        arcDrive(0, speed, 1);
+    }
+
     public void turnRight() {
-        arcDrive(0, 0.5, 1);
+        arcDrive(0, 0.3, 1);
     }
 
     public void turnLeft() {
-        arcDrive(0, -0.5, 1);
+        arcDrive(0, -0.3, 1);
     }
 
-    public void forward() {
-        arcDrive(0.5, 0, 1);
+    public void forward(double xspeed) {
+        arcDrive(xspeed, 0, 1);
     }
 
     public void forwardSpeed(double xSpeed) {
@@ -148,6 +152,11 @@ public class DriveSystem extends SubsystemBase {
 
     public double read_distance_left_encoder() {
         return leftFront.getSelectedSensorPosition();
+        // changed to work with talon encoders
+    }
+
+    public double read_distance_encoder() {
+        return (rightFront.getSelectedSensorPosition() + leftFront.getSelectedSensorPosition()) / 2;
         // changed to work with talon encoders
     }
 
