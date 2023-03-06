@@ -42,7 +42,6 @@ public class DriveSystemOld extends SubsystemBase {
         leftFront.setSensorPhase(true);
         //inverted talon sensor
 
-        //2208 pulses per 10ft
          navx_device.enableLogging(true);
     }
 

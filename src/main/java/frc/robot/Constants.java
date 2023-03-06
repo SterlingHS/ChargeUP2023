@@ -73,6 +73,7 @@ package frc.robot;
     public static double PID_DRIVE_I = 0.0; //Temp Value
     public static double PID_DRIVE_D = 0.0; //Temp Value
     public static double MAX_ACCELERATION = 0.5; //Temp Value
+    public static double kEncoderDistancePerPulse = 0.0005; //Temp Value
     
 
     //Solenoid variables
