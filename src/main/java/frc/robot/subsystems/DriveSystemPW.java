@@ -1,5 +1,7 @@
 package edu.wpi.first.wpilibj.examples.ramsetecommand.subsystems;
 
+import java.lang.Math;
+import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -42,7 +44,10 @@ public class DriveSystemPW extends SubsystemBase {
 
     resetEncoders();
     m_odometry =
-        new DifferentialDriveOdometry(navx_device.getRotation2d(), leftFront.getSelectedSensorPosition(), rightFront.getSelectedSensorPosition());
+        new DifferentialDriveOdometry(
+          navx_device.getRotation2d(),  
+          encoderToDistanceMeters(leftFront.getSelectedSensorPosition()),  
+          encoderToDistanceMeters(rightFront.getSelectedSensorPosition()));
             //m_gyro.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance());
   }
 
@@ -50,7 +55,9 @@ public class DriveSystemPW extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-      navx_device.getRotation2d(), leftFront.getSelectedSensorPosition(), rightFront.getSelectedSensorPosition());
+      navx_device.getRotation2d(),  
+      encoderToDistanceMeters(leftFront.getSelectedSensorPosition()),  
+      encoderToDistanceMeters(rightFront.getSelectedSensorPosition()));
   }
 
   /**
@@ -68,7 +75,9 @@ public class DriveSystemPW extends SubsystemBase {
    * @return The current wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(leftFront.getSelectedSensorVelocity(), rightFront.getSelectedSensorVelocity());
+    return new DifferentialDriveWheelSpeeds(
+      velocityToNativeUnits(leftFront.getSelectedSensorVelocity()), 
+      velocityToNativeUnits(rightFront.getSelectedSensorVelocity()));
   }
 
   /**
@@ -79,7 +88,10 @@ public class DriveSystemPW extends SubsystemBase {
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
     m_odometry.resetPosition(
-        navx_device.getRotation2d(), leftFront.getSelectedSensorPosition(), rightFront.getSelectedSensorPosition(), pose);
+        navx_device.getRotation2d(), 
+        encoderToDistanceMeters(leftFront.getSelectedSensorPosition()), 
+        encoderToDistanceMeters(rightFront.getSelectedSensorPosition()), 
+        pose);
   }
 
   /**
@@ -127,7 +139,9 @@ public class DriveSystemPW extends SubsystemBase {
    * @return the average of the two encoder readings
    */
   public double getAverageEncoderDistance() {
-    return (leftFront.getSelectedSensorPosition() + rightFront.getSelectedSensorPosition()) / 2.0;
+    return (
+      (encoderToDistanceMeters(leftFront.getSelectedSensorPosition()) + 
+      encoderToDistanceMeters(rightFront.getSelectedSensorPosition())) / 2.0);
   }
 
   /**
@@ -162,8 +176,27 @@ public class DriveSystemPW extends SubsystemBase {
     return -navx_device.getRate();
   }
 
+  private double encoderToDistanceMeters(double sensorCounts){
+    double kGearRatio = 3.95;
+    double kWheelRadiusInches = 3;
+    double kCountsPerRev = 4096;
+    double motorRotations = (double)sensorCounts / kCountsPerRev;
+    double wheelRotations = motorRotations / kGearRatio;
+    double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(kWheelRadiusInches));
+    return positionMeters;
+  }
 
-
+  private int velocityToNativeUnits(double velocityMetersPerSecond){
+    double kGearRatio = 3.95;
+    double kWheelRadiusInches = 3;
+    double kCountsPerRev = 4096;
+    double k100msPerSecond = 10;
+    double wheelRotationsPerSecond = velocityMetersPerSecond/(2 * Math.PI * Units.inchesToMeters(kWheelRadiusInches));
+    double motorRotationsPerSecond = wheelRotationsPerSecond * kGearRatio;
+    double motorRotationsPer100ms = motorRotationsPerSecond / k100msPerSecond;
+    int sensorCountsPer100ms = (int)(motorRotationsPer100ms * kCountsPerRev);
+    return sensorCountsPer100ms;
+  }
 
 
 }
