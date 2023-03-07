@@ -50,7 +50,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    m_drivesystem.setDefaultCommand(new Drive( m_drivesystem, driverController::getRightX, driverController::getLeftY) ); 
+    m_drivesystem.setDefaultCommand(new Drive( m_drivesystem, driverController::getLeftY, driverController::getRightX) ); 
     
     //configure the limit switches
     configureLimitSwitches();
@@ -105,18 +105,22 @@ public class RobotContainer {
 
     // Button to drop box on 2nd level
     final TriggerR2Button BoxTwoBt = new TriggerR2Button(driverController);
-    new Trigger(BoxTwoBt::get).onTrue(new DropBox(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem, 2));
+    new Trigger(BoxTwoBt::get).onTrue(new DropBox(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem, m_drivesystem, 2));
   
     // Button to drop box on 1st level
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new DropBox(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem, 1));
+    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new DropBox(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem,m_drivesystem, 1));
  
     // Button to drop to floor level
     final POVButton DropFloorBt = new POVButton(driverController,Constants.POV_UP); 
-    DropFloorBt.onTrue(new DropBox(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem, 0));
+    DropFloorBt.onTrue(new DropBox(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem, m_drivesystem, 0));
 
     // Button to pick up object
     final POVButton PickUpBt = new POVButton(driverController,Constants.POV_DOWN); 
     PickUpBt.onTrue(new PickUp(m_armsystem, m_clampsystem,m_switchsystem));
+
+    //Button to move forward
+    final POVButton GoForwardBt = new POVButton(driverController,Constants.POV_RIGHT);
+    GoForwardBt.onTrue(new MoveDistance(m_drivesystem, 1));
   
     // Button to drop cone on 2nd level
     final TriggerL2Button ConeTwoBt = new TriggerL2Button(driverController);
@@ -190,6 +194,11 @@ public class RobotContainer {
         SmartDashboard.putNumber("Shoulder Setpoint", m_shouldersystem.getSetpoint());
         SmartDashboard.putNumber("Shoulder Output", m_shouldersystem.getOutput());
         SmartDashboard.putNumber("Shoulder Rate", m_shouldersystem.getRate());
+        SmartDashboard.putNumber("Left Count", m_drivesystem.getLeftEncoder());
+        SmartDashboard.putNumber("Right Count", m_drivesystem.getRightEncoder());
+        SmartDashboard.putNumber("Left Distance", m_drivesystem.getLeftDistance());
+        SmartDashboard.putNumber("Right Distance", m_drivesystem.getRightDistance());
+        SmartDashboard.putNumber("Average Distance", m_drivesystem.getDistance());
         
         Constants.PID_SHOULDER_P = SmartDashboard.getNumber("Shoulder P", 0.04);
         Constants.PID_SHOULDER_I = SmartDashboard.getNumber("Shoulder I", 0);

@@ -91,8 +91,8 @@ public class ShoulderSystem extends PIDSubsystem {
     if (getPosition()==0 && getSetPoint()==0) {
       speed = 0;
     }
-    SmartDashboard.putNumber("Shoulder Speed", speed);
-    shoulderMotorGroup.set(speed);
+      SmartDashboard.putNumber("Shoulder Speed", speed);
+      shoulderMotorGroup.set(speed);
   }
 
   // Updates the PID values

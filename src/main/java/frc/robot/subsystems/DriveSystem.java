@@ -7,6 +7,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.drive.*;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.math.util.Units;
 
 //import edu.wpi.first.math.geometry.Pose2d;
 //import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -39,12 +40,14 @@ public class DriveSystem extends SubsystemBase {
     private AHRS navx_device = new AHRS(SerialPort.Port.kMXP);
 
     public DriveSystem() {
-        leftRear.setInverted(false);
-        leftFront.setInverted(false);
+        leftRear.setInverted(true);
+        leftFront.setInverted(true);
         rightRear.setInverted(false);
         rightFront.setInverted(false);
-        leftFront.setSensorPhase(true);
+        leftFront.setSensorPhase(false);
         lastSpeed = 0;
+        lastAcceleration = 0;
+        
 
         // inverted talon sensor
 
@@ -65,14 +68,23 @@ public class DriveSystem extends SubsystemBase {
     }
 
     public void arcDrive(double xSpeed, double zRotation, double slowdown_factor) {
-        xSpeed = controlSpeed(xSpeed);
+        if (true)//this is where IsJoystick will go
+        {
+            xSpeed = -xSpeed;
+            zRotation = -zRotation;
+        }
         if (slowdown_factor < 1 && slowdown_factor >= 0) {
             xSpeed *= slowdown_factor;
             zRotation *= slowdown_factor;
         }
+        xSpeed = controlSpeed(xSpeed);
+        mDrive.arcadeDrive(xSpeed, zRotation);
+    }
 
+    public void arcadeDrive(double xSpeed, double zRotation) {
         mDrive.arcadeDrive(-xSpeed, -zRotation);
     }
+
 
     private double controlSpeed(double targetSpeed) {
             deltaSpeed = targetSpeed-lastSpeed;
@@ -92,6 +104,7 @@ public class DriveSystem extends SubsystemBase {
                 */
                 if (targetAcceleration > Constants.MAX_ACCELERATION) 
                 {
+                    
                     deltaSpeed = lastSpeed+Constants.MAX_ACCELERATION; // if the target Acceleration is positive add it to the Last speed
                 }
                 else if (targetAcceleration < Constants.MAX_ACCELERATION && targetAcceleration >0)
@@ -110,6 +123,10 @@ public class DriveSystem extends SubsystemBase {
                 }
                 //this if else handles negative target accelerations the sign difference is because deltaAcceleration is negative in this look, but MAX_ACCELERATION is never negative.
         }
+        else {
+            deltaSpeed = targetSpeed;
+        }
+        lastSpeed = deltaSpeed;
         return deltaSpeed;
     }
     
@@ -122,27 +139,19 @@ public class DriveSystem extends SubsystemBase {
     }
 
     public void turn(double speed) {
-        arcDrive(0, speed, 1);
+        arcadeDrive(0, speed);
     }
 
     public void turnRight() {
-        arcDrive(0, 0.3, 1);
+        arcadeDrive(0, 0.3);
     }
 
     public void turnLeft() {
-        arcDrive(0, -0.3, 1);
+        arcadeDrive(0, -0.3);
     }
 
     public void forward(double xspeed) {
-        arcDrive(xspeed, 0, 1);
-    }
-
-    public void forwardSpeed(double xSpeed) {
-        arcDrive(xSpeed, 0, 1);
-    }
-
-    public void backward() {
-        arcDrive(-0.5, 0, 1);
+        arcadeDrive(-xspeed, 0);
     }
 
     public double read_distance_right_encoder() {
@@ -183,6 +192,22 @@ public class DriveSystem extends SubsystemBase {
 
     public void resetAngle() {
         navx_device.reset();
+    }
+
+    public double getRightEncoder() {
+        return rightFront.getSelectedSensorPosition();
+    }
+    public double getLeftEncoder() {
+        return leftFront.getSelectedSensorPosition();
+    }
+    public double getRightDistance() {
+        return encoderToDistanceMeters(rightFront.getSelectedSensorPosition());
+    }
+    public double getLeftDistance() {
+        return encoderToDistanceMeters(leftFront.getSelectedSensorPosition());
+    }
+    public double getDistance() {
+        return (getRightDistance() + getLeftDistance()) / 2;
     }
 
     public double getAngle() {
@@ -226,6 +251,30 @@ public class DriveSystem extends SubsystemBase {
     public double getLinearWorldAccelZ() {
         return navx_device.getWorldLinearAccelZ();
     }
+
+    private double encoderToDistanceMeters(double sensorCounts){
+        double kGearRatio = 8.45;
+        double kWheelRadiusInches = 3;
+        double kCountsPerRev = 4096;
+        double motorRotations = (double)sensorCounts / kCountsPerRev;
+        double wheelRotations = motorRotations / kGearRatio;
+        double positionMeters = 10 * wheelRotations * (2 * Math.PI * Units.inchesToMeters(kWheelRadiusInches));
+        return positionMeters;
+      }
+    
+      private int velocityToNativeUnits(double velocityMetersPerSecond){
+        double kGearRatio = 8.45;
+        double kWheelRadiusInches = 3;
+        double kCountsPerRev = 4096;
+        double k100msPerSecond = 10;
+        double wheelRotationsPerSecond = velocityMetersPerSecond/(2 * Math.PI * Units.inchesToMeters(kWheelRadiusInches));
+        double motorRotationsPerSecond = wheelRotationsPerSecond * kGearRatio;
+        double motorRotationsPer100ms = motorRotationsPerSecond / k100msPerSecond;
+        int sensorCountsPer100ms = (int)(motorRotationsPer100ms * kCountsPerRev);
+        return sensorCountsPer100ms;
+      }
+
+      
 
 }
 // This adds the control speed function. This also has the capability to set a max jerk aswell. This only cares if acceleration is positive or negative and adds it to the value. I ran tests with 4 sets of numbers, each on being a different case and the program should output the correct value. MAX_ACCEL needs to be made in constants 

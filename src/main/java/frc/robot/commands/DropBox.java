@@ -9,13 +9,14 @@ import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.ClampSystem;
 import frc.robot.subsystems.ShoulderSystem;
 import frc.robot.subsystems.switchesSystem;
+import frc.robot.subsystems.DriveSystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DropBox extends SequentialCommandGroup {
   /** Creates a new DropBox. */
-  public DropBox(ShoulderSystem m_shouldersystem, ArmSystem m_armsystem, ClampSystem m_clampsystem, switchesSystem m_switchessystem,int stage) {
+  public DropBox(ShoulderSystem m_shouldersystem, ArmSystem m_armsystem, ClampSystem m_clampsystem, switchesSystem m_switchessystem,DriveSystem m_drivesystem, int stage) {
     int[] shoulder_rotation = new int[]{67,100,130};
     int[] arm_extension = new int[]{100,6000,12000};
     //List<Double> shoulder_rotation = new ArrayList<Double>();
@@ -25,9 +26,11 @@ public class DropBox extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new RotateShoulderToValue(m_shouldersystem, shoulder_rotation[stage]),
-        new armExtendToValue(m_armsystem,m_switchessystem ,arm_extension[stage]), 
+        new MoveDistance(m_drivesystem, 0.3),
+        new armExtendToValue(m_armsystem,m_switchessystem ,arm_extension[stage]),
         new unclamp(m_clampsystem), 
-        new armExtendToValue(m_armsystem,m_switchessystem ,0),
+        new armExtendToZero(m_armsystem,m_switchessystem),
+        new MoveDistance(m_drivesystem, -1),
         new RotateShoulderToValue(m_shouldersystem, 0)
     );
   }

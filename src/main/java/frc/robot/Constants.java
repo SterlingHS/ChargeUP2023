@@ -72,7 +72,7 @@ package frc.robot;
     public static double PID_DRIVE_P = 0.05; //Temp Value
     public static double PID_DRIVE_I = 0.0; //Temp Value
     public static double PID_DRIVE_D = 0.0; //Temp Value
-    public static double MAX_ACCELERATION = 0.5; //Temp Value
+    public static double MAX_ACCELERATION = 0.03; //Temp Value
     public static double kEncoderDistancePerPulse = 0.0005; //Temp Value
     
 
@@ -92,8 +92,8 @@ package frc.robot;
     public static int POV_BOTTOMLEFT_DIAGONAL = 225;
 
     //Limelight Constants
-    public static int TOP_PIPELINE = 0;
-    public static int BOTTOM_PIPELINE = 1;
+    public static int TOP_PIPELINE = 1;
+    public static int BOTTOM_PIPELINE = 0;
 }
 
 

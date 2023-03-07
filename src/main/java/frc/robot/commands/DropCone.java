@@ -29,6 +29,7 @@ public class DropCone extends SequentialCommandGroup {
         new armExtendToValue(m_armsystem,m_switchessystem ,arm_extension[stage]), 
         new unclamp(m_clampsystem), 
         new armExtendToValue(m_armsystem,m_switchessystem ,0),
+        new armExtendToZero(m_armsystem,m_switchessystem),
         new RotateShoulderToValue(m_shouldersystem, 0)
     );
   }

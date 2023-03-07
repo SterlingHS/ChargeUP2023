@@ -11,7 +11,7 @@ import frc.robot.subsystems.DriveSystem;
     public class MoveDistance extends CommandBase {
 
     private final DriveSystem drivesystem;
-    private ProfiledPIDController pidController = new ProfiledPIDController(0.1, 0, 0, new TrapezoidProfile.Constraints(.1,.1));
+    private ProfiledPIDController pidController = new ProfiledPIDController(1, 0, 0, new TrapezoidProfile.Constraints(0.5,0.1));
 
     private static double distance_destination, distance_start;
 
@@ -26,16 +26,18 @@ import frc.robot.subsystems.DriveSystem;
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        distance_start = drivesystem.read_distance_encoder();
-        pidController.setGoal(distance_destination-distance_start);
-        pidController.setTolerance(3,3);
+        System.out.println("something");
+        distance_start = drivesystem.getDistance();
+        pidController.setGoal(distance_destination);
+        pidController.setTolerance(0.1,0.3);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        //System.out.println("angle: " + speed);
-        drivesystem.turn(pidController.calculate(drivesystem.read_distance_encoder()-distance_start));
+        double d = drivesystem.getDistance()-distance_start;
+        System.out.println("distance: " + d + " output: " + pidController.calculate(drivesystem.getDistance()-distance_start));
+        drivesystem.forward(pidController.calculate(drivesystem.getDistance()-distance_start));
     }
 
     // Called once the command ends or is interrupted.
@@ -47,6 +49,6 @@ import frc.robot.subsystems.DriveSystem;
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return pidController.atSetpoint();
+        return pidController.atGoal();
     }
 }
