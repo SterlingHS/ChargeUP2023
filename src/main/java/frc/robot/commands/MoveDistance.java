@@ -11,32 +11,33 @@ import frc.robot.subsystems.DriveSystem;
     public class MoveDistance extends CommandBase {
 
     private final DriveSystem drivesystem;
-    private ProfiledPIDController pidController = new ProfiledPIDController(1, 0, 0, new TrapezoidProfile.Constraints(0.5,0.1));
+    private ProfiledPIDController pidController = new ProfiledPIDController(2, 0, 0, new TrapezoidProfile.Constraints(0.3,0.3));
 
-    private static double distance_destination, distance_start;
+    private double distance_destination, distance_start;
 
  
     public MoveDistance(DriveSystem sub, double distance1) {
         drivesystem = sub;
         distance_destination = distance1;
-
-        addRequirements(drivesystem);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        System.out.println("something");
+        // System.out.println("something");
+        pidController.reset(0, 0);
         distance_start = drivesystem.getDistance();
+        System.out.println(distance_destination);
         pidController.setGoal(distance_destination);
-        pidController.setTolerance(0.1,0.3);
+        System.out.println(pidController.getGoal());
+        pidController.setTolerance(0.1,3);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         double d = drivesystem.getDistance()-distance_start;
-        System.out.println("distance: " + d + " output: " + pidController.calculate(drivesystem.getDistance()-distance_start));
+        //System.out.println("distance: " + d + " output: " + pidController.calculate(drivesystem.getDistance()-distance_start));
         drivesystem.forward(pidController.calculate(drivesystem.getDistance()-distance_start));
     }
 
@@ -44,6 +45,7 @@ import frc.robot.subsystems.DriveSystem;
     @Override
     public void end(boolean interrupted) {
         drivesystem.stop();
+        System.out.println("End of MoveDistance");
     }
 
     // Returns true when the command should end.

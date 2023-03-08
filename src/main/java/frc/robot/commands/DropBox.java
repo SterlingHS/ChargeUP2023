@@ -17,7 +17,7 @@ import frc.robot.subsystems.DriveSystem;
 public class DropBox extends SequentialCommandGroup {
   /** Creates a new DropBox. */
   public DropBox(ShoulderSystem m_shouldersystem, ArmSystem m_armsystem, ClampSystem m_clampsystem, switchesSystem m_switchessystem,DriveSystem m_drivesystem, int stage) {
-    int[] shoulder_rotation = new int[]{67,100,130};
+    int[] shoulder_rotation = new int[]{67,105,140};
     int[] arm_extension = new int[]{100,6000,12000};
     //List<Double> shoulder_rotation = new ArrayList<Double>();
     //shoulder_rotation = Arrays.asList(20,50,80);
@@ -26,11 +26,14 @@ public class DropBox extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new RotateShoulderToValue(m_shouldersystem, shoulder_rotation[stage]),
-        new MoveDistance(m_drivesystem, 0.3),
+        new MoveTime(m_drivesystem, .5,.4),
+        //new MoveDistance(m_drivesystem, .5),
         new armExtendToValue(m_armsystem,m_switchessystem ,arm_extension[stage]),
         new unclamp(m_clampsystem), 
-        new armExtendToZero(m_armsystem,m_switchessystem),
-        new MoveDistance(m_drivesystem, -1),
+        new armExtendToValue(m_armsystem, m_switchessystem, 0),
+        new armExtendToZero(m_armsystem, m_switchessystem),
+        new MoveTime(m_drivesystem, -0.4,1),
+        //new MoveDistance(m_drivesystem, -1),
         new RotateShoulderToValue(m_shouldersystem, 0)
     );
   }

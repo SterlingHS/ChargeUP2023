@@ -18,18 +18,20 @@ import frc.robot.subsystems.DriveSystem;
 public class DropCone extends SequentialCommandGroup {
   /** Creates a new DropCone. */
   public DropCone(DriveSystem m_drivesystem, ShoulderSystem m_shouldersystem, ArmSystem m_armsystem, ClampSystem m_clampsystem, switchesSystem m_switchessystem, LimelightSystem m_limelight,int stage) {
-    int[] shoulder_rotation = new int[]{67,100,130};
-    int[] arm_extension = new int[]{100,6000,12000};
+    int[] shoulder_rotation = new int[]{67,120,160};
+    int[] arm_extension = new int[]{100,6000,8400};
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new SetLimeLightPipeline(m_limelight, stage-1),
         new RotateShoulderToValue(m_shouldersystem, shoulder_rotation[stage]),
-        new CenterRobot(m_drivesystem, m_limelight),
-        new armExtendToValue(m_armsystem,m_switchessystem ,arm_extension[stage]), 
+        //new CenterRobot(m_drivesystem, m_limelight),
+        new MoveTime(m_drivesystem, .5,.4),
+        new armExtendToValue(m_armsystem,m_switchessystem ,arm_extension[stage]),
         new unclamp(m_clampsystem), 
         new armExtendToValue(m_armsystem,m_switchessystem ,0),
         new armExtendToZero(m_armsystem,m_switchessystem),
+        new MoveTime(m_drivesystem, -.5,.7),
         new RotateShoulderToValue(m_shouldersystem, 0)
     );
   }

@@ -12,15 +12,13 @@ import frc.robot.subsystems.DriveSystem;
     private static long starting_time;
 
     private static double time;
-    private static double speed;
+    private double speed;
 
  
     public MoveTime(DriveSystem sub, double speed1, double time1) {
         drivesystem = sub;
         time = time1;
         speed = speed1;
-
-        addRequirements(drivesystem);
     }
 
     // Called when the command is initially scheduled.

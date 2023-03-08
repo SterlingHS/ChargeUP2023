@@ -99,6 +99,8 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulder(m_shouldersystem, m_switchsystem));
     //Button To lower shoulder -- Uses Y Button
     new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulder(m_shouldersystem, m_switchsystem));
+    final POVButton encoderResetBt = new POVButton(driverController, Constants.POV_TOPRIGHT_DIAGONAL);
+    encoderResetBt.onTrue(new shoulderResetEncoder(m_shouldersystem));
     
     // **************************************************
     // Automatic droppers
@@ -200,6 +202,8 @@ public class RobotContainer {
         SmartDashboard.putNumber("Right Distance", m_drivesystem.getRightDistance());
         SmartDashboard.putNumber("Average Distance", m_drivesystem.getDistance());
         
+
+
         Constants.PID_SHOULDER_P = SmartDashboard.getNumber("Shoulder P", 0.04);
         Constants.PID_SHOULDER_I = SmartDashboard.getNumber("Shoulder I", 0);
         Constants.PID_SHOULDER_D = SmartDashboard.getNumber("Shoulder D", 0);

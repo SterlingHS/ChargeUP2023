@@ -47,32 +47,32 @@ package frc.robot;
     //Encoder ports
     public static int ENCODER_ARM_A = 2;
     public static int ENCODER_ARM_B = 3;
-    public static int ENCODER_SHOULDER_A = 0;
-    public static int ENCODER_SHOULDER_B = 1;
+    public static int ENCODER_SHOULDER_A = 8;
+    public static int ENCODER_SHOULDER_B = 9;
 
     //Shoulder Constants
     public static double MAX_SHOULDER_VELOCITY = 0.15;
-    public static double MAX_SHOULDER_VELOCITY_UP = 0.4;
+    public static double MAX_SHOULDER_VELOCITY_UP = 0.20;
     public static double MAX_SHOULDER_POSITION = 180;
 
     public static double SHOULDER_SPEED = .3;
     public static double PID_SHOULDER_P = 0.14175;
     public static double PID_SHOULDER_I = 0;    //0.0;
     public static double PID_SHOULDER_D = 0;    //0.028974;
-    public static final int DIO_SWITCH_SHOULDER_IN = 5;
+    public static final int DIO_SWITCH_SHOULDER_IN = 6;
 
     //Arm Constants
-    public static double MAX_ARM_VELOCITY = 0.4;
+    public static double MAX_ARM_VELOCITY = 0.6;
     public static double ARM_SPEED = 0.7;
     public static int DIO_SWITCH_ARM_IN = 4;
     public static double MAX_ARM_POSITION = 12500; //Temp Test Value
     
     // Driving constants
-    public static final double DRIVER_SLOWDOWN = .65;
+    public static final double DRIVER_SLOWDOWN = .8;
     public static double PID_DRIVE_P = 0.05; //Temp Value
     public static double PID_DRIVE_I = 0.0; //Temp Value
     public static double PID_DRIVE_D = 0.0; //Temp Value
-    public static double MAX_ACCELERATION = 0.03; //Temp Value
+    public static double MAX_ACCELERATION = 0.035; //Temp Value
     public static double kEncoderDistancePerPulse = 0.0005; //Temp Value
     
 

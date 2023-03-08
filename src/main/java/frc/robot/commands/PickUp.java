@@ -18,7 +18,7 @@ public class PickUp extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new armExtendToValue(m_armsystem, m_switchessystem, 1300.0), 
+        new armExtendToValue(m_armsystem, m_switchessystem, 1900.0), 
         new clamp(m_clampsystem),
         new armExtendToValue(m_armsystem, m_switchessystem, 0),
         new armExtendToZero(m_armsystem, m_switchessystem)

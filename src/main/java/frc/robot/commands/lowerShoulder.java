@@ -23,7 +23,9 @@ public class lowerShoulder extends CommandBase {
     @Override
     public void execute() {
         if (m_switchessystem.isArmIn()) {
-        m_shoulder.rotateShoulder(-Constants.SHOULDER_SPEED);}
+            m_shoulder.rotateShoulder(-Constants.SHOULDER_SPEED);
+            //System.out.println("Lowering Shoulder");
+        }
     }
 
     @Override
