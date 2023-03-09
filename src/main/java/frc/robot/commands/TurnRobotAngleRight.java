@@ -1,22 +1,31 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmSystem;
+import frc.robot.subsystems.DriveSystem;
+import frc.robot.subsystems.ShoulderSystem;
 
 /**
  *
  */
-public class armResetEncoder extends CommandBase {
-    private static ArmSystem armSystem;
-    public armResetEncoder( ArmSystem armSys)
+public class TurnRobotAngleRight extends CommandBase {
+    private static DriveSystem m_drivesystem;
+    private static double startAngle;
+
+    public TurnRobotAngleRight( DriveSystem sub1, double turnAngle)
     {
-        armSystem = armSys;
-        addRequirements(armSystem);
+        m_drivesystem = sub1;
+        startAngle = m_drivesystem.getAngle();
     }
         // Called every time the scheduler runs while the command is scheduled.
         @Override
         public void execute() {
-            armSystem.resetPosition();
+            if (m_drivesystem.getAngle()-startAngle<3.57) {
+                m_drivesystem.turnRight();
+            }
+            else {
+                m_drivesystem.stop();
+            }
+            
         }
 
         // Called once the command ends or is interrupted.
@@ -32,7 +41,8 @@ public class armResetEncoder extends CommandBase {
 
         @Override
         public boolean runsWhenDisabled() {
-            return true;
+            return false;
         }
     
 }
+

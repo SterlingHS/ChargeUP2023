@@ -7,20 +7,38 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
 
+
+//Used for the rightmost station from our side's perspective
+
+
+
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoConeTopBackupToLine extends SequentialCommandGroup {
+public class AutoBoxTopBackupToLine1 extends SequentialCommandGroup {
   /** Creates a new AutoConeBackupToLine. */
-  public AutoConeTopBackupToLine(DriveSystem m_drivesystem, ShoulderSystem m_shouldersystem, ArmSystem m_armsystem, ClampSystem m_clampsystem, switchesSystem m_switchsystem, LimelightSystem m_limelightsystem) {
+  public AutoBoxTopBackupToLine1(DriveSystem m_drivesystem, ShoulderSystem m_shouldersystem, ArmSystem m_armsystem, ClampSystem m_clampsystem, switchesSystem m_switchsystem, LimelightSystem m_limelightsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // Drop first cone
-      new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem, 2),
-      
+      new DropBox(m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_drivesystem, 1),
+
+      //Move Backwards
+      new MoveDistance(m_drivesystem, -1),
+
+      //Turn 90
+      new TurnRobotAngleRight(m_drivesystem, 0),
+
+      //
+
+      //Turn Robot Right
+      new TurnRobotAngleRight(m_drivesystem, 3.57),
+
       // Move backwards to the line
-      new MoveDistance(m_drivesystem, -5.689)
+      //new MoveDistance(m_drivesystem, 5.725)
+      new MoveDistance(m_drivesystem, -2)
+
     );
   }
 }
