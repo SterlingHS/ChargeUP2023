@@ -30,15 +30,22 @@ import frc.robot.subsystems.DriveSystem;
         System.out.println(distance_destination);
         pidController.setGoal(distance_destination);
         System.out.println(pidController.getGoal());
-        pidController.setTolerance(0.1,3);
+        pidController.setTolerance(0.2,0.1);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         double d = drivesystem.getDistance()-distance_start;
-        //System.out.println("distance: " + d + " output: " + pidController.calculate(drivesystem.getDistance()-distance_start));
-        drivesystem.forward(pidController.calculate(drivesystem.getDistance()-distance_start));
+        double distance_from_goal = distance_destination-d;
+        System.out.println("distance: " + d + " output: " + pidController.calculate(drivesystem.getDistance()-distance_start));
+        drivesystem.forward(pidController.calculate(d));
+        /*if (distance_from_goal>=0) {
+            drivesystem.forward(pidController.calculate(d));
+        }
+        else {
+            drivesystem.forward(-pidController.calculate(d));
+        }*/
     }
 
     // Called once the command ends or is interrupted.

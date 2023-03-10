@@ -47,13 +47,13 @@ package frc.robot;
     //Encoder ports
     public static int ENCODER_ARM_A = 2;
     public static int ENCODER_ARM_B = 3;
-    public static int ENCODER_SHOULDER_A = 8;
-    public static int ENCODER_SHOULDER_B = 9;
+    public static int ENCODER_SHOULDER_A = 0;
+    public static int ENCODER_SHOULDER_B = 1;
 
     //Shoulder Constants
     public static double MAX_SHOULDER_VELOCITY = 0.15;
     public static double MAX_SHOULDER_VELOCITY_UP = 0.20;
-    public static double MAX_SHOULDER_POSITION = 180;
+    public static double MAX_SHOULDER_POSITION = 168;
 
     public static double SHOULDER_SPEED = .3;
     public static double PID_SHOULDER_P = 0.14175;

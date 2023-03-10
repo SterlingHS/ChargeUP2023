@@ -25,8 +25,8 @@ public class DriveSystem extends SubsystemBase {
     private WPI_TalonSRX leftRear = new WPI_TalonSRX(Constants.DRIVETRAIN_LEFT_BACK);
     private WPI_TalonSRX rightFront = new WPI_TalonSRX(Constants.DRIVETRAIN_RIGHT_FRONT);
     private WPI_TalonSRX rightRear = new WPI_TalonSRX(Constants.DRIVETRAIN_RIGHT_BACK);
-    private MotorControllerGroup mLeft = new MotorControllerGroup(leftFront, leftRear);
-    private MotorControllerGroup mRight = new MotorControllerGroup(rightFront, rightRear);
+    public MotorControllerGroup mLeft = new MotorControllerGroup(leftFront, leftRear);
+    public MotorControllerGroup mRight = new MotorControllerGroup(rightFront, rightRear);
     private DifferentialDrive mDrive = new DifferentialDrive(mLeft, mRight);
     private static double lastSpeed;
     private static double lastAcceleration;
@@ -81,7 +81,8 @@ public class DriveSystem extends SubsystemBase {
         mDrive.arcadeDrive(xSpeed, zRotation);
     }
 
-    public void arcadeDrive(double xSpeed, double zRotation) {
+    public void arcademDrive(double xSpeed, double zRotation) {
+        System.out.println(xSpeed);
         mDrive.arcadeDrive(-xSpeed, -zRotation);
     }
 
@@ -139,19 +140,19 @@ public class DriveSystem extends SubsystemBase {
     }
 
     public void turn(double speed) {
-        arcadeDrive(0, speed);
+        arcademDrive(0, speed);
     }
 
     public void turnRight() {
-        arcadeDrive(0, 0.3);
+        arcademDrive(0, 0.3);
     }
 
     public void turnLeft() {
-        arcadeDrive(0, -0.3);
+        arcademDrive(0, -0.3);
     }
 
     public void forward(double xspeed) {
-        arcadeDrive(-xspeed, 0);
+        mDrive.arcadeDrive(-xspeed, 0);
     }
 
     public double read_distance_right_encoder() {

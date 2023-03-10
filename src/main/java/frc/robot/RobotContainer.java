@@ -47,10 +47,7 @@ public class RobotContainer {
     m_shouldersystem.enable();
 
     // Configure the button bindings
-    configureButtonBindings();
-
-    // Configure default commands
-    m_drivesystem.setDefaultCommand(new Drive( m_drivesystem, driverController::getLeftY, driverController::getRightX) ); 
+    
     
     //configure the limit switches
     configureLimitSwitches();
@@ -75,12 +72,14 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
+  public void configureButtonBindings() {
 
     //******************Driver Controller****************
 
     // **************************************************
     // ARM SYSTEM
+
+    m_drivesystem.setDefaultCommand(new Drive( m_drivesystem, driverController::getLeftY, driverController::getRightX) ); 
 
     //Button To extend Arm -- Uses X Button
     new JoystickButton(driverController, XboxController.Button.kB.value).whileTrue(new extendArm(m_armsystem)); 
@@ -108,6 +107,9 @@ public class RobotContainer {
     // Button to drop box on 2nd level
     final TriggerR2Button BoxTwoBt = new TriggerR2Button(driverController);
     new Trigger(BoxTwoBt::get).onTrue(new DropBox(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem, m_drivesystem, 2));
+
+    // Button to drop cone on 1st level
+    //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem, 1));
   
     // Button to drop box on 1st level
     new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new DropBox(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem,m_drivesystem, 1));
@@ -128,8 +130,7 @@ public class RobotContainer {
     final TriggerL2Button ConeTwoBt = new TriggerL2Button(driverController);
     new Trigger(ConeTwoBt::get).onTrue(new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem, 2));
   
-    // Button to drop cone on 1st level
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem, 1));
+    
 
     // **************************************************
     // CLAMP SYSTEM
@@ -166,8 +167,7 @@ public class RobotContainer {
   */
 
   public Command getAutonomousCommand() {
-    // The selected command will be run in autonomous
-    return m_chooser.getSelected();
+    return new AutoBoxTopBackupToLine2(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem);
   }
 
   public void update_smartboard(){

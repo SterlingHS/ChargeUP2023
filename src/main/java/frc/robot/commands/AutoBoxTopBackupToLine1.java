@@ -21,24 +21,9 @@ public class AutoBoxTopBackupToLine1 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      // Drop first cone
-      new DropBox(m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_drivesystem, 1),
-
-      //Move Backwards
-      new MoveDistance(m_drivesystem, -1),
-
-      //Turn 90
-      new TurnRobotAngleRight(m_drivesystem, 0),
-
-      //
-
-      //Turn Robot Right
-      new TurnRobotAngleRight(m_drivesystem, 3.57),
-
-      // Move backwards to the line
-      //new MoveDistance(m_drivesystem, 5.725)
-      new MoveDistance(m_drivesystem, -2)
-
+      //Currently used for testing; replace with contents of other AutoBoxCommands
+      new MoveDistance(m_drivesystem, 1),
+      new MoveDistance(m_drivesystem, 0.5)
     );
   }
 }

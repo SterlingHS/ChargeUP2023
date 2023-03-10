@@ -18,7 +18,7 @@ import frc.robot.subsystems.DriveSystem;
 public class DropCone extends SequentialCommandGroup {
   /** Creates a new DropCone. */
   public DropCone(DriveSystem m_drivesystem, ShoulderSystem m_shouldersystem, ArmSystem m_armsystem, ClampSystem m_clampsystem, switchesSystem m_switchessystem, LimelightSystem m_limelight,int stage) {
-    int[] shoulder_rotation = new int[]{67,120,160};
+    int[] shoulder_rotation = new int[]{67,120,170};
     int[] arm_extension = new int[]{100,6000,8400};
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

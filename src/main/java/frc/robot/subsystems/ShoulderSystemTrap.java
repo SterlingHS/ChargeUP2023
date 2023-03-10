@@ -180,8 +180,8 @@ public class ShoulderSystemTrap extends SubsystemBase {
   // Calculates the angular rate of the shoulder
   public double getAngularRate() {
     double rate = getRate();
-    double posMax = 170; // Ticks of the encoder when the shoulder is horizontal
-    double posMin = 0;     // Ticks of the encoder when the shoulder is vertical
+    //double posMax = 170; // Ticks of the encoder when the shoulder is horizontal
+    //double posMin = 0;     // Ticks of the encoder when the shoulder is vertical
     double angularRate = calculateAngle(rate)+79;
 
     return angularRate;
