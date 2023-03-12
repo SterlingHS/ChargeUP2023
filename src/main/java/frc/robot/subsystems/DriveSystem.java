@@ -28,6 +28,7 @@ public class DriveSystem extends SubsystemBase {
     public MotorControllerGroup mLeft = new MotorControllerGroup(leftFront, leftRear);
     public MotorControllerGroup mRight = new MotorControllerGroup(rightFront, rightRear);
     private DifferentialDrive mDrive = new DifferentialDrive(mLeft, mRight);
+    public double DRIVER_SLOWDOWN;
     private static double lastSpeed;
     private static double lastAcceleration;
     private static double deltaSpeed;
@@ -47,7 +48,7 @@ public class DriveSystem extends SubsystemBase {
         leftFront.setSensorPhase(false);
         lastSpeed = 0;
         lastAcceleration = 0;
-        
+        DRIVER_SLOWDOWN = 0.8;
 
         // inverted talon sensor
 
@@ -57,7 +58,6 @@ public class DriveSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
 
     }
 
@@ -73,9 +73,12 @@ public class DriveSystem extends SubsystemBase {
             xSpeed = -xSpeed;
             zRotation = -zRotation;
         }
+
+
+
         if (slowdown_factor < 1 && slowdown_factor >= 0) {
-            xSpeed *= slowdown_factor;
-            zRotation *= slowdown_factor;
+            xSpeed *= DRIVER_SLOWDOWN;
+            zRotation *= DRIVER_SLOWDOWN;
         }
         xSpeed = controlSpeed(xSpeed);
         mDrive.arcadeDrive(xSpeed, zRotation);
@@ -131,6 +134,14 @@ public class DriveSystem extends SubsystemBase {
         return deltaSpeed;
     }
     
+    public void putSlowdown(boolean isOn) {
+        if (isOn) {
+            DRIVER_SLOWDOWN = 0.65;
+        }
+        else {
+            DRIVER_SLOWDOWN = 0.8;
+        }
+    }
 
     public void stop() {
         leftFront.stopMotor();
@@ -231,6 +242,10 @@ public class DriveSystem extends SubsystemBase {
 
     public double getRoll() {
         return navx_device.getRoll();
+    }
+
+    public double getYaw() {
+        return navx_device.getYaw();
     }
 
     public double getCompassHeading() {

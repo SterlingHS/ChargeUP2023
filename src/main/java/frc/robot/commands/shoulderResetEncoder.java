@@ -17,6 +17,7 @@ public class shoulderResetEncoder extends CommandBase {
         @Override
         public void execute() {
             shoulderSystem.resetEncoder();
+            //shoulderSystem.setSetpoint(0);
         }
 
         // Called once the command ends or is interrupted.

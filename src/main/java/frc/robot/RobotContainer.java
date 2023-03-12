@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
  */
 public class RobotContainer {
   // The robot's subsystems
+  private static SendableChooser<Command> m_chooser;
   private final switchesSystem m_switchsystem = new switchesSystem();
   private final ShoulderSystem m_shouldersystem = new ShoulderSystem(m_switchsystem);
   private final DriveSystem m_drivesystem = new DriveSystem();
@@ -37,7 +38,8 @@ public class RobotContainer {
 
   
   // A chooser for autonomous commands
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  
+
 
   /**
   * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -45,17 +47,24 @@ public class RobotContainer {
   public RobotContainer() {
 
     m_shouldersystem.enable();
+    SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     // Configure the button bindings
     
     
     //configure the limit switches
     configureLimitSwitches();
-    m_chooser.setDefaultOption("string",new MoveTime(m_drivesystem, 0.5,1000));
+    m_chooser.setDefaultOption("Auto Box One", new AutoBoxTopBackupToLine3(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+    m_chooser.addOption("string",new MoveTime(m_drivesystem, 0.5,1000));
+    m_chooser.addOption("Auto Box Two", new AutoBoxTopBackupToLine2(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+
+    SmartDashboard.putData(m_chooser);
+    
 
     SmartDashboard.putNumber("Shoulder P", Constants.PID_SHOULDER_P);
     SmartDashboard.putNumber("Shoulder I", Constants.PID_SHOULDER_I);
     SmartDashboard.putNumber("Shoulder D", Constants.PID_SHOULDER_D);
+    SmartDashboard.putBoolean("Slowdown On", false);
 
     SmartDashboard.putNumber("Shoulder Speed", 0);
     SmartDashboard.putNumber("Output", 0);
@@ -98,7 +107,7 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulder(m_shouldersystem, m_switchsystem));
     //Button To lower shoulder -- Uses Y Button
     new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulder(m_shouldersystem, m_switchsystem));
-    final POVButton encoderResetBt = new POVButton(driverController, Constants.POV_TOPRIGHT_DIAGONAL);
+    final POVButton encoderResetBt = new POVButton(driverController, Constants.POV_LEFT);
     encoderResetBt.onTrue(new shoulderResetEncoder(m_shouldersystem));
     
     // **************************************************
@@ -106,25 +115,28 @@ public class RobotContainer {
 
     // Button to drop box on 2nd level
     final TriggerR2Button BoxTwoBt = new TriggerR2Button(driverController);
-    new Trigger(BoxTwoBt::get).onTrue(new DropBox(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem, m_drivesystem, 2));
+    new Trigger(BoxTwoBt::get).onTrue(new DropBoxTelOp(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem, m_drivesystem, 2));
 
     // Button to drop cone on 1st level
     //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem, 1));
   
     // Button to drop box on 1st level
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new DropBox(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem,m_drivesystem, 1));
+    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new DropBoxTelOp(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem,m_drivesystem, 1));
  
     // Button to drop to floor level
     final POVButton DropFloorBt = new POVButton(driverController,Constants.POV_UP); 
-    DropFloorBt.onTrue(new DropBox(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem, m_drivesystem, 0));
+    DropFloorBt.onTrue(new DropBoxTelOp(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem, m_drivesystem, 0));
 
     // Button to pick up object
     final POVButton PickUpBt = new POVButton(driverController,Constants.POV_DOWN); 
     PickUpBt.onTrue(new PickUp(m_armsystem, m_clampsystem,m_switchsystem));
 
+    final POVButton RaiseToShelf = new POVButton(driverController, Constants.POV_RIGHT);
+    RaiseToShelf.onTrue(new RotateShoulderToValue(m_shouldersystem, 13));
+
     //Button to move forward
-    final POVButton GoForwardBt = new POVButton(driverController,Constants.POV_RIGHT);
-    GoForwardBt.onTrue(new MoveDistance(m_drivesystem, 1));
+    /*final POVButton GoForwardBt = new POVButton(driverController,Constants.POV_RIGHT);
+    GoForwardBt.onTrue(new MoveDistance(m_drivesystem, 0.25));*/
   
     // Button to drop cone on 2nd level
     final TriggerL2Button ConeTwoBt = new TriggerL2Button(driverController);
@@ -167,7 +179,8 @@ public class RobotContainer {
   */
 
   public Command getAutonomousCommand() {
-    return new AutoBoxTopBackupToLine2(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem);
+    return new AutoBoxTopBackupToLine3(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem);
+    //return m_chooser.getSelected();
   }
 
   public void update_smartboard(){
@@ -201,11 +214,13 @@ public class RobotContainer {
         SmartDashboard.putNumber("Left Distance", m_drivesystem.getLeftDistance());
         SmartDashboard.putNumber("Right Distance", m_drivesystem.getRightDistance());
         SmartDashboard.putNumber("Average Distance", m_drivesystem.getDistance());
+        SmartDashboard.putString("Auto Command Choser", m_chooser.getSelected().getName());
+        SmartDashboard.putNumber("Current Yaw", m_drivesystem.getYaw());
         
-
-
+        
         Constants.PID_SHOULDER_P = SmartDashboard.getNumber("Shoulder P", 0.04);
         Constants.PID_SHOULDER_I = SmartDashboard.getNumber("Shoulder I", 0);
         Constants.PID_SHOULDER_D = SmartDashboard.getNumber("Shoulder D", 0);
+        m_drivesystem.putSlowdown(SmartDashboard.getBoolean("Slowdown On", false));
   }
 }

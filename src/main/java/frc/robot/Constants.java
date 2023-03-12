@@ -68,7 +68,6 @@ package frc.robot;
     public static double MAX_ARM_POSITION = 12500; //Temp Test Value
     
     // Driving constants
-    public static final double DRIVER_SLOWDOWN = .8;
     public static double PID_DRIVE_P = 0.05; //Temp Value
     public static double PID_DRIVE_I = 0.0; //Temp Value
     public static double PID_DRIVE_D = 0.0; //Temp Value
@@ -82,14 +81,14 @@ package frc.robot;
     public static int PCM_CAN_ID = 5;
 
     //POV Buttons
-    public static int POV_LEFT = 90;
-    public static int POV_RIGHT = 270;
+    public static int POV_LEFT = 270;
+    public static int POV_RIGHT = 90;
     public static int POV_UP = 0;
     public static int POV_DOWN = 180;
-    public static int POV_TOPRIGHT_DIAGONAL = 45;
-    public static int POV_BOTTOMRIGHT_DIAGONAL = 315;
-    public static int POV_TOPLEFT_DIAGONAL = 135;
-    public static int POV_BOTTOMLEFT_DIAGONAL = 225;
+    //public static int POV_TOPRIGHT_DIAGONAL = 45;
+    //public static int POV_BOTTOMRIGHT_DIAGONAL = 315;
+    //public static int POV_TOPLEFT_DIAGONAL = 135;
+    //public static int POV_BOTTOMLEFT_DIAGONAL = 225;
 
     //Limelight Constants
     public static int TOP_PIPELINE = 1;

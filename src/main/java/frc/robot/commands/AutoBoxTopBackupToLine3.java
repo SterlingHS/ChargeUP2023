@@ -24,7 +24,8 @@ public class AutoBoxTopBackupToLine3 extends SequentialCommandGroup {
       // Drop first cone
       new DropBox(m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_drivesystem, 1),
       // Move backwards to the line
-      new MoveDistance(m_drivesystem, -5.689)
-    );
+      new MoveTime(m_drivesystem, 0.6, 4));
+
+      //new TurnRobotAngleRight(m_drivesystem, 180);
   }
 }

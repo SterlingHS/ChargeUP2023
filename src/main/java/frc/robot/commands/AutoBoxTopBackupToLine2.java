@@ -24,10 +24,11 @@ public class AutoBoxTopBackupToLine2 extends SequentialCommandGroup {
       // Drop first cone
       new DropBox(m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_drivesystem, 1),
       // Move backwards to the line
-      new MoveTime(m_drivesystem, -0.5, 2)
-      //new Move
-      //Turns 180
-      //new TurnRobotAngleRight(m_drivesystem, 180)
+      new MoveTime(m_drivesystem, 0.65, 5),
+      //Move forward to platform
+      new MoveTime(m_drivesystem, -0.65, 2),
+      //Balance on platform
+      new  BalanceMiddlePlatform(m_drivesystem)
     );
   }
 }
