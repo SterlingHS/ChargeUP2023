@@ -81,7 +81,7 @@ public class ShoulderSystem extends PIDSubsystem {
 
     double setP = getSetPoint();
     if (setP == 0.0 && getPosition() < 20 && m_switchsystem.isShoulderIn() == false) {
-      speed = -.08;
+       speed = -.12;
     }
     
     // Stop the shoulder from going down if it is at the bottom

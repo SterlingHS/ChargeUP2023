@@ -55,7 +55,7 @@ public class RobotContainer {
     //configure the limit switches
     configureLimitSwitches();
     m_chooser.setDefaultOption("Auto Box One", new AutoBoxTopBackupToLine3(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
-    m_chooser.addOption("string",new MoveTime(m_drivesystem, 0.5,1000));
+    m_chooser.addOption("Movetime Test",new MoveTime(m_drivesystem, 0.5,1000));
     m_chooser.addOption("Auto Box Two", new AutoBoxTopBackupToLine2(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
 
     SmartDashboard.putData(m_chooser);
@@ -133,6 +133,9 @@ public class RobotContainer {
 
     final POVButton RaiseToShelf = new POVButton(driverController, Constants.POV_RIGHT);
     RaiseToShelf.onTrue(new RotateShoulderToValue(m_shouldersystem, 13));
+
+    final POVButton PickUpOut = new POVButton(codriverController, Constants.POV_DOWN);
+    PickUpOut.onTrue(new PickUpOutside(m_armsystem, m_clampsystem, m_switchsystem, m_shouldersystem));
 
     //Button to move forward
     /*final POVButton GoForwardBt = new POVButton(driverController,Constants.POV_RIGHT);
@@ -214,10 +217,12 @@ public class RobotContainer {
         SmartDashboard.putNumber("Left Distance", m_drivesystem.getLeftDistance());
         SmartDashboard.putNumber("Right Distance", m_drivesystem.getRightDistance());
         SmartDashboard.putNumber("Average Distance", m_drivesystem.getDistance());
-        //SmartDashboard.putString("Auto Command Choser", m_chooser.getSelected().getName());
-        SmartDashboard.putNumber("Current Yaw", m_drivesystem.getYaw());
+        // SmartDashboard.putString("Auto Command Choser", m_chooser.getSelected().getName());
         SmartDashboard.putNumber("Shoulder Volts 1", m_shouldersystem.getShoulderMotorOneVoltage());
         SmartDashboard.putNumber("Shoulder Volts 2", m_shouldersystem.getShoulderMotorTwoVoltage());
+        SmartDashboard.putNumber("Pitch", m_drivesystem.getPitch());
+        SmartDashboard.putNumber("Roll", m_drivesystem.getRoll());
+        SmartDashboard.putNumber("Yaw", m_drivesystem.getYaw());
         
         
         Constants.PID_SHOULDER_P = SmartDashboard.getNumber("Shoulder P", 0.04);

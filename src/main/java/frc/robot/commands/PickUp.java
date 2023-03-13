@@ -5,9 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.ClampSystem;
 import frc.robot.subsystems.switchesSystem;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -18,8 +20,9 @@ public class PickUp extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new armExtendToValue(m_armsystem, m_switchessystem, 1900.0), 
+        new armExtendToValue(m_armsystem, m_switchessystem, 1827.0),
         new clamp(m_clampsystem),
+        new WaitCommand(0.25),
         new armExtendToValue(m_armsystem, m_switchessystem, 0),
         new armExtendToZero(m_armsystem, m_switchessystem)
         );

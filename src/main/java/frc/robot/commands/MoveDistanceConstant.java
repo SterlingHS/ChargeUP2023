@@ -3,6 +3,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSystem;
+import java.lang.Math;
 
 
 /**
@@ -36,21 +37,7 @@ import frc.robot.subsystems.DriveSystem;
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double distance_moved = drivesystem.getDistance()-distance_start;
-        distance_from_goal = distance_destination-distance_moved;
-        if (distance_from_goal < distance_destination-distanceTol) {
-            drivesystem.forward(driveSpeed);
-        }
-        else if (distance_from_goal > distance_destination+distanceTol) {
-            drivesystem.forward(-driveSpeed);
-        }
-
-        /*if (distance_from_goal>=0) {
-            drivesystem.forward(pidController.calculate(d));
-        }
-        else {
-            drivesystem.forward(-pidController.calculate(d));
-        }*/
+        drivesystem.forward(driveSpeed);
     }
 
     // Called once the command ends or is interrupted.
@@ -62,8 +49,7 @@ import frc.robot.subsystems.DriveSystem;
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return ((distance_from_goal > distance_destination-distanceTol) && (distance_from_goal < distance_destination+distanceTol));
-    
-        
+        double distance_moved = Math.abs(drivesystem.getDistance()-distance_start);
+        return (distance_moved > distance_destination-distanceTol); 
     }
 }
