@@ -109,6 +109,13 @@ public class ShoulderSystem extends PIDSubsystem {
     shoulderMotorGroup.stopMotor();
   } 
 
+  public double getShoulderMotorOneVoltage() {
+    return shoulderMotor1.getMotorOutputVoltage();
+  }
+  public double getShoulderMotorTwoVoltage() {
+    return shoulderMotor2.getMotorOutputVoltage();
+  }
+
   // Returns the error of the PIDController
   public double getError() {
     return getController().getPositionError();

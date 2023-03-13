@@ -33,7 +33,7 @@ public class RobotContainer {
   
   // Joysticks
   private final XboxController driverController = new XboxController(Constants.MAIN_JOYDRIVER_USB_PORT);
-  //private final XboxController codriverController = new XboxController(Constants.CO_JOYDRIVER_USB_PORT);
+  private final XboxController codriverController = new XboxController(Constants.CO_JOYDRIVER_USB_PORT);
 
 
   
@@ -179,7 +179,7 @@ public class RobotContainer {
   */
 
   public Command getAutonomousCommand() {
-    return new AutoBoxTopBackupToLine3(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem);
+    return new AutoBoxTopBackupToLine2(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem);
     //return m_chooser.getSelected();
   }
 
@@ -214,8 +214,10 @@ public class RobotContainer {
         SmartDashboard.putNumber("Left Distance", m_drivesystem.getLeftDistance());
         SmartDashboard.putNumber("Right Distance", m_drivesystem.getRightDistance());
         SmartDashboard.putNumber("Average Distance", m_drivesystem.getDistance());
-        SmartDashboard.putString("Auto Command Choser", m_chooser.getSelected().getName());
+        //SmartDashboard.putString("Auto Command Choser", m_chooser.getSelected().getName());
         SmartDashboard.putNumber("Current Yaw", m_drivesystem.getYaw());
+        SmartDashboard.putNumber("Shoulder Volts 1", m_shouldersystem.getShoulderMotorOneVoltage());
+        SmartDashboard.putNumber("Shoulder Volts 2", m_shouldersystem.getShoulderMotorTwoVoltage());
         
         
         Constants.PID_SHOULDER_P = SmartDashboard.getNumber("Shoulder P", 0.04);

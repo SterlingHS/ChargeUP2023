@@ -155,15 +155,19 @@ public class DriveSystem extends SubsystemBase {
     }
 
     public void turnRight() {
-        arcademDrive(0, 0.3);
+        arcademDrive(0, 0.60);
     }
 
     public void turnLeft() {
-        arcademDrive(0, -0.3);
+        arcademDrive(0, -0.60);
+    }
+
+    public void turnSpeed(double speed) {
+        arcademDrive(0, speed);
     }
 
     public void forward(double xspeed) {
-        mDrive.arcadeDrive(-xspeed, 0);
+        arcademDrive(-xspeed, 0);
     }
 
     public double read_distance_right_encoder() {

@@ -7,22 +7,46 @@ import frc.robot.subsystems.DriveSystem;
  *
  */
 public class BalanceMiddlePlatform extends CommandBase {
-    private static DriveSystem m_drivesystem;
-    private static double levelYaw = 3;
+    private DriveSystem m_drivesystem;
+    private double levelYaw = 3;
+    private boolean inErrorRange;
+    private boolean hasYawChanged;
+    private double startYaw;
+    private double yawTol;
+    private double angle;
+    private double climbSpeed;
     public BalanceMiddlePlatform(DriveSystem sub1)
     {
         m_drivesystem = sub1;
+        yawTol = 2;
+        startYaw = m_drivesystem.getYaw();
+        inErrorRange = m_drivesystem.getYaw()<levelYaw &&  m_drivesystem.getYaw()>-levelYaw;
+        hasYawChanged = m_drivesystem.getYaw()-startYaw>yawTol;
+        climbSpeed = 0.4;
         addRequirements(m_drivesystem);
     }
         // Called every time the scheduler runs while the command is scheduled.
         @Override
         public void execute() {
-            if (m_drivesystem.getYaw()<levelYaw &&  m_drivesystem.getYaw()>-levelYaw) {
-                m_drivesystem.stop();
+            angle = m_drivesystem.getYaw()-startYaw;
+            if (!hasYawChanged) {
+                m_drivesystem.forward(0.6);
+                if (angle>32 && angle<36) {
+                    hasYawChanged = true;
+                }
             }
-            else if (m_drivesystem.getYaw()<-levelYaw) {
+            else if (angle>17) {
                 m_drivesystem.forward(0.6);
             }
+            else if (13<angle && angle<17) {
+                m_drivesystem.forward(climbSpeed);
+            }
+            else {
+                m_drivesystem.stop();
+            }
+            
+
+            
             
         }
 
@@ -34,7 +58,7 @@ public class BalanceMiddlePlatform extends CommandBase {
         // Returns true when the command should end.
         @Override
         public boolean isFinished() {
-            return (m_drivesystem.getYaw()>-levelYaw && m_drivesystem.getYaw()<levelYaw);
+            return (inErrorRange);
         }
 
         @Override
