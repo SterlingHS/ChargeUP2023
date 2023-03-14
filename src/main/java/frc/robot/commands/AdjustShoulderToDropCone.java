@@ -12,12 +12,10 @@ public class AdjustShoulderToDropCone extends CommandBase {
   private static ShoulderSystem m_shoulderSystem;
   private static LimelightSystem m_limelightSystem;
   /** Creates a new AdjustShoulderToDropCone. */
-  public AdjustShoulderToDropCone(ShoulderSystem sub1, LimelightSystem sub2) {
+  public AdjustShoulderToDropCone(ShoulderSystem sub1, LimelightSystem m_limelight) {
     m_shoulderSystem = sub1;
-    m_limelightSystem = sub2;
+    m_limelightSystem = m_limelight;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_shoulderSystem);
-    addRequirements(m_limelightSystem);
   }
 
   // Called when the command is initially scheduled.
@@ -27,15 +25,17 @@ public class AdjustShoulderToDropCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double speed;
     double y = m_limelightSystem.getY();
-    if (y > 0) {
-      m_shoulderSystem.rotateShoulder(0.2);
+    if (y > 5) {
+      speed = -.2;
     }
-    else if (y < 0) {
-      m_shoulderSystem.rotateShoulder(-0.2);
+    else if (y < -5) {
+      speed = .2;
     } else {
-      m_shoulderSystem.stop();
+      speed = 0;
     }
+    m_shoulderSystem.rotateShoulder(speed);
   }
 
   // Called once the command ends or is interrupted.
@@ -48,7 +48,7 @@ public class AdjustShoulderToDropCone extends CommandBase {
   @Override
   public boolean isFinished() {
     double y = m_limelightSystem.getY();
-    if (y > -10 && y < 10) {
+    if (y > -5 && y < 5) {
       return true;
     }
     return false;

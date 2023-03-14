@@ -137,13 +137,13 @@ public class RobotContainer {
     final POVButton PickUpOut = new POVButton(codriverController, Constants.POV_DOWN);
     PickUpOut.onTrue(new PickUpOutside(m_armsystem, m_clampsystem, m_switchsystem, m_shouldersystem));
 
-    //Button to move forward
-    /*final POVButton GoForwardBt = new POVButton(driverController,Constants.POV_RIGHT);
-    GoForwardBt.onTrue(new MoveDistance(m_drivesystem, 0.25));*/
+    //Button to toggle slow down
+    new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(
+        new raiseShoulder(m_shouldersystem, m_switchsystem));
   
     // Button to drop cone on 2nd level
     final TriggerL2Button ConeTwoBt = new TriggerL2Button(driverController);
-    new Trigger(ConeTwoBt::get).onTrue(new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem, 2));
+    new Trigger(ConeTwoBt::get).onTrue(new AdjustCone(m_drivesystem, m_shouldersystem, m_limelightsystem));
   
     
 
@@ -228,6 +228,5 @@ public class RobotContainer {
         Constants.PID_SHOULDER_P = SmartDashboard.getNumber("Shoulder P", 0.04);
         Constants.PID_SHOULDER_I = SmartDashboard.getNumber("Shoulder I", 0);
         Constants.PID_SHOULDER_D = SmartDashboard.getNumber("Shoulder D", 0);
-        m_drivesystem.putSlowdown(SmartDashboard.getBoolean("Slowdown On", false));
   }
 }

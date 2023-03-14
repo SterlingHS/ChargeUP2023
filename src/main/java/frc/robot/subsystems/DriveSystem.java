@@ -134,8 +134,8 @@ public class DriveSystem extends SubsystemBase {
         return deltaSpeed;
     }
     
-    public void putSlowdown(boolean isOn) {
-        if (isOn) {
+    public void toggleSlowdown() {
+        if (DRIVER_SLOWDOWN == .8) {
             DRIVER_SLOWDOWN = 0.65;
         }
         else {
