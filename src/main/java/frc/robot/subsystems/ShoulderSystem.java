@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
@@ -15,7 +14,6 @@ import frc.robot.Constants;
 
 public class ShoulderSystem extends PIDSubsystem {
   /** Creates a new ShoulderSystem. */
-  private static Encoder shoulder_encoder;
   private WPI_TalonSRX shoulderMotor1;
   private WPI_TalonSRX shoulderMotor2;
   private switchesSystem m_switchsystem;
@@ -26,7 +24,6 @@ public class ShoulderSystem extends PIDSubsystem {
     super(
         // The PIDController used by the subsystem
         new PIDController(Constants.PID_SHOULDER_P, Constants.PID_SHOULDER_I, Constants.PID_SHOULDER_D));
-    shoulder_encoder = new Encoder(Constants.ENCODER_SHOULDER_A, Constants.ENCODER_SHOULDER_B, false, Encoder.EncodingType.k4X);
     shoulderMotor1 = new WPI_TalonSRX(Constants.SHOULDER_MOTOR_ONE);
     shoulderMotor2 = new WPI_TalonSRX(Constants.SHOULDER_MOTOR_TWO);
     shoulderMotorGroup = new MotorControllerGroup(shoulderMotor1, shoulderMotor2);
@@ -50,7 +47,7 @@ public class ShoulderSystem extends PIDSubsystem {
   @Override
   public double getMeasurement() {
     // Return the process variable measurement here
-    return shoulder_encoder.get();
+    return shoulderMotor2.getSelectedSensorPosition();
   }
 
   // Sets the position of the shoulder
@@ -59,13 +56,13 @@ public class ShoulderSystem extends PIDSubsystem {
   }
 
   // Returns the position of the shoulder
-  public int getPosition() {
-    return shoulder_encoder.get();
+  public double getPosition() {
+    return shoulderMotor2.getSelectedSensorPosition();
   }
 
   // Resets the encoder
   public void resetEncoder() {
-    shoulder_encoder.reset();
+    shoulderMotor2.setSelectedSensorPosition(0);
   }
 
   // Rotates the shoulder
@@ -80,7 +77,7 @@ public class ShoulderSystem extends PIDSubsystem {
     }    
 
     double setP = getSetPoint();
-    if (setP == 0.0 && getPosition() < 20 && m_switchsystem.isShoulderIn() == false) {
+    if (setP == 0.0 && getPosition() < 40 && m_switchsystem.isShoulderIn() == false) {
        speed = -.12;
     }
     
@@ -133,7 +130,7 @@ public class ShoulderSystem extends PIDSubsystem {
 
   // Returns the rate of the encoder
   public double getRate() {
-    return shoulder_encoder.getRate();
+    return shoulderMotor2.getSelectedSensorVelocity();
   }
 
   // Returns if the PIDController is at the setpoint

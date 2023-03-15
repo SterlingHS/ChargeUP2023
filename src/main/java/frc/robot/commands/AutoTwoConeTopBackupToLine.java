@@ -17,7 +17,7 @@ public class AutoTwoConeTopBackupToLine extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // Drop first cone
-      new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem, 2),
+      new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem),
       
       // Move to the new cone
       new MoveDistance(m_drivesystem, -2000),
@@ -32,7 +32,7 @@ public class AutoTwoConeTopBackupToLine extends SequentialCommandGroup {
       new MoveDistance(m_drivesystem, 2000),
 
       // Drop second cone
-      new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem, 1),
+      new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem),
       
       // Move back to line
       new MoveDistance(m_drivesystem, -4000)

@@ -25,7 +25,8 @@ public class clamp extends CommandBase {
   public void execute() {
     m_clampsystem.closeClamp();
     // System.out.println("Clamp closed");
-  }
+    }
+
 
   // Called once the command ends or is interrupted.
   @Override

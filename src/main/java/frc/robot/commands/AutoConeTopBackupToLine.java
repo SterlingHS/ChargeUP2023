@@ -17,7 +17,7 @@ public class AutoConeTopBackupToLine extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // Drop first cone
-      new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem, 2),
+      new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem),
       
       // Move backwards to the line
       new MoveDistance(m_drivesystem, -5.689)

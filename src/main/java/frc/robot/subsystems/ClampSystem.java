@@ -37,7 +37,8 @@ public class ClampSystem extends SubsystemBase{
         clamp.set(Value.kReverse);
     }
 
+
     public boolean isOpenClamp() {
-        return clamp.get() == Value.kForward;
+        return !(clamp.get() == Value.kForward);
     }
 }

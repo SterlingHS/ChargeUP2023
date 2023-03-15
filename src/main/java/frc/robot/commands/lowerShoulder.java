@@ -18,6 +18,7 @@ public class lowerShoulder extends CommandBase {
     
     @Override
     public void initialize() {
+        m_shoulder.disable();
     }
 
     @Override
@@ -31,6 +32,7 @@ public class lowerShoulder extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_shoulder.stop();
+        m_shoulder.enable();
         m_shoulder.setSetpoint(m_shoulder.getPosition());
     }
 

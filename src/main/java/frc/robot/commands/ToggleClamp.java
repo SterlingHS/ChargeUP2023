@@ -5,13 +5,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.ClampSystem;
 
-public class unclamp extends CommandBase {
-  /** Creates a new unclamp. */
+public class ToggleClamp extends CommandBase {
+  /** Creates a new clamp. */
   private ClampSystem m_clampsystem;
-  public unclamp(ClampSystem sub1) {
+  public ToggleClamp(ClampSystem sub1) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_clampsystem = sub1;
     addRequirements(m_clampsystem);
@@ -24,9 +23,16 @@ public class unclamp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_clampsystem.openClamp();
-    System.out.println("Clamp opened");
+    if (m_clampsystem.isOpenClamp()) {
+    m_clampsystem.closeClamp();
+    // System.out.println("Clamp closed");
+    }
+    else {
+      m_clampsystem.openClamp();
+      System.out.println("Clamp opened");
+      }
   }
+
 
   // Called once the command ends or is interrupted.
   @Override

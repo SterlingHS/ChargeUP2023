@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LimelightSystem;
 import frc.robot.subsystems.ShoulderSystem;
@@ -11,6 +13,8 @@ import frc.robot.subsystems.ShoulderSystem;
 public class AdjustShoulderToDropCone extends CommandBase {
   private static ShoulderSystem m_shoulderSystem;
   private static LimelightSystem m_limelightSystem;
+  private PIDController pidController = new PIDController(Constants.PID_SHOULDER_P, Constants.PID_SHOULDER_I, Constants.PID_SHOULDER_D);
+
   /** Creates a new AdjustShoulderToDropCone. */
   public AdjustShoulderToDropCone(ShoulderSystem sub1, LimelightSystem m_limelight) {
     m_shoulderSystem = sub1;
@@ -20,37 +24,32 @@ public class AdjustShoulderToDropCone extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    pidController.reset();
+    //System.out.println(distance_destination);
+    pidController.setSetpoint(0); // Angle Y from limelight to drop cone
+    //System.out.println(pidController.getGoal());
+    pidController.setTolerance(1);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed;
     double y = m_limelightSystem.getY();
-    if (y > 5) {
-      speed = -.2;
-    }
-    else if (y < -5) {
-      speed = .2;
-    } else {
-      speed = 0;
-    }
-    m_shoulderSystem.rotateShoulder(speed);
+    double output = pidController.calculate(y);
+    m_shoulderSystem.rotateShoulder(-output);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_shoulderSystem.stop();
+    m_shoulderSystem.setSetpoint(m_shoulderSystem.getPosition());
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double y = m_limelightSystem.getY();
-    if (y > -5 && y < 5) {
-      return true;
-    }
-    return false;
+    return pidController.atSetpoint();
   }
 }

@@ -51,9 +51,9 @@ package frc.robot;
     public static int ENCODER_SHOULDER_B = 1;
 
     //Shoulder Constants
-    public static double MAX_SHOULDER_VELOCITY = 0.2;
-    public static double MAX_SHOULDER_VELOCITY_UP = 0.3;
-    public static double MAX_SHOULDER_POSITION = 168;
+    public static double MAX_SHOULDER_VELOCITY = 0.18;
+    public static double MAX_SHOULDER_VELOCITY_UP = 0.25;
+    public static double MAX_SHOULDER_POSITION = 850;
 
     public static double SHOULDER_SPEED = .35;
     public static double PID_SHOULDER_P = 0.01;

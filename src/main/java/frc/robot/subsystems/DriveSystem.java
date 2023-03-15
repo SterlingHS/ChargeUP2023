@@ -131,15 +131,21 @@ public class DriveSystem extends SubsystemBase {
             deltaSpeed = targetSpeed;
         }
         lastSpeed = deltaSpeed;
+        if (deltaSpeed>DRIVER_SLOWDOWN) {
+            deltaSpeed=DRIVER_SLOWDOWN;
+        }
         return deltaSpeed;
     }
     
     public void toggleSlowdown() {
-        if (DRIVER_SLOWDOWN == .8) {
+        if (DRIVER_SLOWDOWN == 1) {
+            DRIVER_SLOWDOWN = 0.80;
+        }
+        else if ((DRIVER_SLOWDOWN == .8)) {
             DRIVER_SLOWDOWN = 0.65;
         }
-        else {
-            DRIVER_SLOWDOWN = 0.8;
+        else{
+            DRIVER_SLOWDOWN = 1;
         }
     }
 
@@ -155,11 +161,11 @@ public class DriveSystem extends SubsystemBase {
     }
 
     public void turnRight() {
-        arcademDrive(0, 0.60);
+        arcademDrive(0, 0.40);
     }
 
     public void turnLeft() {
-        arcademDrive(0, -0.60);
+        arcademDrive(0, -0.40);
     }
 
     public void turnSpeed(double speed) {
@@ -185,17 +191,14 @@ public class DriveSystem extends SubsystemBase {
         // changed to work with talon encoders
     }
 
-    public double read_pulse_right_encoder() {
-        return 0;// this does nothing
-    }
-
-    public double read_pulse_left_encoder() {
-        return 0;// this does nothing
-    }
-
     public double read_velocity_encoder() {
         return (rightFront.getSelectedSensorVelocity() + leftFront.getSelectedSensorVelocity()) / 2;
         // changed to work with talon encoders
+    }
+
+    public void resetEncoders() {
+        rightFront.setSelectedSensorPosition(0);
+        leftFront.setSelectedSensorPosition(0);
     }
 
     public void calibrateGyro() {
@@ -271,6 +274,7 @@ public class DriveSystem extends SubsystemBase {
     public double getLinearWorldAccelZ() {
         return navx_device.getWorldLinearAccelZ();
     }
+
 
     private double encoderToDistanceMeters(double sensorCounts){
         double kGearRatio = 8.45;

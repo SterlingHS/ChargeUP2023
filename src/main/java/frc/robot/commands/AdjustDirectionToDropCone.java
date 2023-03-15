@@ -17,7 +17,7 @@ public class AdjustDirectionToDropCone extends CommandBase {
     m_driveSystem = sub1;
     m_limelightSystem = sub2;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_driveSystem);
+    // addRequirements(m_driveSystem);
     addRequirements(m_limelightSystem);
   }
 
@@ -30,9 +30,9 @@ public class AdjustDirectionToDropCone extends CommandBase {
   public void execute() {
     double x = m_limelightSystem.getX();
     if (x > 0) {
-      m_driveSystem.turnLeft();
-    } else if (x < 0) {
       m_driveSystem.turnRight();
+    } else if (x < 0) {
+      m_driveSystem.turnLeft();
     } else {
       m_driveSystem.stop();
     }
@@ -48,7 +48,7 @@ public class AdjustDirectionToDropCone extends CommandBase {
   @Override
   public boolean isFinished() {
     double x = m_limelightSystem.getX();
-    if (x > -10 && x < 10) {
+    if (x > -1 && x < 1) {
       return true;
     }
     return false;

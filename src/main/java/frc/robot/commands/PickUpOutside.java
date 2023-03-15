@@ -19,8 +19,8 @@ public class PickUpOutside extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new RotateShoulderToValue(m_shouldersystem, 25), //Temp Values
-        new armExtendToValue(m_armsystem, m_switchessystem, 3200.0), //Temp Values
+        new RotateShoulderToValue(m_shouldersystem, 155), //Temp Values
+        new armExtendToValue(m_armsystem, m_switchessystem, 2000), //Temp Values
         new clamp(m_clampsystem),
         new armExtendToValue(m_armsystem, m_switchessystem, 0),
         new armExtendToZero(m_armsystem, m_switchessystem)
