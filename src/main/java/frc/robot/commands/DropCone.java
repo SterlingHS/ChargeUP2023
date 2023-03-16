@@ -28,7 +28,7 @@ public class DropCone extends SequentialCommandGroup {
         new MoveTime(m_drivesystem, .5,.6),
         new WaitCommand(0.25),
         new AdjustDirectionToDropCone(m_drivesystem, m_limelight),
-        new armExtendToValue(m_armsystem,m_switchessystem, 10500),
+        new armExtendToValue(m_armsystem,m_switchessystem, 9000),
         new unclamp(m_clampsystem), 
         new WaitCommand(.25),
         new armExtendToValue(m_armsystem,m_switchessystem ,0),

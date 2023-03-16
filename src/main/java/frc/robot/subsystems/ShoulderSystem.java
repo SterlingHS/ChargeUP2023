@@ -77,7 +77,7 @@ public class ShoulderSystem extends PIDSubsystem {
     }    
 
     double setP = getSetPoint();
-    if (setP == 0.0 && getPosition() < 40 && m_switchsystem.isShoulderIn() == false) {
+    if (setP == 0.0 && getPosition() < 40 && m_switchsystem.isShoulderIn() == false && getPosition()>0) {
        speed = -.12;
     }
     
@@ -89,6 +89,20 @@ public class ShoulderSystem extends PIDSubsystem {
     /*if (getPosition()==0 && getSetPoint()==0) {
       speed = 0;
     }*/
+
+      SmartDashboard.putNumber("Shoulder Speed", speed);
+      shoulderMotorGroup.set(speed);
+  }
+
+  public void rotateShoulderForce(double speed) {
+    // Limit the speed of the shoulder going up
+    if (speed > Constants.MAX_SHOULDER_VELOCITY_UP) {
+      speed = Constants.MAX_SHOULDER_VELOCITY_UP;
+    }
+    // Limit the speed of the shoulder going down
+    if (speed < -Constants.MAX_SHOULDER_VELOCITY) {
+      speed = -Constants.MAX_SHOULDER_VELOCITY;
+    }    
 
       SmartDashboard.putNumber("Shoulder Speed", speed);
       shoulderMotorGroup.set(speed);

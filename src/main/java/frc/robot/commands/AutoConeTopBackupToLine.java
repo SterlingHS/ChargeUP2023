@@ -19,8 +19,14 @@ public class AutoConeTopBackupToLine extends SequentialCommandGroup {
       // Drop first cone
       new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem),
       
+      // Rotate a small amount
+      new TurnRobotAngleLeft(m_drivesystem, 2),
+
       // Move backwards to the line
-      new MoveDistance(m_drivesystem, -5.689)
+      new MoveDistance(m_drivesystem, -5.689),
+
+      // Rotate 180
+      new TurnRobotAngleRight(m_drivesystem, 180)
     );
   }
 }

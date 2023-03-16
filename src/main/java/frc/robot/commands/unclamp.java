@@ -25,7 +25,7 @@ public class unclamp extends CommandBase {
   @Override
   public void execute() {
     m_clampsystem.openClamp();
-    System.out.println("Clamp opened");
+    // System.out.println("Clamp opened");
   }
 
   // Called once the command ends or is interrupted.

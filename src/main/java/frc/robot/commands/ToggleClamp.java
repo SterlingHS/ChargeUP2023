@@ -29,7 +29,7 @@ public class ToggleClamp extends CommandBase {
     }
     else {
       m_clampsystem.openClamp();
-      System.out.println("Clamp opened");
+      // System.out.println("Clamp opened");
       }
   }
 

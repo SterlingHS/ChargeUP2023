@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.LimelightSystem;
@@ -11,6 +12,7 @@ import frc.robot.subsystems.LimelightSystem;
 public class AdjustDirectionToDropCone extends CommandBase {
   private static DriveSystem m_driveSystem;
   private static LimelightSystem m_limelightSystem;
+  private PIDController pidController;
 
   /** Creates a new AdjustDirectionToDropCone. */
   public AdjustDirectionToDropCone(DriveSystem sub1, LimelightSystem sub2) {
@@ -18,24 +20,21 @@ public class AdjustDirectionToDropCone extends CommandBase {
     m_limelightSystem = sub2;
     // Use addRequirements() here to declare subsystem dependencies.
     // addRequirements(m_driveSystem);
-    addRequirements(m_limelightSystem);
+    pidController = new PIDController(0.05, 0, 0);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    pidController.setSetpoint(0);
+    pidController.setTolerance(1);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double x = m_limelightSystem.getX();
-    if (x > 0) {
-      m_driveSystem.turnRight();
-    } else if (x < 0) {
-      m_driveSystem.turnLeft();
-    } else {
-      m_driveSystem.stop();
-    }
+    m_driveSystem.arcademDrive(0, -pidController.calculate(m_limelightSystem.getX()));
   }
 
   // Called once the command ends or is interrupted.
@@ -47,10 +46,6 @@ public class AdjustDirectionToDropCone extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double x = m_limelightSystem.getX();
-    if (x > -1 && x < 1) {
-      return true;
-    }
-    return false;
+    return pidController.atSetpoint();
   }
 }

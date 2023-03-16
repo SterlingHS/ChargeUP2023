@@ -53,14 +53,14 @@ public class RobotContainer {
     //configure the limit switches
     configureLimitSwitches();
 
-    SendableChooser<Command> m_chooser = new SendableChooser<>();
-
-    m_chooser.setDefaultOption("One", new MoveTime(m_drivesystem, 0.5,1000));
-    m_chooser.addOption("DropCone", new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
-    /*m_chooser.setDefaultOption("Auto Box One", new AutoBoxTopBackupToLine3(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+    m_chooser = new SendableChooser<>();
+    m_chooser.setDefaultOption("DropCone", new AutoConeTopBackupToLine(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+    m_chooser.addOption("Auto Box One", new AutoBoxTopBackupToLine3(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
     m_chooser.addOption("Movetime Test",new MoveTime(m_drivesystem, 0.5,1000));
     m_chooser.addOption("Auto Box Two", new AutoBoxTopBackupToLine2(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
-    */
+    
+
+    // m_drivesystem.calibrateGyro();
     SmartDashboard.putData(m_chooser);
 
     SmartDashboard.putNumber("Shoulder P", Constants.PID_SHOULDER_P);
@@ -109,8 +109,8 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulder(m_shouldersystem, m_switchsystem));
     //Button To lower shoulder -- Uses Y Button
     new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulder(m_shouldersystem, m_switchsystem));
-    final POVButton encoderResetBt = new POVButton(driverController, Constants.POV_LEFT);
-    encoderResetBt.onTrue(new shoulderResetEncoder(m_shouldersystem));
+    //Reset Encoder
+    new JoystickButton(driverController, XboxController.Button.kBack.value).whileTrue(new shoulderResetEncoder(m_shouldersystem));
     
     // **************************************************
     // Automatic droppers
@@ -136,7 +136,7 @@ public class RobotContainer {
     final POVButton RaiseToShelf = new POVButton(driverController, Constants.POV_RIGHT);
     RaiseToShelf.onTrue(new RotateShoulderToValue(m_shouldersystem, 660));
 
-    final POVButton PickUpOut = new POVButton(codriverController, Constants.POV_DOWN);
+    final POVButton PickUpOut = new POVButton(driverController, Constants.POV_LEFT);
     PickUpOut.onTrue(new PickUpOutside(m_armsystem, m_clampsystem, m_switchsystem, m_shouldersystem));
 
     //Button to toggle slow down
@@ -170,7 +170,8 @@ public class RobotContainer {
   private void configureLimitSwitches(){
       // new Trigger(m_switchsystem.switchArmIn::get).whileTrue(new armResetEncoder(m_armsystem)); // command to reset encoder, called when limit switch is pressed
       // new Trigger(m_switchsystem.switchShoulderIn::get).onTrue(new shoulderResetEncoder(m_shouldersystem));
-  }
+      
+    }
   public XboxController getDriverController() {
     return driverController;
   }
@@ -182,8 +183,8 @@ public class RobotContainer {
   */
 
   public Command getAutonomousCommand() {
-    return new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem);
-    // return m_chooser.getSelected();
+    // return new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem);
+    return m_chooser.getSelected();
   }
 
   public void update_smartboard(){
@@ -197,7 +198,7 @@ public class RobotContainer {
         // SmartDashboard.putNumber("Pitch", m_drivesystem.getPitch());
         // SmartDashboard.putNumber("Roll", m_drivesystem.getRoll());
         SmartDashboard.putNumber("Compass Heading", m_drivesystem.getCompassHeading());
-        // SmartDashboard.putNumber("Fused Heading", m_drivesystem.getFusedHeading());
+        SmartDashboard.putNumber("Fused Heading", m_drivesystem.getFusedHeading());
         // SmartDashboard.putNumber("Linear World Accel X", m_drivesystem.getLinearWorldAccelX());
         // SmartDashboard.putNumber("Linear World Accel Y", m_drivesystem.getLinearWorldAccelY());
         // SmartDashboard.putNumber("Linear World Accel Z", m_drivesystem.getLinearWorldAccelZ());
@@ -223,7 +224,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("Roll", m_drivesystem.getRoll());
         SmartDashboard.putNumber("Yaw", m_drivesystem.getYaw());
         SmartDashboard.putBoolean("Clamp Open", m_clampsystem.isOpenClamp());
-        
+        SmartDashboard.putNumber("Slowdown Factor", m_drivesystem.getSlowdownFactor());
         
         Constants.PID_SHOULDER_P = SmartDashboard.getNumber("Shoulder P", 0.04);
         Constants.PID_SHOULDER_I = SmartDashboard.getNumber("Shoulder I", 0);

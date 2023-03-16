@@ -7,13 +7,13 @@ import frc.robot.subsystems.ShoulderSystem;
 /**
  *
  */
-public class TurnRobotAngleRight extends CommandBase {
+public class TurnRobotAngleLeft extends CommandBase {
     private static DriveSystem m_drivesystem;
     private static double startAngle;
     private double angleToTurn;
     private boolean angleIsFinished;
 
-    public TurnRobotAngleRight( DriveSystem sub1, double turnAngle)
+    public TurnRobotAngleLeft( DriveSystem sub1, double turnAngle)
     {
         m_drivesystem = sub1;
         startAngle = m_drivesystem.getAngle();
@@ -22,12 +22,12 @@ public class TurnRobotAngleRight extends CommandBase {
         // Called every time the scheduler runs while the command is scheduled.
         @Override
         public void execute() {
-            angleIsFinished = (m_drivesystem.getAngle()-startAngle)>angleToTurn;
-            if ((m_drivesystem.getAngle()-startAngle)>(angleToTurn-15)) {
-                m_drivesystem.turnSpeed(0.5);
+            angleIsFinished = (startAngle-m_drivesystem.getAngle())>angleToTurn;
+            if ((startAngle-m_drivesystem.getAngle())>(angleToTurn-15)) {
+                m_drivesystem.turnSpeed(-0.5);
             }
             else {
-                m_drivesystem.turnSpeed(0.6);
+                m_drivesystem.turnSpeed(-0.6);
             }
             System.out.println(m_drivesystem.getAngle());
             System.out.println("Turning Right");
@@ -37,7 +37,7 @@ public class TurnRobotAngleRight extends CommandBase {
         @Override
         public void end(boolean interrupted) {
             m_drivesystem.stop();
-            System.out.println(m_drivesystem.getAngle()-startAngle);
+            System.out.println(startAngle-m_drivesystem.getAngle());
         }
 
         // Returns true when the command should end.

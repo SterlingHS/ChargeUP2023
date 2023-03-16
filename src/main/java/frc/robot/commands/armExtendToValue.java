@@ -37,7 +37,7 @@ public class armExtendToValue extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("Arm is extending?");
+    //System.out.println("Arm is extending?");
     m_pidController.setSetpoint(destination);
     double output = m_pidController.calculate(m_armsystem.getPosition(), destination);
     m_armsystem.extendArm(output);

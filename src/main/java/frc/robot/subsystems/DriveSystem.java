@@ -85,7 +85,7 @@ public class DriveSystem extends SubsystemBase {
     }
 
     public void arcademDrive(double xSpeed, double zRotation) {
-        System.out.println(xSpeed);
+        System.out.println(zRotation);
         mDrive.arcadeDrive(-xSpeed, -zRotation);
     }
 
@@ -147,6 +147,10 @@ public class DriveSystem extends SubsystemBase {
         else{
             DRIVER_SLOWDOWN = 1;
         }
+    }
+
+    public double getSlowdownFactor() {
+        return DRIVER_SLOWDOWN;
     }
 
     public void stop() {

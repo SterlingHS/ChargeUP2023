@@ -32,7 +32,7 @@ import frc.robot.subsystems.DriveSystem;
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        System.out.println("Speed: =====" + speed +"----"+m_drivesystem.getDistance());
+        // System.out.println("Speed: =====" + speed +"----"+m_drivesystem.getDistance());
 
         m_drivesystem.forward(speed);
         //m_drivesystem.mLeft.set(0.5);
@@ -45,7 +45,7 @@ import frc.robot.subsystems.DriveSystem;
     @Override
     public void end(boolean interrupted) {
         double delta_d = m_drivesystem.getDistance() - starting_distance;
-        System.out.println("***********\n"+"Distance Moved: "+delta_d+"\n*****************");
+        // System.out.println("***********\n"+"Distance Moved: "+delta_d+"\n*****************");
         m_drivesystem.stop();
     }
 
