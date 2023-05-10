@@ -25,6 +25,7 @@ public class toggleSlow_down extends CommandBase {
   @Override
   public void execute(){
     m_drivesystem.toggleSlowdown();
+    System.out.println("Slowdown Activated");
   }
 
   @Override

@@ -5,13 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class TriggerR2Button extends CommandBase {
-  private XboxController driverController;
+  private PS4Controller driverController;
   /** Creates a new TriggerL2Button. */
-  public TriggerR2Button(XboxController sub1) {
+  public TriggerR2Button(PS4Controller sub1) {
     driverController = sub1;
     // Use addRequirements() here to declare subsystem dependencies.
   }

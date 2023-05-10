@@ -23,11 +23,11 @@ public class TurnRobotAngleRight extends CommandBase {
         @Override
         public void execute() {
             angleIsFinished = (m_drivesystem.getAngle()-startAngle)>angleToTurn;
-            if ((m_drivesystem.getAngle()-startAngle)>(angleToTurn-15)) {
-                m_drivesystem.turnSpeed(0.5);
+            if ((m_drivesystem.getAngle()-startAngle)>(angleToTurn-30)) {
+                m_drivesystem.turnSpeed(0.50);
             }
             else {
-                m_drivesystem.turnSpeed(0.6);
+                m_drivesystem.turnSpeed(0.60);
             }
             System.out.println(m_drivesystem.getAngle());
             System.out.println("Turning Right");

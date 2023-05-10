@@ -34,7 +34,16 @@ public class AdjustDirectionToDropCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSystem.arcademDrive(0, -pidController.calculate(m_limelightSystem.getX()));
+    double Output = pidController.calculate(m_limelightSystem.getX());
+    if (Math.abs(Output)<0.35) {
+      if (Output>0) {
+        Output = 0.35;
+      }
+      else if (Output<0) {
+        Output = -0.35;
+      }
+    }
+    m_driveSystem.arcademDrive(0, -Output);
   }
 
   // Called once the command ends or is interrupted.

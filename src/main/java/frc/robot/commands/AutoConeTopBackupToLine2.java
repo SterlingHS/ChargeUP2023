@@ -7,12 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
 
+//Blue Short Red Long
+
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoConeTopBackupToLine extends SequentialCommandGroup {
+public class AutoConeTopBackupToLine2 extends SequentialCommandGroup {
   /** Creates a new AutoConeBackupToLine. */
-  public AutoConeTopBackupToLine(DriveSystem m_drivesystem, ShoulderSystem m_shouldersystem, ArmSystem m_armsystem, ClampSystem m_clampsystem, switchesSystem m_switchsystem, LimelightSystem m_limelightsystem) {
+  public AutoConeTopBackupToLine2(DriveSystem m_drivesystem, ShoulderSystem m_shouldersystem, ArmSystem m_armsystem, ClampSystem m_clampsystem, switchesSystem m_switchsystem, LimelightSystem m_limelightsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -20,7 +22,7 @@ public class AutoConeTopBackupToLine extends SequentialCommandGroup {
       new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem),
       
       // Rotate a small amount
-      new TurnRobotAngleLeft(m_drivesystem, 2),
+      new TurnRobotAngleRight(m_drivesystem, 2),
 
       // Move backwards to the line
       new MoveDistance(m_drivesystem, -5.689),

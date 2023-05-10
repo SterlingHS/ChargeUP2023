@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 //Mess File
@@ -32,8 +33,11 @@ public class RobotContainer {
   private final LimelightSystem m_limelightsystem = new LimelightSystem();
   
   // Joysticks
-  private final XboxController driverController = new XboxController(Constants.MAIN_JOYDRIVER_USB_PORT);
-  private final XboxController codriverController = new XboxController(Constants.CO_JOYDRIVER_USB_PORT);
+  private final PS4Controller driverController = new PS4Controller(Constants.MAIN_JOYDRIVER_USB_PORT);
+  private final PS4Controller codriverController = new PS4Controller(Constants.CO_JOYDRIVER_USB_PORT);
+
+  // private final PS4Controller driverController = new PS4Controller(Constants.MAIN_JOYDRIVER_USB_PORT);
+  // private final PS4Controller codriverController = new PS4Controller(Constants.CO_JOYDRIVER_USB_PORT);
 
 
   
@@ -54,10 +58,23 @@ public class RobotContainer {
     configureLimitSwitches();
 
     m_chooser = new SendableChooser<>();
-    m_chooser.setDefaultOption("DropCone", new AutoConeTopBackupToLine(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
-    m_chooser.addOption("Auto Box One", new AutoBoxTopBackupToLine3(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
-    m_chooser.addOption("Movetime Test",new MoveTime(m_drivesystem, 0.5,1000));
-    m_chooser.addOption("Auto Box Two", new AutoBoxTopBackupToLine2(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+    //m_chooser.setDefaultOption("DropCone", new DropConeFirst(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+   // m_chooser.addOption("Auto Box One", new AutoBoxTopBackupToLine3(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+    //m_chooser.addOption("Movetime Test",new MoveTime(m_drivesystem, 0.5,1000));
+    //m_chooser.addOption("Auto Box Two", new AutoBoxTopBackupToLine2(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+    //m_chooser.setDefaultOption("Drop Cone Middle", new AutoConeBalance(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+    m_chooser.addOption("Cone Middle", new AutoConeBalance(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+    //m_chooser.addOption("Red Middle", new AutoConeBalance(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+   // m_chooser.addOption("Drop Cone Right", new AutoConeTopBackupToLine1(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+    //m_chooser.addOption("Drop Cone Left", new AutoConeTopBackupToLine2(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+   //m_chooser.addOption("Blue Long", new AutoConeTopBackupToLine1(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+    //m_chooser.addOption("Red Short", new AutoConeTopBackupToLine1(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+   // m_chooser.addOption("Red Long", new AutoConeTopBackupToLine2(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+   m_chooser.setDefaultOption("Drop Cone Sides First", new AutoConeSidesFirst(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+   //m_chooser.addOption("Test Turn Positive", new TurnRobotAngle(m_drivesystem, 90));
+   //m_chooser.addOption("Test Turn Negative", new TurnRobotAngle(m_drivesystem, -90));
+   //m_chooser.addOption("Test Slowdown", new toggleSlow_down(m_drivesystem));
+    
     
 
     // m_drivesystem.calibrateGyro();
@@ -80,7 +97,7 @@ public class RobotContainer {
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
+   * edu.wpi.first.wpilibj.Joystick} or {@link PS4Controller}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   public void configureButtonBindings() {
@@ -93,37 +110,39 @@ public class RobotContainer {
     m_drivesystem.setDefaultCommand(new Drive( m_drivesystem, driverController::getLeftY, driverController::getRightX) ); 
 
     //Button To extend Arm -- Uses X Button
-    new JoystickButton(driverController, XboxController.Button.kB.value).whileTrue(new extendArm(m_armsystem)); 
+    new JoystickButton(driverController, PS4Controller.Button.kCircle.value).whileTrue(new extendArm(m_armsystem)); 
     //Button To extend Arm -- Uses B Button
-    new JoystickButton(driverController, XboxController.Button.kX.value).whileTrue(new retractArm(m_armsystem)); 
+    new JoystickButton(driverController, PS4Controller.Button.kSquare.value).whileTrue(new retractArm(m_armsystem)); 
 
     // Button to extend arm to a certain value -- Uses Right Bumper
-    //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new armExtendToValue(m_armsystem, 0));
-    //new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new armExtendToValue(m_armsystem, 5000));
+    //new JoystickButton(driverController, PS4Controller.Button.kRightBumper.value).onTrue(new armExtendToValue(m_armsystem, 0));
+    //new JoystickButton(driverController, PS4Controller.Button.kLeftBumper.value).onTrue(new armExtendToValue(m_armsystem, 5000));
 
 
     // **************************************************
     // SHOULDER SYSTEM
 
     //Button To raise shoulder -- Uses A Button
-    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new lowerShoulder(m_shouldersystem, m_switchsystem));
+    new JoystickButton(driverController, PS4Controller.Button.kCross.value).whileTrue(new lowerShoulder(m_shouldersystem, m_switchsystem));
     //Button To lower shoulder -- Uses Y Button
-    new JoystickButton(driverController, XboxController.Button.kY.value).whileTrue(new raiseShoulder(m_shouldersystem, m_switchsystem));
+    new JoystickButton(driverController, PS4Controller.Button.kTriangle.value).whileTrue(new raiseShoulder(m_shouldersystem, m_switchsystem));
     //Reset Encoder
-    new JoystickButton(driverController, XboxController.Button.kBack.value).whileTrue(new shoulderResetEncoder(m_shouldersystem));
+    new JoystickButton(driverController, PS4Controller.Button.kShare.value).whileTrue(new shoulderResetEncoder(m_shouldersystem));
     
     // **************************************************
     // Automatic droppers
 
     // Button to drop box on 2nd level
-    final TriggerR2Button BoxTwoBt = new TriggerR2Button(driverController);
-    new Trigger(BoxTwoBt::get).onTrue(new DropBoxTelOp(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem, m_drivesystem, 2));
+    //final TriggerR2Button BoxTwoBt = new TriggerR2Button(driverController);
+    //new Trigger(BoxTwoBt::get).onTrue(new DropBoxTelOp(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem, m_drivesystem, 2));
+    new JoystickButton(driverController, PS4Controller.Button.kR2.value).onTrue(new DropBoxTelOp(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem, m_drivesystem, 2));
+
 
     // Button to drop cone on 1st level
-    //new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
+    //new JoystickButton(driverController, PS4Controller.Button.kRightBumper.value).onTrue(new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem));
   
     // Button to drop box on 1st level
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new DropBoxTelOp(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem,m_drivesystem, 1));
+    new JoystickButton(driverController, PS4Controller.Button.kR1.value).onTrue(new DropBoxTelOp(m_shouldersystem, m_armsystem, m_clampsystem,m_switchsystem,m_drivesystem, 1));
  
     // Button to drop to floor level
     final POVButton DropFloorBt = new POVButton(driverController,Constants.POV_UP); 
@@ -134,17 +153,19 @@ public class RobotContainer {
     PickUpBt.onTrue(new PickUp(m_armsystem, m_clampsystem,m_switchsystem));
 
     final POVButton RaiseToShelf = new POVButton(driverController, Constants.POV_RIGHT);
-    RaiseToShelf.onTrue(new RotateShoulderToValue(m_shouldersystem, 660));
+    RaiseToShelf.onTrue(new RotateShoulderToValue(m_shouldersystem, 620));
 
     final POVButton PickUpOut = new POVButton(driverController, Constants.POV_LEFT);
     PickUpOut.onTrue(new PickUpOutside(m_armsystem, m_clampsystem, m_switchsystem, m_shouldersystem));
 
     //Button to toggle slow down
-    new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new toggleSlow_down(m_drivesystem));
+    new JoystickButton(driverController, PS4Controller.Button.kL1.value).onTrue(new toggleSlow_down(m_drivesystem));
   
     // Button to drop cone on 2nd level
-    final TriggerL2Button ConeTwoBt = new TriggerL2Button(driverController);
-    new Trigger(ConeTwoBt::get).onTrue(new AdjustCone(m_drivesystem, m_shouldersystem, m_limelightsystem));
+    //final TriggerL2Button ConeTwoBt = new TriggerL2Button(driverController);
+    //new Trigger(ConeTwoBt::get).onTrue(new AdjustCone(m_drivesystem, m_shouldersystem, m_limelightsystem));
+    new JoystickButton(driverController, PS4Controller.Button.kL2.value).onTrue(new AdjustCone(m_drivesystem, m_shouldersystem, m_limelightsystem));
+
   
     
 
@@ -152,7 +173,7 @@ public class RobotContainer {
     // CLAMP SYSTEM
 
     // Button to clamp -- Uses Right Stick Button
-    new JoystickButton(driverController, XboxController.Button.kStart.value).onTrue(new ToggleClamp(m_clampsystem));
+    new JoystickButton(driverController, PS4Controller.Button.kOptions.value).onTrue(new ToggleClamp(m_clampsystem));
 
 
 
@@ -162,7 +183,7 @@ public class RobotContainer {
     * 
     */
 
-    //new JoystickButton(codriverController, XboxController.Button.kStart.value).whileTrue(new updateShoulderPID(m_shouldersystem));
+    //new JoystickButton(codriverController, PS4Controller.Button.kStart.value).whileTrue(new updateShoulderPID(m_shouldersystem));
 
     
     
@@ -172,7 +193,7 @@ public class RobotContainer {
       // new Trigger(m_switchsystem.switchShoulderIn::get).onTrue(new shoulderResetEncoder(m_shouldersystem));
       
     }
-  public XboxController getDriverController() {
+  public PS4Controller getDriverController() {
     return driverController;
   }
 
@@ -184,6 +205,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // return new DropCone(m_drivesystem, m_shouldersystem, m_armsystem, m_clampsystem, m_switchsystem, m_limelightsystem);
+    m_shouldersystem.resetEncoder();
     return m_chooser.getSelected();
   }
 
@@ -222,9 +244,17 @@ public class RobotContainer {
         SmartDashboard.putNumber("Shoulder Volts 2", m_shouldersystem.getShoulderMotorTwoVoltage());
         SmartDashboard.putNumber("Pitch", m_drivesystem.getPitch());
         SmartDashboard.putNumber("Roll", m_drivesystem.getRoll());
+        SmartDashboard.putNumber("Angle", m_drivesystem.getAngle());
         SmartDashboard.putNumber("Yaw", m_drivesystem.getYaw());
         SmartDashboard.putBoolean("Clamp Open", m_clampsystem.isOpenClamp());
         SmartDashboard.putNumber("Slowdown Factor", m_drivesystem.getSlowdownFactor());
+        SmartDashboard.putNumber("Distance to Wall", m_drivesystem.getDistanceToWall());
+        SmartDashboard.putBoolean("Speed is 100", m_drivesystem.slowdownIs100());
+        SmartDashboard.putBoolean("Speed is 80", m_drivesystem.slowdownIs80());
+        SmartDashboard.putBoolean("Speed is 65", m_drivesystem.slowdownIs65());
+        SmartDashboard.putBoolean("Near Wall", m_drivesystem.inRangeOfWall());
+
+        //SmartDashboard.putString("Auto Mode", m_chooser.getSelected().getName());
         
         Constants.PID_SHOULDER_P = SmartDashboard.getNumber("Shoulder P", 0.04);
         Constants.PID_SHOULDER_I = SmartDashboard.getNumber("Shoulder I", 0);

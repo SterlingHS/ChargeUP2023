@@ -3,8 +3,9 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.drive.*;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.math.util.Units;
@@ -38,7 +39,9 @@ public class DriveSystem extends SubsystemBase {
     // public static final DifferentailDriveKinematics KDriveKinematics = new
     // DifferentailDriveKinematics(kTrackWidthMeters)
 
-    private AHRS navx_device = new AHRS(SerialPort.Port.kMXP);
+    //private AHRS navx_device = new AHRS(SerialPort.Port.kMXP);
+
+    private AnalogInput DistanceToWall;
 
     public DriveSystem() {
         leftRear.setInverted(true);
@@ -54,6 +57,8 @@ public class DriveSystem extends SubsystemBase {
 
         // 2208 pulses per 10ft
         //navx_device.enableLogging(true);
+
+        DistanceToWall = new AnalogInput(0);
     }
 
     @Override
@@ -206,15 +211,16 @@ public class DriveSystem extends SubsystemBase {
     }
 
     public void calibrateGyro() {
-        navx_device.calibrate();
+        //navx_device.calibrate();
     }
 
     public boolean iscalibrating() {
-        return navx_device.isCalibrating();
+        //return navx_device.isCalibrating();
+        return true;
     }
 
     public void resetAngle() {
-        navx_device.reset();
+        //navx_device.reset();
     }
 
     public double getRightEncoder() {
@@ -234,11 +240,13 @@ public class DriveSystem extends SubsystemBase {
     }
 
     public double getAngle() {
-        return navx_device.getAngle();
+        //return navx_device.getAngle();
+        return 0;
     }
 
     public double getAngle360() {
-        double angle = navx_device.getAngle();
+        //double angle = navx_device.getAngle();
+        double angle = 0;
 
         double correctedAngle = angle % 360;
         if (correctedAngle < 0) {
@@ -248,35 +256,56 @@ public class DriveSystem extends SubsystemBase {
     }
 
     public double getPitch() {
-        return navx_device.getPitch();
+        //return navx_device.getPitch();
+        return 0;
     }
 
     public double getRoll() {
-        return navx_device.getRoll();
+        //return navx_device.getRoll();
+        return 0;
     }
 
     public double getYaw() {
-        return navx_device.getYaw();
+        //return navx_device.getYaw();
+        return 0;
     }
 
     public double getCompassHeading() {
-        return navx_device.getCompassHeading();
+        //return navx_device.getCompassHeading();
+        return 0;
     }
 
     public double getFusedHeading() {
-        return navx_device.getFusedHeading();
+        //return navx_device.getFusedHeading();
+        return 0;
     }
 
     public double getLinearWorldAccelX() {
-        return navx_device.getWorldLinearAccelX();
+        //return navx_device.getWorldLinearAccelX();
+        return 0;
     }
 
     public double getLinearWorldAccelY() {
-        return navx_device.getWorldLinearAccelY();
+        //return navx_device.getWorldLinearAccelY();
+        return 0;
     }
 
     public double getLinearWorldAccelZ() {
-        return navx_device.getWorldLinearAccelZ();
+        //return navx_device.getWorldLinearAccelZ();
+        return 0;
+    }
+
+    public boolean slowdownIs100() {
+        return DRIVER_SLOWDOWN == 1;
+    }
+    public boolean slowdownIs80() {
+        return DRIVER_SLOWDOWN == 0.8;
+    }
+    public boolean slowdownIs65() {
+        return DRIVER_SLOWDOWN == 0.65;
+    }
+    public boolean inRangeOfWall() {
+        return (getDistanceToWall()>1 && getDistanceToWall()<1.3);
     }
 
 
@@ -302,7 +331,9 @@ public class DriveSystem extends SubsystemBase {
         return sensorCountsPer100ms;
       }
 
-      
+      public double getDistanceToWall() {
+        return DistanceToWall.getVoltage();
+      }
 
 }
 // This adds the control speed function. This also has the capability to set a max jerk aswell. This only cares if acceleration is positive or negative and adds it to the value. I ran tests with 4 sets of numbers, each on being a different case and the program should output the correct value. MAX_ACCEL needs to be made in constants 

@@ -32,7 +32,7 @@ public class ShoulderSystem extends PIDSubsystem {
     m_switchsystem = sub1;
   
     setSetpoint(0);
-    getController().setTolerance(5);
+    getController().setTolerance(3);
   }
 
   // Calculates the output of the PIDController

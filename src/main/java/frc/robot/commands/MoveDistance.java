@@ -13,7 +13,7 @@ import frc.robot.subsystems.DriveSystem;
 
     private final DriveSystem drivesystem;
     private ProfiledPIDController pidController = new ProfiledPIDController(2, 0, 0, new TrapezoidProfile.Constraints(3,0.6));
-    private PIDController pidControllerYaw = new PIDController(.1, 0, 0);
+    private PIDController pidControllerYaw = new PIDController(.03, 0, 0);
     private double yawStart;
     private double currentYaw;
 
